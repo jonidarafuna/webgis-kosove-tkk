@@ -2,7 +2,7 @@
  * Basemap: Auto (imazh satelitor kur zoom in) / OSM / Satellite
  */
 const BASEMAP_MODE_KEY = "tkkBasemapMode";
-const BASEMAP_MODE_VERSION = 4;
+const BASEMAP_MODE_VERSION = 5;
 const ESRI_IMAGERY_URL =
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
 
@@ -246,9 +246,13 @@ function createEsriLayer() {
 }
 
 function probeGoogleTilesAvailable() {
+  if (window.tkkIsStaticPublish) return Promise.resolve(false);
   const origin = window.location.origin || "";
   if (!origin) return Promise.resolve(false);
-  const testUrl = origin + "/google-tiles/8/143/96?lyrs=s";
+  const base = (
+    typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "/"
+  ).replace(/\/?$/, "/");
+  const testUrl = origin + base + "google-tiles/8/143/96?lyrs=s";
   return fetch(testUrl, { method: "GET", cache: "no-store" })
     .then((r) => {
       const ct = (r.headers.get("content-type") || "").toLowerCase();
@@ -272,14 +276,20 @@ function finishBasemapInit(map) {
   basemapReady = true;
   bindBasemapGlobals(map);
 
+  if (window.tkkIsStaticPublish) {
+    useGoogleImagery = false;
+    window.tkkBasemapSatellite = basemapEsriLayer;
+    syncBasemap();
+    return;
+  }
+
+  useGoogleImagery = false;
+  window.tkkBasemapSatellite = basemapEsriLayer;
+  syncBasemap();
+
   probeGoogleTilesAvailable().then((ok) => {
     useGoogleImagery = ok;
     window.tkkBasemapSatellite = getImageryLayer();
-    if (!ok && basemapMode !== "osm") {
-      console.info(
-        "Imazh satelitor: Esri (funksionon). Per Google: mbyll Live Server, nis HAPNI.bat."
-      );
-    }
     syncBasemap();
   });
 }
@@ -331,7 +341,6 @@ function initMapBasemaps(map) {
 
 function applyThemeToBasemap() {
   if (!basemapMap) return;
-  showOsmLayer();
   syncBasemap();
 }
 
