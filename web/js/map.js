@@ -496,9 +496,14 @@ function tryLoadRajonetLabelsOnly(index) {
 }
 
 function isRajonetOverviewScale() {
-  return (
-    typeof shouldShowSatellite === "function" && !shouldShowSatellite(map)
-  );
+  if (isKomunatDetailScale()) return false;
+  if (typeof shouldShowSatellite === "function") {
+    return !shouldShowSatellite(map);
+  }
+  if (!map || typeof map.getZoom !== "function") return true;
+  const minK =
+    typeof KOMUNAT_MIN_ZOOM === "number" ? KOMUNAT_MIN_ZOOM : 9;
+  return map.getZoom() < minK;
 }
 
 function shouldShowRajonLabels() {
@@ -795,28 +800,15 @@ function isKomunatDetailScale() {
   return map.getZoom() >= minZoom;
 }
 
-function shouldShowKomunaLabels() {
-  if (!map || typeof map.getZoom !== "function") return false;
-  const minZoom =
-    typeof KOMUNAT_LABEL_MIN_ZOOM === "number"
-      ? KOMUNAT_LABEL_MIN_ZOOM
-      : typeof KOMUNAT_MIN_ZOOM === "number"
-        ? KOMUNAT_MIN_ZOOM + 1
-        : 11;
-  return map.getZoom() >= minZoom;
-}
-
 function syncKomunaLabelVisibility() {
   const layer = window.tkkKomunatLayer;
   if (!layer || !komunatLabelsLayer || !map.hasLayer(layer)) return;
 
-  const showLabels = shouldShowKomunaLabels();
-  const labelsOnLayer = layer.hasLayer(komunatLabelsLayer);
-
-  if (showLabels && !labelsOnLayer) {
+  if (!layer.hasLayer(komunatBordersLayer) && komunatBordersLayer.getLayers().length) {
+    layer.addLayer(komunatBordersLayer);
+  }
+  if (!layer.hasLayer(komunatLabelsLayer) && komunatLabelsLayer.getLayers().length) {
     layer.addLayer(komunatLabelsLayer);
-  } else if (!showLabels && labelsOnLayer) {
-    layer.removeLayer(komunatLabelsLayer);
   }
 }
 
