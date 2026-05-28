@@ -575,18 +575,27 @@ function fetchStaticBoundaryGeoJson(key) {
 }
 
 function loadStaticAdminBoundaries() {
-  fetchStaticBoundaryGeoJson("komunat")
+  const kosovaP = fetchStaticBoundaryGeoJson("kosova")
     .then((data) => {
-      if (!data.features?.length) throw new Error("komunat bosh");
-
-      const kosova = L.geoJSON(data, {
+      if (!data.features?.length) throw new Error("kosova bosh");
+      const border = L.geoJSON(data, {
         style: KOSOVA_BORDER_STYLE,
         interactive: false,
       });
-      kosovaLayer.addLayer(kosova);
+      kosovaLayer.addLayer(border);
+    })
+    .catch((err) => console.warn("Kufiri Kosovës (statik):", err));
 
+  const rajonetP = fetchStaticBoundaryGeoJson("rajonet")
+    .then((data) => {
+      if (!data.features?.length) throw new Error("rajonet bosh");
       applyRajonetGeoJson(data);
+    })
+    .catch((err) => console.warn("Rajonet (statik):", err));
 
+  const komunatP = fetchStaticBoundaryGeoJson("komunat")
+    .then((data) => {
+      if (!data.features?.length) throw new Error("komunat bosh");
       const polys = L.geoJSON(data, {
         style:
           typeof KOMUNAT_VECTOR_STYLE !== "undefined"
@@ -597,16 +606,18 @@ function loadStaticAdminBoundaries() {
       if (polys.setZIndex) polys.setZIndex(ADMIN_LAYER_Z_INDEX.komunat);
       komunatLayer.addLayer(polys);
       applyKomunatLabelsGeoJson(data);
-
-      orderAdminBoundaryLayers();
-      if (typeof syncKomunatLayersForZoom === "function") {
-        syncKomunatLayersForZoom();
-      }
-      if (typeof syncRajonetLayersForZoom === "function") {
-        syncRajonetLayersForZoom();
-      }
     })
-    .catch((err) => console.warn("Kufijtë (statik):", err));
+    .catch((err) => console.warn("Komunat (statik):", err));
+
+  Promise.all([kosovaP, rajonetP, komunatP]).then(() => {
+    orderAdminBoundaryLayers();
+    if (typeof syncKomunatLayersForZoom === "function") {
+      syncKomunatLayersForZoom();
+    }
+    if (typeof syncRajonetLayersForZoom === "function") {
+      syncRajonetLayersForZoom();
+    }
+  });
 }
 
 function loadRajonetLayer() {
@@ -843,23 +854,10 @@ kosovaLayer.addTo(map);
 
 function loadKosovaBorderLayer() {
   if (window.tkkIsStaticPublish || !WFS_URL) return;
-  const url =
-    WFS_URL +
-    "?service=WFS&version=1.0.0&request=GetFeature" +
-    "&typeName=" +
-    encodeURIComponent(WMS_LAYERS.kosova) +
-    "&outputFormat=application/json" +
-    "&srsName=EPSG:4326";
 
-  return fetch(url)
-    .then((response) => {
-      if (!response.ok) throw new Error("WFS Kosova: " + response.status);
-      return response.json();
-    })
+  return fetchStaticBoundaryGeoJson("kosova")
     .then((data) => {
-      if (!data.features?.length) {
-        throw new Error("WFS Kosova: pa geometri");
-      }
+      if (!data.features?.length) throw new Error("kosova.geojson bosh");
       const border = L.geoJSON(data, {
         style: KOSOVA_BORDER_STYLE,
         interactive: false,
@@ -867,7 +865,7 @@ function loadKosovaBorderLayer() {
       kosovaLayer.addLayer(border);
     })
     .catch((err) => {
-      console.warn("Kufiri Kosovës (WFS), provo WMS:", err);
+      console.warn("Kufiri Kosovës (GeoJSON statik):", err);
       const wms = createWmsLayer(
         WMS_LAYERS.kosova,
         Object.assign({ zIndex: ADMIN_LAYER_Z_INDEX.kosova }, POLYGON_WMS_STYLE.kosova)

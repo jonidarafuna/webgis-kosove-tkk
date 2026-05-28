@@ -25,7 +25,7 @@ function toggleTheme() {
 }
 
 function loadTheme() {
-  if (localStorage.getItem("tkkTheme") === "light") {
+  if (localStorage.getItem("tkkTheme") !== "dark") {
     document.documentElement.setAttribute("data-theme", "light");
   }
 }

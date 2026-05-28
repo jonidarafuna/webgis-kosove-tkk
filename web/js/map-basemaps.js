@@ -143,7 +143,7 @@ function ensureOsmVisible() {
 function syncBasemap() {
   if (!basemapMap) return;
 
-  const theme = typeof getTheme === "function" ? getTheme() : "dark";
+  const theme = typeof getTheme === "function" ? getTheme() : "light";
   const tileKey = basemapMode + "|" + theme;
   if (tileKey !== lastBasemapTileKey) {
     lastBasemapTileKey = tileKey;

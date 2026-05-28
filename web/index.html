@@ -11,7 +11,8 @@
     <title>Trashëgimia Kulturore e Kosovës</title>
     <script>
       (function () {
-        if (localStorage.getItem("tkkTheme") === "light") {
+        var theme = localStorage.getItem("tkkTheme");
+        if (theme !== "dark") {
           document.documentElement.setAttribute("data-theme", "light");
         }
         var lang = localStorage.getItem("tkkLang");
