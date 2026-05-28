@@ -407,11 +407,24 @@ function addRajonetWmsToGroup() {
   return rajonetWmsLayer;
 }
 
+function getRajonetVectorStyle() {
+  const base =
+    typeof RAJONET_STYLE !== "undefined"
+      ? RAJONET_STYLE
+      : { color: "#b8a574", weight: 1.75, opacity: 0.72, fill: false, fillOpacity: 0 };
+  const light = typeof getTheme === "function" && getTheme() === "light";
+  if (!light) return base;
+  return Object.assign({}, base, {
+    color: "#8b6914",
+    opacity: 0.88,
+  });
+}
+
 function applyRajonetGeoJson(data) {
   rajonetBordersLayer.clearLayers();
   rajonetWmsLayer = null;
   const regions = L.geoJSON(data, {
-    style: RAJONET_STYLE,
+    style: getRajonetVectorStyle(),
     interactive: false,
   });
   rajonetBordersLayer.addLayer(regions);
@@ -495,10 +508,44 @@ function tryLoadRajonetLabelsOnly(index) {
     .catch(() => tryLoadRajonetLabelsOnly(index + 1));
 }
 
+function getMapScaleMeters() {
+  if (map && typeof getScaleBarMeters === "function") {
+    return getScaleBarMeters(map);
+  }
+  return null;
+}
+
+/** Komunat + emrat: shfaqen kur shkalla < ~9 km (zoom i afërt / satelit) */
+function isKomunatDetailScale() {
+  const m = getMapScaleMeters();
+  if (m != null) {
+    const threshold =
+      typeof SATELLITE_AUTO_ON_MAX_METERS === "number"
+        ? SATELLITE_AUTO_ON_MAX_METERS
+        : typeof SATELLITE_MAX_SCALE_METERS === "number"
+          ? SATELLITE_MAX_SCALE_METERS * 0.9
+          : 9000;
+    return m < threshold;
+  }
+  if (!map || typeof map.getZoom !== "function") return false;
+  const minZoom =
+    typeof KOMUNAT_MIN_ZOOM === "number" ? KOMUNAT_MIN_ZOOM : 9;
+  return map.getZoom() >= minZoom;
+}
+
+/** Rajonet: pamje e gjerë (shkallë >= 10 km), fshihen kur shfaqen komunat */
 function isRajonetOverviewScale() {
   if (isKomunatDetailScale()) return false;
-  if (typeof shouldShowSatellite === "function") {
-    return !shouldShowSatellite(map);
+  const m = getMapScaleMeters();
+  if (m != null) {
+    const minOverview =
+      typeof SATELLITE_MAX_SCALE_METERS === "number"
+        ? SATELLITE_MAX_SCALE_METERS
+        : 10000;
+    return m >= minOverview;
+  }
+  if (typeof shouldShowSatellite === "function" && shouldShowSatellite(map)) {
+    return false;
   }
   if (!map || typeof map.getZoom !== "function") return true;
   const minK =
@@ -507,12 +554,13 @@ function isRajonetOverviewScale() {
 }
 
 function shouldShowRajonLabels() {
-  if (typeof getScaleBarMeters !== "function") return true;
+  const m = getMapScaleMeters();
+  if (m == null) return true;
   const maxScale =
     typeof RAJON_LABEL_MAX_SCALE_METERS !== "undefined"
       ? RAJON_LABEL_MAX_SCALE_METERS
       : 30000;
-  return getScaleBarMeters(map) < maxScale;
+  return m <= maxScale;
 }
 
 function syncRajonLabelVisibility() {
@@ -585,7 +633,7 @@ function loadStaticAdminBoundaries() {
         style:
           typeof KOMUNAT_VECTOR_STYLE !== "undefined"
             ? KOMUNAT_VECTOR_STYLE
-            : RAJONET_STYLE,
+            : getRajonetVectorStyle(),
         interactive: false,
       });
       if (polys.setZIndex) polys.setZIndex(ADMIN_LAYER_Z_INDEX.komunat);
@@ -595,12 +643,10 @@ function loadStaticAdminBoundaries() {
     .catch((err) => console.warn("Komunat (statik):", err));
 
   Promise.all([kosovaP, rajonetP, komunatP]).then(() => {
-    orderAdminBoundaryLayers();
-    if (typeof syncKomunatLayersForZoom === "function") {
-      syncKomunatLayersForZoom();
-    }
-    if (typeof syncRajonetLayersForZoom === "function") {
-      syncRajonetLayersForZoom();
+    if (typeof syncScaleDependentAdminLayers === "function") {
+      syncScaleDependentAdminLayers();
+    } else {
+      orderAdminBoundaryLayers();
     }
   });
 }
@@ -793,13 +839,6 @@ function tryLoadKomunatLabels(index) {
     .catch(() => tryLoadKomunatLabels(index + 1));
 }
 
-function isKomunatDetailScale() {
-  if (!map || typeof map.getZoom !== "function") return false;
-  const minZoom =
-    typeof KOMUNAT_MIN_ZOOM === "number" ? KOMUNAT_MIN_ZOOM : 10;
-  return map.getZoom() >= minZoom;
-}
-
 function syncKomunaLabelVisibility() {
   const layer = window.tkkKomunatLayer;
   if (!layer || !komunatLabelsLayer || !map.hasLayer(layer)) return;
@@ -884,7 +923,6 @@ if (!window.tkkIsStaticPublish) {
   loadKosovaBorderLayer();
 }
 loadRajonetLayer();
-orderAdminBoundaryLayers();
 
 const layerMap = {
   rajonet: rajonetLayer,
