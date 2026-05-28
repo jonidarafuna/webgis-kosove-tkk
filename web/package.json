@@ -1,0 +1,12 @@
+{
+  "name": "webgis-kosove-tkk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WebGIS Trashëgimia Kulturore e Kosovës",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node serve.js"
+  }
+}

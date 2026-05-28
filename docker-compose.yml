@@ -1,0 +1,28 @@
+# WebGIS 24/7 — faqja + GeoServer në të njëjtin server
+# Para nisjes: eksporto workspace "tkk" nga GeoServer lokal (shiko DEPLOY-SQ.md)
+
+services:
+  geoserver:
+    image: docker.osgeo.org/geoserver:2.24.2
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - geoserver_data:/opt/geoserver/data_dir
+    environment:
+      GEOSERVER_ADMIN_PASSWORD: ${GEOSERVER_ADMIN_PASSWORD:-geoserver}
+
+  web:
+    build: ./web
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-5500}:5500"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 5500
+      GEOSERVER_URL: http://geoserver:8080
+    depends_on:
+      - geoserver
+
+volumes:
+  geoserver_data:

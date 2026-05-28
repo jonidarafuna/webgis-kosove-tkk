@@ -1,0 +1,13 @@
+Skedarët CSV (Hapi 2) — përdor vetëm këta 3:
+
+  sites_arkeologjike.csv   — 55 objekte (lat/lon + KosovaRef01)
+  sites_arkitekturore.csv  — 318 objekte
+  sites_luajtshme.csv      — 29 objekte
+
+Kolonat e koordinatave: lat, lon, easting_kosovaref01, northing_kosovaref01, sistemi_projeksion
+
+Rindërto pas ndryshimeve:
+  node build_three_csv.mjs
+
+Mbledhje nga DTK:
+  node build_all_types.mjs

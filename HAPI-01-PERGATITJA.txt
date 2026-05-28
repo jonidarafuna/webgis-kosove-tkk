@@ -1,0 +1,66 @@
+================================================================================
+  WEBGIS TRASHËGIMI KULTURORE E KOSOVËS (TKK) — HAPI 1
+  Për fillestare — lexo me qetësi, mos ngut
+================================================================================
+
+ÇFARË PO NDËRTOJMË?
+-------------------
+Një FAQE INTERNETI me HARTË interaktive ku shfaqen monumentet e Kosovës
+nga portali zyrtar dtk.rks-gov.net, në 3 grupe:
+
+  1. Trashëgimi ARKEOLOGJIKE   (gropa, kala të vjetra, vendbanime...)
+  2. Trashëgimi ARKITEKTURORE  (xhami, kulla, monumente...)
+  3. Trashëgimi e LUAJTSHME     (objekte në muze — vendndodhja e muzeut)
+
+Territori: KREJT KOSOVA (~113 objekte në listimet publike të DTK).
+
+================================================================================
+HAPI 1 — ÇFARË DUHET TË BËSH TI (ose të verifikosh)
+================================================================================
+
+[ ] 1. Lexo këtë skedar dhe mesazhin e asistentit në chat.
+
+[ ] 2. Shiko që ekziston folderi (vendi FINAL i detyrës):
+        C:\Users\rafun\Desktop\UNI\Master\Viti II\Semestri III\Ueb GIS\Detyra\Detyra\webgis-kosove-tkk
+
+[ ] 3. Hap në Explorer nënkatalogët (data, web, qgis, geoserver, docs).
+
+[ ] 4. Instalo / verifiko programet (shiko listën më poshtë).
+
+[ ] 5. Hap në shfletues: https://dtk.rks-gov.net/ — kliko 3 menutë:
+        - Trashëgimia Arkitekturore
+        - Trashëgimia Arkeologjike  
+        - Trashëgimia e Luajtshme
+        Kështu e kupton burimin e të dhënave.
+
+[ ] 6. Kur të jesh gati, shkruaj në chat: "vazhdo hapi 2"
+        (Hapi 2 = mbledhja e të dhënave në CSV)
+
+================================================================================
+PROGRAMET QË DO T'I PËRDORIM (me radhë, jo të gjitha sot)
+================================================================================
+
+  QGIS ...................... Përpunim harte, koordinata, eksport shapefile
+  GeoServer ................. Publikon hartën për internet (WMS/WFS)
+  Shfletues (Chrome/Edge) ..... Shikon rezultatin
+  Cursor ose Notepad++ ........ Shkruan kodin e faqes (HTML/CSS/JavaScript)
+  GitHub (opsional fazë 8) .. Faqja online falas
+
+Nuk ke nevojë për programim të avancuar — fillojmë me kopjim/hap pas hapi.
+
+================================================================================
+KUJDES PËR FILLESTARË
+================================================================================
+
+  - WebGIS = HARTË në internet + klikime (zoom, kërkim, info).
+  - Nuk është aplikacion Android i veçantë — faqja përshtatet në telefon (Hapi 7).
+  - Gabimet janë normale; çdo hap testohet veç e veç.
+
+================================================================================
+HAPI TJETËR (2) — PARAPAMJE (mos e bëj ende)
+================================================================================
+
+  Do të krijojmë 3 skedarë CSV (ose 1 të kombinuar) me koordinata nga DTK,
+  pastaj KosovaRef01 në metra për QGIS.
+
+================================================================================

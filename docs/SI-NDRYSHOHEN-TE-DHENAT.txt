@@ -1,0 +1,57 @@
+================================================================================
+  KU NDRYSHOHEN TË DHËNAT? (GeoServer vs CSV vs Web)
+================================================================================
+
+GeoServer NUK është Excel — nuk editon skedarët direkt.
+
+RRJEDHA E SAKTË:
+----------------
+
+  1. EDITIMI (ku ti ndryshon të dhënat)
+     ├── data/sites_*.csv          (me Excel/LibreOffice UTF-8)
+     ├── ose QGIS → DetyraGPKG.gpkg
+     └── skripte: data/build_three_csv.mjs (rikrijon CSV nga DTK)
+
+  2. KOPJIMI
+     └── C:\DatabazaWEB\DetyraGPKG.gpkg
+
+  3. PUBLIKIMI (GeoServer — vetëm lexon)
+     └── Store detyra_gpkg → Layers
+
+  4. WEB (faqja — vetëm shfaq)
+     └── web/ — HTML, CSS, JS (panel, grafik, hartë)
+
+================================================================================
+ÇFARË BËN ÇDO PJESË
+================================================================================
+
+| Pjesa        | A editon? | Çfarë bën                          |
+|--------------|-----------|-------------------------------------|
+| CSV          | PO        | Burimi i të dhënave (Hapi 2)       |
+| QGIS         | PO        | Hartë, kontroll, GPKG              |
+| GeoServer    | JO*       | Jep WMS/WFS për internet lokal     |
+| web/         | PO (UI)   | Pamja, grafik, panel — JO të dhënat |
+
+* GeoServer mund të ketë WFS-T (editim online) — NUK e përdorim në këtë detyrë.
+
+================================================================================
+SKRIPTET NË data/
+================================================================================
+
+  build_three_csv.mjs   — rindërton 3 CSV
+  build_all_types.mjs   — mbledh nga DTK
+  convert_kosovaref01.js — koordinata
+
+Ekzekutim (në terminal, folderi data):
+  node build_three_csv.mjs
+
+================================================================================
+PAS NDRYSHIMIT
+================================================================================
+
+  1. Ruaj CSV ose eksporto GPKG
+  2. Kopjo te C:\DatabazaWEB\DetyraGPKG.gpkg
+  3. GeoServer → Stores → detyra_gpkg → Save
+  4. Rifresko faqen web (Ctrl+F5)
+
+================================================================================

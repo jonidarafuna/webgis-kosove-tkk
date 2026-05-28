@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="sq">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0e14" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="img/archeo-logo.png" />
+    <title>Trashëgimia Kulturore e Kosovës</title>
+    <script>
+      (function () {
+        if (localStorage.getItem("tkkTheme") === "light") {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+        var lang = localStorage.getItem("tkkLang");
+        document.documentElement.lang = lang === "en" ? "en" : "sq";
+      })();
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="lib/MarkerCluster.css" />
+    <link rel="stylesheet" href="lib/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mockup.css" />
+    <link rel="stylesheet" href="css/theme-light.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
+  </head>
+  <body class="app-mockup">
+    <div id="tkkServerOverlay" class="tkk-server-overlay" hidden aria-live="polite"></div>
+
+    <div id="vgiPickMapHint" class="vgi-pick-hint" hidden role="status">
+      <span data-i18n="report.pickMapHint">Kliko një pikë në hartë për të vendosur vendndodhjen e raportit.</span>
+    </div>
+
+    <div id="vgiReportModal" class="vgi-modal" hidden>
+      <div class="vgi-modal__backdrop" data-vgi-close aria-hidden="true"></div>
+      <div
+        class="vgi-modal__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="vgiModalTitle"
+      >
+        <button type="button" class="vgi-modal__close" id="vgiReportClose" data-i18n-title="common.close" title="Mbyll">×</button>
+        <h2 id="vgiModalTitle" class="vgi-modal__title" data-i18n="report.modalTitle">Raporto Problemin</h2>
+
+        <label class="vgi-field">
+          <span class="vgi-field__label" data-i18n="report.category">Lloji i problemit</span>
+          <select id="vgiReportCategory" class="vgi-field__input"></select>
+        </label>
+
+        <label class="vgi-field">
+          <span class="vgi-field__label" data-i18n="report.monument">Monumenti</span>
+          <div class="search-combo vgi-search-combo" id="vgiSearchCombo">
+            <label class="search-input-wrap" for="vgiReportMonument">
+              <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="M20 20l-4-4" />
+              </svg>
+              <input
+                type="search"
+                id="vgiReportMonument"
+                class="search-input"
+                data-i18n-placeholder="report.monumentPlaceholder"
+                placeholder="Kërko emrin e monumentit…"
+                autocomplete="off"
+              />
+              <button
+                type="button"
+                class="search-input-clear"
+                id="vgiReportMonumentClear"
+                data-i18n-aria="search.clear"
+                aria-label="Pastro kërkimin"
+                hidden
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </label>
+            <div id="vgiReportSearchDropdown" class="search-dropdown" hidden>
+              <ul id="vgiReportSearchResults" class="search-results"></ul>
+            </div>
+          </div>
+        </label>
+
+        <label class="vgi-field">
+          <span class="vgi-field__label" data-i18n="report.description">Përshkrimi</span>
+          <textarea
+            id="vgiReportDescription"
+            class="vgi-field__input vgi-field__textarea"
+            rows="4"
+            data-i18n-placeholder="report.descriptionPlaceholder"
+            placeholder="Përshkruaj problemin…"
+          ></textarea>
+        </label>
+
+        <label class="vgi-field">
+          <span class="vgi-field__label" data-i18n="report.coords">Vendndodhja</span>
+          <div class="vgi-field__row vgi-field__row--coords">
+            <select id="vgiReportCoordSystem" class="vgi-field__select" aria-label="Sistemi koordinativ">
+              <option value="kref" data-i18n="report.coordKref">KOSOVAREF01</option>
+              <option value="wgs84" data-i18n="report.coordWgs84">WGS84</option>
+            </select>
+            <input type="text" id="vgiReportCoords" class="vgi-field__input" readonly />
+            <button type="button" class="vgi-btn vgi-btn--secondary" id="vgiReportPickMap" data-i18n="report.pickMap">
+              Kliko në hartë
+            </button>
+          </div>
+        </label>
+
+        <label class="vgi-field">
+          <span class="vgi-field__label" data-i18n="report.email">Email (opsional)</span>
+          <input type="email" id="vgiReportEmail" class="vgi-field__input" autocomplete="email" />
+        </label>
+
+        <label class="vgi-field vgi-field--check">
+          <input type="checkbox" id="vgiShowReports" checked />
+          <span data-i18n="report.showOnMap">Shfaq raportet e tjera në hartë</span>
+        </label>
+        <p id="vgiReportsCount" class="vgi-reports-count"></p>
+
+        <p id="vgiReportServerHint" class="vgi-server-hint" hidden></p>
+
+        <p id="vgiReportStatus" class="vgi-report-status" role="status" aria-live="polite"></p>
+
+        <div class="vgi-modal__actions">
+          <button type="button" class="vgi-btn vgi-btn--ghost" id="vgiReportCancel" data-i18n="report.cancel">Anulo</button>
+          <button type="button" class="vgi-btn vgi-btn--primary" id="vgiReportSubmit" data-i18n="report.submit">Raporto Problemin</button>
+        </div>
+      </div>
+    </div>
+
+    <header class="app-header">
+      <div class="app-header-brand">
+        <img
+          class="app-logo"
+          src="img/archeo-logo.png"
+          width="34"
+          height="34"
+          alt=""
+          decoding="async"
+        />
+        <h1 data-i18n="app.title">Trashëgimia Kulturore e Kosovës</h1>
+      </div>
+      <div class="app-header-actions">
+        <label class="app-header-control-label" for="appLangSelect" data-i18n="settings.lang">Gjuha</label>
+        <select id="appLangSelect" class="app-lang-select" aria-label="Gjuha">
+          <option value="sq">SQ</option>
+          <option value="en">EN</option>
+        </select>
+        <label class="app-header-vgi-toggle" title="">
+          <input type="checkbox" id="appVgiReportsToggle" />
+          <span data-i18n="settings.vgiReports">Raportimet</span>
+        </label>
+        <button
+          type="button"
+          id="appThemeToggle"
+          class="app-theme-toggle"
+          aria-pressed="false"
+          title="Modaliteti i errët"
+          aria-label="Modaliteti i errët"
+        >
+          <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3a6.5 6.5 0 0 0 11.5 11.5z" />
+          </svg>
+          <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="layout" id="appLayout">
+      <div class="sidebar-column">
+        <aside class="sidebar-left" id="sidebarLeft">
+          <div class="sidebar-left-header">
+            <h2 class="panel-heading panel-heading--sidebar" data-i18n="layers.heading">Shtresat</h2>
+            <div class="sidebar-header-actions">
+              <button
+                type="button"
+                class="sidebar-header-flyout-btn"
+                data-flyout-open="search"
+                data-i18n-title="rail.search"
+                data-i18n-aria="rail.search"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <circle cx="10.5" cy="10.5" r="6" />
+                  <path d="M19 19l-4.5-4.5" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="sidebar-header-flyout-btn"
+                data-flyout-open="filters"
+                data-i18n-title="rail.filters"
+                data-i18n-aria="rail.filters"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M4 5h16l-6 7v7l-4-2v-5L4 5z" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="sidebar-header-flyout-btn"
+                data-flyout-open="chart"
+                data-i18n-title="rail.stats"
+                data-i18n-aria="rail.stats"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <rect x="4" y="3" width="16" height="18" rx="2" />
+                  <path d="M8 17V12" />
+                  <path d="M12 17V9" />
+                  <path d="M16 17V6" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="sidebar-collapse-btn"
+                id="sidebarCollapseBtn"
+                aria-expanded="true"
+                aria-controls="sidebarLeft"
+                data-i18n-title="sidebar.collapse"
+                title="Mbyll panelin"
+              >
+                <span aria-hidden="true">««</span>
+              </button>
+            </div>
+          </div>
+
+        <div class="layer-list layer-list--heritage">
+          <div class="layer-row" data-layer="arkeologjike" role="button" tabindex="0">
+            <span class="layer-row-icon" data-icon="arkeologjike"></span>
+            <span class="layer-row-text">
+              <span class="layer-row-name" data-i18n="layers.arkeologjike">Trashëgimia arkeologjike</span>
+              <span class="layer-row-count" data-count-for="arkeologjike">—</span>
+            </span>
+            <input type="checkbox" class="layer-row-input" data-layer="arkeologjike" checked />
+            <span class="toggle-switch" aria-hidden="true"></span>
+          </div>
+          <div class="layer-row" data-layer="arkitekturore" role="button" tabindex="0">
+            <span class="layer-row-icon" data-icon="arkitekturore"></span>
+            <span class="layer-row-text">
+              <span class="layer-row-name" data-i18n="layers.arkitekturore">Trashëgimia arkitekturore</span>
+              <span class="layer-row-count" data-count-for="arkitekturore">—</span>
+            </span>
+            <input type="checkbox" class="layer-row-input" data-layer="arkitekturore" checked />
+            <span class="toggle-switch" aria-hidden="true"></span>
+          </div>
+          <div class="layer-row" data-layer="luajtshme" role="button" tabindex="0">
+            <span class="layer-row-icon" data-icon="luajtshme"></span>
+            <span class="layer-row-text">
+              <span class="layer-row-name" data-i18n="layers.luajtshme">Trashëgimia e luajtshme</span>
+              <span class="layer-row-count" data-count-for="luajtshme">—</span>
+            </span>
+            <input type="checkbox" class="layer-row-input" data-layer="luajtshme" checked />
+            <span class="toggle-switch" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <section class="symbology-panel" id="symbologyPanel" aria-labelledby="symbologyPanelHeading">
+          <h3 class="panel-heading symbology-panel__heading" id="symbologyPanelHeading" data-i18n="symbology.heading">
+            Ngjyrat e monumenteve
+          </h3>
+          <ul class="symbology-colors">
+            <li class="symbology-color-row" data-sym-type="arkeologjike">
+              <span class="symbology-color-row__label" data-i18n="layers.arkeologjike">Trashëgimia arkeologjike</span>
+              <div class="symbology-color-controls">
+                <div class="symbology-picker-wrap">
+                  <button
+                    type="button"
+                    class="symbology-swatch-btn"
+                    id="symSwatch_arkeologjike"
+                    data-sym-picker="arkeologjike"
+                    aria-expanded="false"
+                    aria-controls="symPopover_arkeologjike"
+                    data-i18n-title="symbology.pickColorArkeologjike"
+                    title="Zgjidh ngjyrën"
+                  ></button>
+                  <div class="symbology-picker-popover" id="symPopover_arkeologjike" hidden>
+                    <p class="symbology-picker-title" data-i18n="symbology.pickerTitle">Ngjyra</p>
+                    <label class="symbology-picker-hex-label" data-i18n="symbology.hexLabel">Hex</label>
+                    <input type="text" class="symbology-picker-hex" maxlength="7" spellcheck="false" autocomplete="off" />
+                    <div class="symbology-picker-presets" role="listbox" data-i18n-aria="symbology.presetsAria" aria-label="Ngjyra të gatshme"></div>
+                  </div>
+                </div>
+                <input type="text" id="symHex_arkeologjike" class="symbology-hex-input" value="#f97316" maxlength="7" spellcheck="false" autocomplete="off" data-i18n-aria="symbology.hexAria" aria-label="Hex" />
+              </div>
+            </li>
+            <li class="symbology-color-row" data-sym-type="arkitekturore">
+              <span class="symbology-color-row__label" data-i18n="layers.arkitekturore">Trashëgimia arkitekturore</span>
+              <div class="symbology-color-controls">
+                <div class="symbology-picker-wrap">
+                  <button
+                    type="button"
+                    class="symbology-swatch-btn"
+                    id="symSwatch_arkitekturore"
+                    data-sym-picker="arkitekturore"
+                    aria-expanded="false"
+                    aria-controls="symPopover_arkitekturore"
+                    data-i18n-title="symbology.pickColorArkitekturore"
+                    title="Zgjidh ngjyrën"
+                  ></button>
+                  <div class="symbology-picker-popover" id="symPopover_arkitekturore" hidden>
+                    <p class="symbology-picker-title" data-i18n="symbology.pickerTitle">Ngjyra</p>
+                    <label class="symbology-picker-hex-label" data-i18n="symbology.hexLabel">Hex</label>
+                    <input type="text" class="symbology-picker-hex" maxlength="7" spellcheck="false" autocomplete="off" />
+                    <div class="symbology-picker-presets" role="listbox" data-i18n-aria="symbology.presetsAria" aria-label="Ngjyra të gatshme"></div>
+                  </div>
+                </div>
+                <input type="text" id="symHex_arkitekturore" class="symbology-hex-input" value="#2dd4bf" maxlength="7" spellcheck="false" autocomplete="off" data-i18n-aria="symbology.hexAria" aria-label="Hex" />
+              </div>
+            </li>
+            <li class="symbology-color-row" data-sym-type="luajtshme">
+              <span class="symbology-color-row__label" data-i18n="layers.luajtshme">Trashëgimia e luajtshme</span>
+              <div class="symbology-color-controls">
+                <div class="symbology-picker-wrap">
+                  <button
+                    type="button"
+                    class="symbology-swatch-btn"
+                    id="symSwatch_luajtshme"
+                    data-sym-picker="luajtshme"
+                    aria-expanded="false"
+                    aria-controls="symPopover_luajtshme"
+                    data-i18n-title="symbology.pickColorLuajtshme"
+                    title="Zgjidh ngjyrën"
+                  ></button>
+                  <div class="symbology-picker-popover" id="symPopover_luajtshme" hidden>
+                    <p class="symbology-picker-title" data-i18n="symbology.pickerTitle">Ngjyra</p>
+                    <label class="symbology-picker-hex-label" data-i18n="symbology.hexLabel">Hex</label>
+                    <input type="text" class="symbology-picker-hex" maxlength="7" spellcheck="false" autocomplete="off" />
+                    <div class="symbology-picker-presets" role="listbox" data-i18n-aria="symbology.presetsAria" aria-label="Ngjyra të gatshme"></div>
+                  </div>
+                </div>
+                <input type="text" id="symHex_luajtshme" class="symbology-hex-input" value="#a3e635" maxlength="7" spellcheck="false" autocomplete="off" data-i18n-aria="symbology.hexAria" aria-label="Hex" />
+              </div>
+            </li>
+          </ul>
+          <button type="button" id="symbologyResetBtn" class="symbology-reset-btn" data-i18n="symbology.reset">
+            Kthe ngjyrat fillestare
+          </button>
+        </section>
+
+        <details class="layer-extra" open>
+          <summary data-i18n="layers.geoSummary">Shtresa gjeografike</summary>
+          <div class="layer-list layer-list--compact">
+            <div class="layer-row layer-row--compact" data-layer="komunat" role="button" tabindex="0">
+              <span class="dot line line--komunat"></span>
+              <span class="layer-row-name" data-i18n="layers.komunat">Komunat</span>
+              <input type="checkbox" class="layer-row-input" data-layer="komunat" checked />
+              <span class="toggle-switch toggle-switch--sm"></span>
+            </div>
+            <div class="layer-row layer-row--compact" data-layer="rajonet" role="button" tabindex="0">
+              <span class="dot line line--rajonet"></span>
+              <span class="layer-row-name" data-i18n="layers.rajonet">Rajonet</span>
+              <input type="checkbox" class="layer-row-input" data-layer="rajonet" checked />
+              <span class="toggle-switch toggle-switch--sm"></span>
+            </div>
+            <div class="layer-row layer-row--compact" data-layer="kosova" role="button" tabindex="0">
+              <span class="dot line line--kosova"></span>
+              <span class="layer-row-name" data-i18n="layers.kosova">Kufiri i Kosovës</span>
+              <input type="checkbox" class="layer-row-input" data-layer="kosova" checked />
+              <span class="toggle-switch toggle-switch--sm"></span>
+            </div>
+          </div>
+        </details>
+
+        </aside>
+
+        <aside class="sidebar-flyout" id="sidebarFlyoutFilters" aria-label="Filtra" hidden>
+          <div class="sidebar-flyout-header">
+            <h2 class="panel-heading panel-heading--sidebar" data-i18n="filters.heading">Filtra aktivë</h2>
+            <button type="button" class="sidebar-flyout-close" data-flyout-close data-i18n-aria="common.close" aria-label="Mbyll">×</button>
+          </div>
+          <div id="sidebarFiltersSection">
+            <div id="activePeriodChips" class="active-period-chips"></div>
+            <button
+              type="button"
+              id="clearAllFiltersBtn"
+              class="filters-clear-all-btn"
+              hidden
+              data-i18n="filters.clearAll"
+            >
+              Hiq filtrat
+            </button>
+          </div>
+        </aside>
+
+        <aside class="sidebar-flyout sidebar-flyout--search" id="sidebarFlyoutSearch" aria-label="Kërko" hidden>
+          <div class="search-panel">
+            <div class="search-panel-head">
+              <div class="search-panel-head-brand">
+                <svg class="search-panel-head-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M4 7h16M4 12h10M4 17h14" />
+                  <circle cx="18" cy="12" r="2" fill="currentColor" stroke="none" />
+                  <circle cx="15" cy="7" r="2" fill="currentColor" stroke="none" />
+                  <circle cx="8" cy="17" r="2" fill="currentColor" stroke="none" />
+                </svg>
+                <span class="search-panel-title" data-i18n="search.title">KËRKO</span>
+              </div>
+              <button type="button" class="sidebar-flyout-close" data-flyout-close aria-label="Mbyll">×</button>
+            </div>
+
+            <div class="search-combo" id="sidebarSearchCombo">
+              <label class="search-input-wrap" for="sidebarSearch">
+                <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <circle cx="10.5" cy="10.5" r="6.5" />
+                  <path d="M20 20l-4-4" />
+                </svg>
+                <input
+                  type="search"
+                  id="sidebarSearch"
+                  class="search-input"
+                  data-i18n-placeholder="search.placeholder"
+                  placeholder="Emri i monumentit…"
+                  autocomplete="off"
+                />
+                <button
+                  type="button"
+                  class="search-input-clear"
+                  id="sidebarSearchClear"
+                  aria-label="Pastro kërkimin"
+                  hidden
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
+              </label>
+
+              <div id="sidebarSearchDropdown" class="search-dropdown" hidden>
+                <div id="sidebarSearchHistoryWrap" class="search-history" hidden>
+                  <div class="search-history-head">
+                    <span class="search-history-title" data-i18n="search.history">Kërkimet e fundit</span>
+                    <button
+                      type="button"
+                      class="search-history-clear"
+                      id="sidebarSearchHistoryClear"
+                      data-i18n="search.clearHistory"
+                      data-i18n-title="search.clearHistoryTitle"
+                      title="Fshi historinë"
+                    >
+                      Fshi
+                    </button>
+                  </div>
+                  <ul id="sidebarSearchHistory" class="search-history-list"></ul>
+                </div>
+                <ul id="sidebarSearchResults" class="search-results"></ul>
+                <button type="button" id="sidebarSearchShowAll" class="search-show-all" hidden></button>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <aside class="sidebar-flyout sidebar-flyout--chart" id="sidebarFlyoutChart" data-i18n-aria="stats.heading" aria-label="Statistikë" hidden>
+          <div class="sidebar-flyout-header">
+            <h2 class="panel-heading panel-heading--sidebar" data-i18n="stats.heading">Statistikë</h2>
+            <button type="button" class="sidebar-flyout-close" data-flyout-close data-i18n-aria="common.close" aria-label="Mbyll">×</button>
+          </div>
+          <div class="chart-panel">
+            <p class="chart-title" data-i18n="stats.byPeriod">Monumente sipas periudhës</p>
+            <p id="chartTotal" class="chart-total" data-i18n="common.loading">Duke ngarkuar…</p>
+            <div id="chartBars" class="chart-box chart-box--vertical"></div>
+
+            <div class="chart-section-divider"></div>
+
+            <p class="chart-title" id="chartGeoTitle" data-i18n="stats.byGeo">Monumente sipas komunes / rajonit</p>
+
+            <div class="chart-geo-tabs" role="tablist" data-i18n-aria="stats.geoTabsAria" aria-label="Statistikë gjeografike">
+              <button type="button" class="chart-geo-tab is-active" data-chart-geo="komuna" role="tab" aria-selected="true" data-i18n="stats.komuna">
+                Komuna
+              </button>
+              <button type="button" class="chart-geo-tab" data-chart-geo="rajon" role="tab" aria-selected="false" data-i18n="stats.rajon">
+                Rajoni
+              </button>
+            </div>
+            <p id="chartGeoTotal" class="chart-total chart-total--geo"></p>
+            <div id="chartGeoBars" class="chart-box chart-box--horizontal"></div>
+
+            <div class="chart-download-wrap">
+              <button type="button" id="chartDownloadBtn" class="chart-download-btn" data-i18n="stats.download">
+                Shkarko të dhëna (CSV)
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <nav class="sidebar-rail" id="sidebarRail" data-i18n-aria="rail.collapsedNav" aria-label="Paneli i mbyllur" aria-hidden="true">
+          <button
+            type="button"
+            class="sidebar-rail-btn"
+            data-sidebar-section="layers"
+            data-i18n-title="rail.layers"
+            data-i18n-aria="rail.layers"
+            title="Shtresat"
+            aria-label="Shtresat"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M12 3L3 8l9 5 9-5-9-5z" />
+              <path d="M3 13l9 5 9-5" />
+              <path d="M3 18l9 5 9-5" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="sidebar-rail-btn"
+            data-sidebar-section="filters"
+            data-i18n-title="rail.filters"
+            data-i18n-aria="rail.filters"
+            title="Filtra"
+            aria-label="Filtra"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M4 5h16l-6 7v7l-4-2v-5L4 5z" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="sidebar-rail-btn"
+            data-sidebar-section="search"
+            data-i18n-title="rail.search"
+            data-i18n-aria="rail.search"
+            title="Kërko"
+            aria-label="Kërko monumentin"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="M20 20l-4-4" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="sidebar-rail-btn"
+            data-sidebar-section="chart"
+            data-i18n-title="rail.stats"
+            data-i18n-aria="rail.stats"
+            title="Statistikë"
+            aria-label="Statistikë"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="4" y="3" width="16" height="18" rx="2" />
+              <path d="M8 17V12" />
+              <path d="M12 17V9" />
+              <path d="M16 17V6" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="sidebar-rail-btn"
+            data-rail-action="timeline"
+            data-i18n-title="rail.timeline"
+            data-i18n-aria="rail.timeline"
+            title="Periudha historike"
+            aria-label="Periudha historike"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none" />
+              <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+              <circle cx="19" cy="12" r="1.5" fill="currentColor" stroke="none" />
+              <path d="M6 12h5M13 12h5" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="sidebar-rail-btn"
+            data-rail-action="info"
+            data-i18n-title="rail.info"
+            data-i18n-aria="rail.info"
+            title="Informacion"
+            aria-label="Informacion"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 10v6M12 7h.01" />
+            </svg>
+          </button>
+        </nav>
+      </div>
+
+      <div class="map-wrap">
+        <div class="map-canvas">
+          <div id="map"></div>
+
+          <div class="map-north-arrow" role="img" data-i18n-aria="map.north" data-i18n-title="map.north" aria-label="Veriu" title="Veriu">
+            <svg class="map-north-arrow-svg" viewBox="0 0 36 36" aria-hidden="true">
+              <circle cx="18" cy="18" r="16" class="map-north-arrow-ring" />
+              <path d="M18 7 L22 24 L18 20 L14 24 Z" class="map-north-arrow-head" />
+              <text x="18" y="32" text-anchor="middle" class="map-north-arrow-label">N</text>
+            </svg>
+          </div>
+
+          <div class="map-coords-bar" aria-live="polite">
+            <select
+              id="coordSystemSelect"
+              class="map-coords-system"
+              aria-label="Sistemi koordinativ"
+            >
+              <option value="kref" selected>KOSOVAREF01</option>
+              <option value="wgs84">WGS84</option>
+            </select>
+            <span id="mapCoords" class="map-coords-value"></span>
+          </div>
+
+          <div class="map-toolbar map-toolbar--dock">
+            <div class="map-tool-group">
+              <button
+                type="button"
+                class="map-tool-btn"
+                data-tool-toggle="measure"
+                aria-expanded="false"
+                aria-controls="measureMenu"
+              >
+                <svg class="map-tool-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M3 21l14-14 2 2L5 23 3 21z" />
+                  <path d="M15 7l2 2M11 11l1 1M7 15l1 1" />
+                </svg>
+                <span class="map-tool-btn-label" data-i18n="tools.measure">Matje</span>
+              </button>
+            </div>
+            <div class="map-tool-group">
+              <button
+                type="button"
+                class="map-tool-btn"
+                data-tool-toggle="buffer"
+                aria-expanded="false"
+                aria-controls="bufferMenu"
+              >
+                <svg class="map-tool-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <circle cx="12" cy="12" r="7.5" />
+                  <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+                  <path d="M12 4.5v2M12 17.5v2M4.5 12h2M17.5 12h2" />
+                </svg>
+                <span class="map-tool-btn-label" data-i18n="tools.buffer">Buffer</span>
+              </button>
+            </div>
+            <div class="map-tool-group">
+              <button
+                type="button"
+                class="map-tool-btn"
+                data-tool-toggle="view"
+                aria-expanded="false"
+                aria-controls="viewMenu"
+              >
+                <svg class="map-tool-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                <span class="map-tool-btn-label" data-i18n="tools.view">Pamje</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="mapToolResult" class="map-tool-result" hidden></div>
+        </div>
+
+        <div id="mapToolState" class="map-tool-state" hidden aria-hidden="true">
+          <input
+            type="number"
+            id="bufferRadiusInput"
+            value="5"
+            min="0.1"
+            max="100"
+            step="0.5"
+          />
+          <select id="bufferUnitSelect" aria-label="Njësia buffer">
+            <option value="km" selected>km</option>
+            <option value="m">m</option>
+          </select>
+          <select id="measureDistanceUnit" aria-label="Njësia distancës">
+            <option value="m" selected>m</option>
+            <option value="km">km</option>
+          </select>
+          <select id="measureAreaUnit" aria-label="Njësia sipërfaqes">
+            <option value="m2" selected>m²</option>
+            <option value="ha">ha</option>
+            <option value="km2">km²</option>
+          </select>
+        </div>
+
+        <div class="map-bottom-bar">
+          <div class="timeline-panel" id="timelinePanel">
+            <div class="timeline-header">
+              <h2 class="timeline-title" data-i18n="timeline.title">Periudha historike</h2>
+              <button
+                type="button"
+                class="timeline-info"
+                id="timelineInfo"
+                data-i18n-title="timeline.infoTitle"
+                data-i18n-aria="timeline.infoAria"
+                title="Zvarrit për të filtruar. Kliko përsëri periudhën aktive për t’i shfaqur të gjitha."
+                aria-label="Informacion"
+              >
+                i
+              </button>
+            </div>
+            <div id="timelinePeriods" class="timeline-periods"></div>
+            <div class="timeline-track-area">
+              <div class="timeline-track-rail">
+                <div class="timeline-track-bg">
+                  <div class="timeline-track-fill" id="timelineFill"></div>
+                </div>
+                <div id="timelineTickMarks" class="timeline-tick-marks"></div>
+                <input
+                  type="range"
+                  id="timelineSlider"
+                  class="timeline-slider"
+                  min="0"
+                  max="1000"
+                  value="286"
+                  aria-label="Periudha historike"
+                  data-i18n-aria="timeline.sliderAria"
+                />
+              </div>
+              <div id="timelineTickLabels" class="timeline-tick-labels"></div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="report-problem-btn"
+            id="reportProblemBtn"
+            data-i18n-title="report.title"
+            data-i18n-aria="report.title"
+            title="Raporto Problemin"
+            aria-label="Raporto Problemin"
+          >
+            <svg class="report-problem-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 4.2 4.4 18.2h15.2L12 4.2z" fill="#fff7f3" />
+              <path
+                d="M12 9.2v4.4M12 16.4h.01"
+                fill="none"
+                stroke="#d94839"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+            <span class="report-problem-text">
+              <span class="report-problem-line" data-i18n="report.line1">Raporto</span>
+              <span class="report-problem-line" data-i18n="report.line2">Problemin</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <aside class="panel-right">
+        <div id="monumentPicker" class="monument-picker is-closed" hidden>
+          <button
+            type="button"
+            id="monumentPickerClose"
+            class="monument-picker__close"
+            data-i18n-title="common.close"
+            title="Mbyll"
+            aria-label="Mbyll"
+          >
+            ×
+          </button>
+          <h3 class="monument-picker__title" data-i18n="picker.title">Zgjidh site-in</h3>
+          <p id="monumentPickerCount" class="monument-picker__count"></p>
+          <ul id="monumentPickerList" class="monument-picker__list"></ul>
+        </div>
+        <div id="detailPanel" class="detail-panel">
+          <button type="button" id="detailClose" class="detail-close" data-i18n-title="common.close" title="Mbyll">×</button>
+          <h3 id="detailTitle" class="detail-title">Zgjidh një monument</h3>
+          <span id="detailTag" class="detail-tag">—</span>
+          <p id="detailLocation" class="detail-location">Kliko një pikë në hartë</p>
+
+          <div class="detail-photos" id="detailPhotos">
+            <div class="detail-photo-main" id="detailPhotoMainWrap" hidden>
+              <img id="detailPhotoMain" src="" alt="" />
+            </div>
+            <div id="detailPhotoThumbs" class="detail-photo-thumbs"></div>
+            <p id="detailPhotoPlaceholder" class="detail-photo-placeholder">
+              Foto nga DTK
+            </p>
+          </div>
+
+          <div class="detail-tabs" role="tablist">
+            <button type="button" class="detail-tab active" data-tab="info" data-i18n="detail.tabInfo">INFO</button>
+            <button type="button" class="detail-tab" data-tab="foto" data-i18n="detail.tabPhoto">FOTO</button>
+            <button type="button" class="detail-tab" data-tab="dtk" data-i18n="detail.tabDtk">LIDHJE DTK</button>
+          </div>
+
+          <div id="detailTabInfo" class="detail-tab-panel active">
+            <dl class="detail-list">
+              <div class="detail-row">
+                <dt data-i18n="detail.period">Periudha</dt>
+                <dd id="detailPeriudha" class="accent">—</dd>
+              </div>
+              <div class="detail-row">
+                <dt data-i18n="detail.type">Lloji</dt>
+                <dd id="detailLloji">—</dd>
+              </div>
+              <div class="detail-row">
+                <dt data-i18n="detail.condition">Gjendja</dt>
+                <dd id="detailGjendja">—</dd>
+              </div>
+              <div class="detail-row">
+                <dt data-i18n="detail.id">ID</dt>
+                <dd id="detailId">—</dd>
+              </div>
+              <div class="detail-row">
+                <dt data-i18n="detail.source">Burimi</dt>
+                <dd id="detailBurimi">—</dd>
+              </div>
+            </dl>
+            <a
+              id="detailDtkLink"
+              class="detail-dtk"
+              href="#"
+              target="_blank"
+              rel="noopener"
+              style="display: none"
+              data-i18n="detail.dtkLink"
+              >Shiko në DTK ↗</a
+            >
+          </div>
+
+          <div id="detailTabFoto" class="detail-tab-panel">
+          </div>
+
+          <div id="detailTabDtk" class="detail-tab-panel">
+            <a
+              id="detailDtkLinkTab"
+              class="detail-dtk detail-dtk--tab"
+              href="#"
+              target="_blank"
+              rel="noopener"
+              hidden
+              data-i18n="detail.dtkLink"
+              >Shiko në DTK ↗</a
+            >
+            <p id="detailDtkNoLink" class="detail-dtk-empty" hidden data-i18n="detail.dtkNoLink">
+              Nuk ka lidhje DTK për këtë monument.
+            </p>
+
+            <section class="detail-reports" aria-labelledby="detailReportsHeading">
+              <h4 id="detailReportsHeading" class="detail-reports__title" data-i18n="detail.reportsTitle">
+                Raportet për këtë monument
+              </h4>
+              <p id="detailReportsEmpty" class="detail-reports__empty" hidden data-i18n="detail.reportsEmpty">
+                Nuk ka raporte për këtë monument.
+              </p>
+              <ul id="detailReportsList" class="detail-reports__list"></ul>
+            </section>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <button type="button" id="mobileBackdrop" class="mobile-backdrop" hidden data-i18n-aria="common.close" aria-label="Mbyll"></button>
+    <nav class="mobile-nav" id="mobileNav" hidden data-i18n-aria="mobile.navAria" aria-label="Navigimi mobil">
+      <button type="button" class="mobile-nav-btn" data-mobile-panel="layers" data-i18n-title="mobile.layers" data-i18n-aria="mobile.layers" title="Shtresat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M12 3L3 8l9 5 9-5-9-5z" />
+          <path d="M3 13l9 5 9-5" />
+          <path d="M3 18l9 5 9-5" />
+        </svg>
+        <span data-i18n="mobile.layers">Shtresa</span>
+      </button>
+      <button type="button" class="mobile-nav-btn" data-mobile-panel="search" data-i18n-title="mobile.search" data-i18n-aria="mobile.search" title="Kërko">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="10.5" cy="10.5" r="6.5" />
+          <path d="M20 20l-4-4" />
+        </svg>
+        <span data-i18n="mobile.search">Kërko</span>
+      </button>
+      <button type="button" class="mobile-nav-btn" data-mobile-panel="filters" data-i18n-title="mobile.filters" data-i18n-aria="mobile.filters" title="Filtra">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M4 5h16l-6 7v7l-4-2v-5L4 5z" />
+        </svg>
+        <span data-i18n="mobile.filters">Filtra</span>
+      </button>
+      <button type="button" class="mobile-nav-btn" data-mobile-panel="detail" disabled data-i18n-title="mobile.detail" data-i18n-aria="mobile.detail" title="Detaje">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 10v6M12 7h.01" />
+        </svg>
+        <span data-i18n="mobile.detail">Detaje</span>
+      </button>
+      <button type="button" class="mobile-nav-btn" data-mobile-panel="chart" data-i18n-title="mobile.stats" data-i18n-aria="mobile.stats" title="Statistikë">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <rect x="4" y="3" width="16" height="18" rx="2" />
+          <path d="M8 17V12" />
+          <path d="M12 17V9" />
+          <path d="M16 17V6" />
+        </svg>
+        <span data-i18n="mobile.stats">Statistikë</span>
+      </button>
+    </nav>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="lib/leaflet.markercluster.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/proj4@2.11.0/dist/proj4.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/app-boot.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/monument-name-en.js"></script>
+    <script src="js/data-i18n.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/coords.js"></script>
+    <script src="js/symbology.js"></script>
+    <script src="js/symbology-user.js"></script>
+    <script src="js/chart.js"></script>
+    <script src="js/detail.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/mobile-ui.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/map-tools.js"></script>
+    <script src="js/map-basemaps.js"></script>
+    <script src="js/map-view.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/monument-picker.js"></script>
+    <script src="js/report-vgi.js"></script>
+  </body>
+</html>

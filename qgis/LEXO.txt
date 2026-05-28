@@ -1,0 +1,1 @@
+Këtu ruaj projektin QGIS (.qgz) dhe shapefile që eksporton për GeoServer.

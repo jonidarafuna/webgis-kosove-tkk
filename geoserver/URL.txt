@@ -1,0 +1,17 @@
+GeoServer — projekti TKK
+========================
+
+WMS:  http://localhost:8080/geoserver/tkk/wms
+WFS:  http://localhost:8080/geoserver/tkk/wfs
+
+GPKG: C:\DatabazaWEB\DetyraGPKG.gpkg
+Store: detyra_gpkg
+Workspace: tkk
+
+Shtresat (6):
+  tkk:Kosova
+  tkk:Rajonet
+  tkk:Komunat
+  tkk:sites_arkeologjike
+  tkk:sites_arkitekturore
+  tkk:sites_luajtshme

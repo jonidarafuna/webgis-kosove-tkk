@@ -1,0 +1,50 @@
+================================================================================
+  SI TË SHTOSH FOTO KUR KLIKON NJË PIKË
+================================================================================
+
+FOTOT NGA DTK (automatikisht)
+-----------------------------
+  node data/fetch_dtk_photos.mjs
+
+  Rezultati: web/data/photos.json (401+ monumente)
+  Faqja i ngarkon përmes proxy: /dtk-files/... (serve.js)
+
+  Duhet: node serve.js + internet (DTK online)
+
+================================================================================
+
+Mënyra 1 — SKEDAR LOKAL (më e lehtë për detyrë)
+-----------------------------------------------
+1. Gjej ID-në e monumentit (paneli djathtas → fusha "ID", p.sh. ARK-001)
+2. Ruaj foton si:
+     web/images/monuments/ARK-001.jpg
+3. Rifresko faqen (Ctrl+F5) dhe kliko përsëri pikën
+
+Mënyra 2 — LISTA NË photos.json (disa foto për monument)
+--------------------------------------------------------
+1. Hape: web/data/photos.json
+2. Shto rresht, p.sh.:
+     "ARK-003": [
+       "images/monuments/ARK-003.jpg",
+       "images/monuments/ARK-003_brenda.jpg"
+     ]
+3. Ctrl+F5
+
+Mënyra 3 — KOLONË NË CSV + GeoServer (të gjitha nga baza)
+----------------------------------------------------------
+1. Në data/sites_*.csv shto kolonë: foto_url
+2. Vlera: një URL ose disa të ndara me ; 
+     https://shembull.com/foto1.jpg;images/lokal.jpg
+3. QGIS → importo CSV / përditëso GPKG → kopjo në C:\DatabazaWEB\
+4. GeoServer → Reload layers
+5. Faqja lexon automatikisht fushën foto_url nga WFS
+
+SHËNIM: Fotot nga dtk.rks-gov.net shpesh NUK ngarkohen në faqe
+      (mbrojtje hotlink). Përdor foto të shkarkuara lokalisht.
+
+SKEDARËT NË WEB:
+  web/js/detail.js      — shfaq fotot
+  web/data/photos.json  — lista opsionale id → foto
+  web/images/monuments/ — skedarët .jpg / .png
+
+================================================================================

@@ -1,0 +1,19 @@
+================================================================================
+  PANELI POSHTË HARTËS (timeline) — si mockup-i
+================================================================================
+
+PAMJA:
+  - Titull "PERIUDHA HISTORIKE" + ikona (i)
+  - 6 butona me ikona: Parahistorike … Moderne
+  - Slider portokalli me shirit të mbushur majtas
+  - Etiketa: 8000 p.e.s., 1000 p.e.s., 0, 500 e.s., … Sot
+
+SKEDARËT:
+  index.html, css/style.css, js/config.js (TIMELINE_TICKS), js/timeline.js
+
+PËRDORIMI:
+  1. Zvarrit rrëshqitësin → filtron monumentet sipas vitit
+  2. Kliko një periudhë → slider lëviz automatikisht
+  3. Kliko përsëri periudhën aktive → "Të gjitha" (pa filtër)
+
+================================================================================

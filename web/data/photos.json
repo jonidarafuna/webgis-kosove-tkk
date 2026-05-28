@@ -1,0 +1,2864 @@
+{
+  "_info": "Gjeneruar nga data/fetch_dtk_photos.mjs — URL përmes proxy /dtk-files/ në serve.js",
+  "_updated": "2026-05-24T15:00:13.946Z",
+  "ARK-001": [
+    "/dtk-files/9462/1/Kisha paleokristiane në Nikadin.jpg",
+    "/dtk-files/9462/1/1.jpg",
+    "/dtk-files/9462/1/3.jpg",
+    "/dtk-files/9462/1/4.jpg",
+    "/dtk-files/9462/1/6.jpg"
+  ],
+  "ARK-002": [
+    "/dtk-files/9305/1/Lokaliteti arkeologjik në Greme.png"
+  ],
+  "ARK-003": [
+    "/dtk-files/9307/1/Mozaiku nerodimes.jpg",
+    "/dtk-files/9307/1/ne 1.jpg",
+    "/dtk-files/9307/1/ne 2.jpg",
+    "/dtk-files/9307/1/ne 3.jpg",
+    "/dtk-files/9307/1/ner 8.jpg"
+  ],
+  "ARK-004": [
+    "/dtk-files/8890/1/Material arkeologjik nga Zaskoku.jpg"
+  ],
+  "ARK-005": [
+    "/dtk-files/9299/1/ar 1.jpg",
+    "/dtk-files/9299/1/ar 2.jpg",
+    "/dtk-files/9299/1/ar 3.jpg",
+    "/dtk-files/9299/1/Figurinë antropomorfe zbuluar ne Varosh.jpg",
+    "/dtk-files/9299/1/varosh-ausgrabung.jpg"
+  ],
+  "ARK-006": [
+    "/dtk-files/2399/1/Fortesa parahistorike e Bellaçecit (Bardh i Madh) Google earth.jpg",
+    "/dtk-files/2399/1/Bardh i Madh-Pamje nga lart.jpg",
+    "/dtk-files/2399/1/1.jpg",
+    "/dtk-files/2399/1/3.jpg",
+    "/dtk-files/2399/1/5.jpg"
+  ],
+  "ARK-007": [
+    "/dtk-files/2384/1/Kalaja e Harilaqit.jpg",
+    "/dtk-files/2384/1/1.jpg",
+    "/dtk-files/2384/1/2.jpg",
+    "/dtk-files/2384/1/3.jpg",
+    "/dtk-files/2384/1/har 7.jpg"
+  ],
+  "ARK-008": [
+    "/dtk-files/2375/1/graboc 1.jpg",
+    "/dtk-files/2375/1/DSC00083.JPG",
+    "/dtk-files/2375/1/DSC00150.JPG",
+    "/dtk-files/2375/1/DSC00185.JPG",
+    "/dtk-files/2375/1/DSC00204.JPG"
+  ],
+  "ARK-009": [
+    "/dtk-files/9454/1/Tuma 2 e Rogoves.jpg",
+    "/dtk-files/9454/1/Pamje e nje tume të gërmuar në Rogovë.jpg",
+    "/dtk-files/9454/1/ROGOVE T2.jpg",
+    "/dtk-files/9454/1/rogove tumat 1.jpg"
+  ],
+  "ARK-010": [
+    "/dtk-files/9455/1/ponoshec 8.jpg",
+    "/dtk-files/9455/1/Tuma e Ponoshecit.JPG",
+    "/dtk-files/9455/1/pnoshec 2121.jpg",
+    "/dtk-files/9455/1/ponoshec 1.jpg"
+  ],
+  "ARK-011": [
+    "/dtk-files/8749/1/Tuma 3 në Fshej.jpg",
+    "/dtk-files/8749/1/ujze 2.jpg",
+    "/dtk-files/8749/1/UJZE 112.jpg"
+  ],
+  "ARK-012": [
+    "/dtk-files/22/1/DSCN3714.JPG",
+    "/dtk-files/22/1/2.JPG",
+    "/dtk-files/22/1/4.jpg",
+    "/dtk-files/22/1/1.JPG",
+    "/dtk-files/22/1/DSCN3688.JPG"
+  ],
+  "ARK-013": [
+    "/dtk-files/445/1/Pamje e tumes 8 gjatë gëmimit të vitit 2012. IAK.JPG",
+    "/dtk-files/445/1/Foto Tuma I - K.Luci MK - 1980.jpg",
+    "/dtk-files/445/1/Pamje e muranës qëndrore të tumës 8 gjatë germimit të vitit 2012. IAK.JPG",
+    "/dtk-files/445/1/1.JPG",
+    "/dtk-files/445/1/3.JPG"
+  ],
+  "ARK-014": [
+    "/dtk-files/2423/1/16050001.JPG",
+    "/dtk-files/2423/1/3.jpg",
+    "/dtk-files/2423/1/7.jpg",
+    "/dtk-files/2423/1/9.jpg",
+    "/dtk-files/2423/1/10.jpg"
+  ],
+  "ARK-015": [
+    "/dtk-files/9464/1/1.jpg",
+    "/dtk-files/9464/1/Kalaja e Llapushnikut.png",
+    "/dtk-files/9464/1/2.jpg",
+    "/dtk-files/9464/1/3.jpg"
+  ],
+  "ARK-016": [
+    "/dtk-files/6688/1/Memoria.bmp",
+    "/dtk-files/6688/1/Harta copy.bmp",
+    "/dtk-files/6688/1/Pamje e bazilikës paleokristiane copy.bmp"
+  ],
+  "ARK-017": [
+    "/dtk-files/9086/1/1.jpg",
+    "/dtk-files/9086/1/2.jpg",
+    "/dtk-files/9086/1/3.jpg",
+    "/dtk-files/9086/1/4.jpg",
+    "/dtk-files/9086/1/Pamje e Kishëzës në Vrellë..png"
+  ],
+  "ARK-018": [
+    "/dtk-files/9093/1/Cerrcë.png",
+    "/dtk-files/9093/1/A 1.jpg",
+    "/dtk-files/9093/1/A 2.jpg",
+    "/dtk-files/9093/1/A 7.jpg",
+    "/dtk-files/9093/1/A 5.jpg"
+  ],
+  "ARK-019": [
+    "/dtk-files/9457/1/baja 2.jpg",
+    "/dtk-files/9457/1/baja 3.jpg",
+    "/dtk-files/9457/1/varr ilir 4.jpg",
+    "/dtk-files/9457/1/varr ilir.jpg",
+    "/dtk-files/9457/1/Përkrenarja Ilire zbuluar në Banjë të Pejës.png"
+  ],
+  "ARK-020": [
+    "/dtk-files/9083/1/Pamje e tmes II-gjate germimit..JPG",
+    "/dtk-files/9083/1/T 7.jpg",
+    "/dtk-files/9083/1/Byzylykë dore nga tuma e Lubozhdës.jpg"
+  ],
+  "ARK-021": [
+    "/dtk-files/655/1/K 01.jpg",
+    "/dtk-files/655/1/4.JPG",
+    "/dtk-files/655/1/K 5.jpg",
+    "/dtk-files/655/1/2.JPG",
+    "/dtk-files/655/1/11..JPG"
+  ],
+  "ARK-022": [
+    "/dtk-files/2198/1/llanishte 2.jpg",
+    "/dtk-files/2198/1/llanishte 3.jpg",
+    "/dtk-files/2198/1/llanishte 5.jpg",
+    "/dtk-files/2198/1/P5190002.JPG"
+  ],
+  "ARK-023": [
+    "/dtk-files/9461/1/pal 5.jpg",
+    "/dtk-files/9461/1/pal 4.jpg",
+    "/dtk-files/9461/1/pal 6.jpg",
+    "/dtk-files/9461/1/Stele romake zbuluar ne Kacanik.png"
+  ],
+  "ARK-024": [
+    "/dtk-files/3904/1/1.JPG",
+    "/dtk-files/3904/1/gr 1.jpg",
+    "/dtk-files/3904/1/gr 2.jpg",
+    "/dtk-files/3904/1/gr 3.jpg",
+    "/dtk-files/3904/1/gr 4.jpg"
+  ],
+  "ARK-025": [
+    "/dtk-files/9452/1/Pamje e gërmimeve të vitit 1986 në nekropolin e Gllarevës.jpg",
+    "/dtk-files/9452/1/gllareve 2.jpg",
+    "/dtk-files/9452/1/gllareve 1.jpg",
+    "/dtk-files/9452/1/gllareve 001.jpg",
+    "/dtk-files/9452/1/gllareva 4.jpg"
+  ],
+  "ARK-026": [
+    "/dtk-files/9453/1/1.jpg",
+    "/dtk-files/9453/1/perceve tumat 8.jpg",
+    "/dtk-files/9453/1/perceve tumat 9.jpg",
+    "/dtk-files/9453/1/perceve tumat 3.jpg",
+    "/dtk-files/9453/1/Maja heshtash nga Përçeva.jpg"
+  ],
+  "ARK-027": [
+    "/dtk-files/8621/1/Municipium DD.jpg"
+  ],
+  "ARK-028": [
+    "/dtk-files/2336/1/2.Gadime.jpg",
+    "/dtk-files/2336/1/g 1.jpg",
+    "/dtk-files/2336/1/g 2.jpg",
+    "/dtk-files/2336/1/Enë qeramike me mbishkrim grek zbuluar në Gadime të Epërme (AMK)..png"
+  ],
+  "ARK-029": [
+    "/dtk-files/9286/1/Pamje e pjesshme e gërmimit të zhvilluar në kodërvarrin e Banjës së Malishevës..png",
+    "/dtk-files/9286/1/b 1.jpg",
+    "/dtk-files/9286/1/b 2.jpg"
+  ],
+  "ARK-030": [
+    "/dtk-files/9451/1/Kapak prozopomorf të punuara nga argjila e pjekur, i stilizuar me motive dhe me ornamentim të shkëlqyeshëm artistik, zbuluar në Fafos. (Muzeu i Kosovës)..jpg"
+  ],
+  "ARK-031": [
+    "/dtk-files/8712/1/5.JPG",
+    "/dtk-files/8712/1/1.JPG",
+    "/dtk-files/8712/1/2.JPG",
+    "/dtk-files/8712/1/3.JPG",
+    "/dtk-files/8712/1/4.JPG"
+  ],
+  "ARK-032": [
+    "/dtk-files/6691/1/p se1.jpg",
+    "/dtk-files/6691/1/Mozaiku i Orfeut-Gllamnik-Podujeve.jpg"
+  ],
+  "ARK-033": [
+    "/dtk-files/8978/1/su 4.jpg",
+    "/dtk-files/8978/1/su 2.jpg",
+    "/dtk-files/8978/1/su 6.jpg",
+    "/dtk-files/8978/1/su 7.jpg",
+    "/dtk-files/8978/1/Kokë antropomorfe.jpg"
+  ],
+  "ARK-034": [
+    "/dtk-files/8786/1/veletin 1.jpg",
+    "/dtk-files/8786/1/Pamje e Kalase se Veletinit.jpg",
+    "/dtk-files/8786/1/Foto ajrore e kalasë së VELETINIT.png",
+    "/dtk-files/8786/1/Gjurmë të zgjyrës në afërsi të Kalasë së Veletinit dhe shigjetat e bardha duke treguar gjurmët e minierave antike.png"
+  ],
+  "ARK-035": [
+    "/dtk-files/8783/1/Pllandishte 1.JPG",
+    "/dtk-files/8783/1/pland 1.jpg",
+    "/dtk-files/8783/1/pland 3.jpg",
+    "/dtk-files/8783/1/shav 1.jpg",
+    "/dtk-files/8783/1/shav 2.jpg"
+  ],
+  "ARK-036": [
+    "/dtk-files/9449/1/Shtrirja e lokalitetit neolitik të Barilevës.jpg",
+    "/dtk-files/9449/1/barielve 1.jpg",
+    "/dtk-files/9449/1/barielve 6.jpg",
+    "/dtk-files/9449/1/barielve 7.jpg",
+    "/dtk-files/9449/1/Figurinë nga argjila e pjekur (Terrakotë), në pozitë të ulur. Lartësia 26.5 cm. Kultura e Vinçës. Gjetje rasti..jpg"
+  ],
+  "ARK-037": [
+    "/dtk-files/9450/1/Pamje nga lindja e lokalitetit te Bardhoshit.JPG",
+    "/dtk-files/9450/1/Figurina antropomorfe, nga Bardhoshi-MK.jpg",
+    "/dtk-files/9450/1/Figurina antropomorfe neolitike zbuluar në Bardhosh.png"
+  ],
+  "ARK-038": [
+    "/dtk-files/8954/1/Bregu i Ajetit, Matiqan.JPG",
+    "/dtk-files/8954/1/matiqan 1.jpg",
+    "/dtk-files/8954/1/matiqan 2.jpg",
+    "/dtk-files/8954/1/Vathë mesjetare nga Matiqani.png"
+  ],
+  "ARK-039": [
+    "/dtk-files/8782/1/hy 1.jpg",
+    "/dtk-files/8782/1/hy 4.jpg",
+    "/dtk-files/8782/1/hy 5.jpg",
+    "/dtk-files/8782/1/hy 7.jpg",
+    "/dtk-files/8782/1/hy 8.jpg"
+  ],
+  "ARK-040": [
+    "/dtk-files/9296/1/Vlashnje.JPG",
+    "/dtk-files/9296/1/vl 1.jpg",
+    "/dtk-files/9296/1/VL 2.jpg"
+  ],
+  "ARK-041": [
+    "/dtk-files/9294/1/Pamje e përgjithshme nga vendbanimi prehistorik i Korishës.jpg",
+    "/dtk-files/9294/1/Pamjet e disa kuadrateve ne Korishe.JPG"
+  ],
+  "ARK-042": [
+    "/dtk-files/9459/1/p 1.jpg",
+    "/dtk-files/9459/1/Strukturë objekti në Poslishtë.JPG",
+    "/dtk-files/9459/1/Lokaliteti Romak në Poslishtë.jpg"
+  ],
+  "ARK-043": [
+    "/dtk-files/8858/1/man 1.jpg",
+    "/dtk-files/8858/1/02.JPG",
+    "/dtk-files/8858/1/IMG_7836.JPG",
+    "/dtk-files/8858/1/man 7.jpg",
+    "/dtk-files/8858/1/man 2.jpg"
+  ],
+  "ARK-044": [
+    "/dtk-files/8873/1/zatriq 2.jpg",
+    "/dtk-files/8873/1/zatriq 5.jpg",
+    "/dtk-files/8873/1/zatriq 4.jpg",
+    "/dtk-files/8873/1/zatriq 3.jpg",
+    "/dtk-files/8873/1/Pamje ajrore e Zatriçit.jpg"
+  ],
+  "ARK-045": [
+    "/dtk-files/9285/1/Banjo romake në Çifllak.jpg",
+    "/dtk-files/9285/1/c 3.jpg"
+  ],
+  "ARK-046": [
+    "/dtk-files/8800/1/run 5.jpg",
+    "/dtk-files/8800/1/run 6.jpg",
+    "/dtk-files/8800/1/run 1.jpg",
+    "/dtk-files/8800/1/Instrumenti muzikor neolitik Okarina e Runikut.png"
+  ],
+  "ARK-047": [
+    "/dtk-files/9291/1/Fortifikata-Kalaja - Hisari i Kostërcit.jpg",
+    "/dtk-files/9291/1/ko.jpg",
+    "/dtk-files/9291/1/ko 4.jpg",
+    "/dtk-files/9291/1/KOS 4.jpg",
+    "/dtk-files/9291/1/ko 2.jpg"
+  ],
+  "ARK-048": [
+    "/dtk-files/9448/1/r 1.jpg",
+    "/dtk-files/9448/1/r 2.jpg",
+    "/dtk-files/9448/1/r 3.jpg",
+    "/dtk-files/9448/1/r 4.jpg",
+    "/dtk-files/9448/1/Kuadrat në Reshtan.jpg"
+  ],
+  "ARK-049": [
+    "/dtk-files/8852/1/DSCF3756.jpg",
+    "/dtk-files/8852/1/HIS 1.jpg",
+    "/dtk-files/8852/1/hisae r.jpg",
+    "/dtk-files/8852/1/hisar t.jpg",
+    "/dtk-files/8852/1/hisar u.jpg"
+  ],
+  "ARK-050": [
+    "/dtk-files/9292/1/gjinoc 1.jpg",
+    "/dtk-files/9292/1/Tuma Ilire në Gjinoc.jpg",
+    "/dtk-files/9292/1/gjinoc 2.jpg",
+    "/dtk-files/9292/1/gjinoc 3.jpg",
+    "/dtk-files/9292/1/gjinoc 4.jpg"
+  ],
+  "ARK-051": [
+    "/dtk-files/9456/1/t 1.jpg",
+    "/dtk-files/9456/1/t 2.jpg",
+    "/dtk-files/9456/1/Pendant zbuluar në Shirokë.jpg"
+  ],
+  "ARK-052": [
+    "/dtk-files/9460/1/romak 1.jpg",
+    "/dtk-files/9460/1/romak 2.jpg",
+    "/dtk-files/9460/1/romak 3.jpg",
+    "/dtk-files/9460/1/romak 4.jpg",
+    "/dtk-files/9460/1/Busti i mermeret i nje gruaje Dardane.jpg"
+  ],
+  "ARK-053": [
+    "/dtk-files/9458/1/pestove 3.jpg",
+    "/dtk-files/9458/1/Pamje e një pjese të Villa Rusticae zbuluar në Pestovë.png"
+  ],
+  "ARK-054": [
+    "/dtk-files/8956/1/foto Kalaja e Dubocit.jpg",
+    "/dtk-files/8956/1/kalaja.jpg",
+    "/dtk-files/8956/1/dub 1.jpg",
+    "/dtk-files/8956/1/kal dub 9.jpg",
+    "/dtk-files/8956/1/kal dub 6.jpg"
+  ],
+  "ARK-055": [
+    "/dtk-files/9463/1/kalaja 1.jpg",
+    "/dtk-files/9463/1/stroc 4.jpg",
+    "/dtk-files/9463/1/Gjyteti Strovcit.png",
+    "/dtk-files/9463/1/stroc 1.jpg"
+  ],
+  "ARH-001": [
+    "/dtk-files/8686/1/2.Oda e Junikut.jpg",
+    "/dtk-files/8686/1/1.foto (2).jpg",
+    "/dtk-files/8686/1/2.foto (2).jpg",
+    "/dtk-files/8686/1/Kulla e Brahim Hoxhës 1.JPG",
+    "/dtk-files/8686/1/F2.Kulla e Brahim Hoxhes-Junik.jpg",
+    "/dtk-files/8686/1/3.foto (2).jpg",
+    "/dtk-files/8686/1/4.foto (2).jpg",
+    "/dtk-files/8686/1/F3.Kulla e Brahim Hoxhes-Junik.jpg",
+    "/dtk-files/8686/1/F4.Kulla e Brahim Hoxhes-Junik.jpg",
+    "/dtk-files/8686/1/6.Foto (2).jpg"
+  ],
+  "ARH-002": [
+    "/dtk-files/9007/1/3, Kulla e Demë Ali Pozharit.jpg",
+    "/dtk-files/9007/1/1. Foto.jpg",
+    "/dtk-files/9007/1/20160302_120447 (2).jpg",
+    "/dtk-files/9007/1/104 (2).jpg",
+    "/dtk-files/9007/1/1. Kulla e Demë Ali Pozharit.jpg",
+    "/dtk-files/9007/1/2. Foto.jpg",
+    "/dtk-files/9007/1/3. Foto.jpg",
+    "/dtk-files/9007/1/New Image2.JPG",
+    "/dtk-files/9007/1/4. Foto.jpg"
+  ],
+  "ARH-003": [
+    "/dtk-files/8683/1/K 1.jpg",
+    "/dtk-files/8683/1/IMG_0070.jpg",
+    "/dtk-files/8683/1/IMG_0071.jpg",
+    "/dtk-files/8683/1/IMG_0072.jpg",
+    "/dtk-files/8683/1/K 5.jpg"
+  ],
+  "ARH-004": [
+    "/dtk-files/9023/1/SAM_0369.JPG",
+    "/dtk-files/9023/1/1. Foto.JPG",
+    "/dtk-files/9023/1/2. Foto.JPG",
+    "/dtk-files/9023/1/3. Foto.JPG",
+    "/dtk-files/9023/1/F3.Kulla e Muhamet Dervish Qekaj-Irzniq.JPG",
+    "/dtk-files/9023/1/F4.Kulla e Muhamet Dervish Qekaj-Irzniq.JPG",
+    "/dtk-files/9023/1/F5.Kulla e Muhamet Dervish Qekaj-Irzniq.JPG",
+    "/dtk-files/9023/1/4. Foto.JPG",
+    "/dtk-files/9023/1/5. Foto.JPG"
+  ],
+  "ARH-005": [
+    "/dtk-files/8682/1/1.jpg",
+    "/dtk-files/8682/1/1. foto.JPG",
+    "/dtk-files/8682/1/20160302_112853 (2).jpg",
+    "/dtk-files/8682/1/2. Foto.JPG",
+    "/dtk-files/8682/1/3.jpg",
+    "/dtk-files/8682/1/IMG_0005.jpg",
+    "/dtk-files/8682/1/3. Foto.JPG",
+    "/dtk-files/8682/1/4.Foto.JPG",
+    "/dtk-files/8682/1/6.jpg",
+    "/dtk-files/8682/1/DSCN2230.JPG",
+    "/dtk-files/8682/1/5.Foto.JPG"
+  ],
+  "ARH-006": [
+    "/dtk-files/9914/1/4Strellc i ulët 05.12.2011.JPG",
+    "/dtk-files/9914/1/2Strellc i ulët 05.12.2011.JPG",
+    "/dtk-files/9914/1/6Strellc i ulët 05.12.2011.JPG"
+  ],
+  "ARH-007": [
+    "/dtk-files/8684/1/1.foto.JPG",
+    "/dtk-files/8684/1/20150519_120618.jpg",
+    "/dtk-files/8684/1/20150519_120631.jpg",
+    "/dtk-files/8684/1/2. Foto.JPG",
+    "/dtk-files/8684/1/3. Foto.JPG",
+    "/dtk-files/8684/1/100-0060_IMG.JPG",
+    "/dtk-files/8684/1/4.Foto.JPG",
+    "/dtk-files/8684/1/5. Foto.JPG"
+  ],
+  "ARH-008": [
+    "/dtk-files/8801/1/nam 11.jpg",
+    "/dtk-files/8801/1/nam 3.jpg",
+    "/dtk-files/8801/1/3.jpg",
+    "/dtk-files/8801/1/5.jpg",
+    "/dtk-files/8801/1/4.jpg"
+  ],
+  "ARH-009": [
+    "/dtk-files/9265/1/02 Mulliri pas restaurimit me 2014.JPG",
+    "/dtk-files/9265/1/03 Fasada Veriore.JPG",
+    "/dtk-files/9265/1/04 Mekanizmi i carkut te valavices.JPG",
+    "/dtk-files/9265/1/05 Pamja e brendshme e mullirit.JPG",
+    "/dtk-files/9265/1/06 Detaji i valavices.JPG"
+  ],
+  "ARH-010": [
+    "/dtk-files/4066/1/01 Pamja Lindore.JPG",
+    "/dtk-files/4066/1/03 Pamja Jugore e xhamise.JPG",
+    "/dtk-files/4066/1/04 Pamja Veriore e xhamise.JPG",
+    "/dtk-files/4066/1/02 Mbishkrimi i xhamise.jpg",
+    "/dtk-files/4066/1/05 Minberi.JPG"
+  ],
+  "ARH-011": [
+    "/dtk-files/6496/1/002.jpg",
+    "/dtk-files/6496/1/001.jpg",
+    "/dtk-files/6496/1/xhami bresane 1.jpg",
+    "/dtk-files/6496/1/006.jpg",
+    "/dtk-files/6496/1/xhamia bresane.jpg"
+  ],
+  "ARH-012": [
+    "/dtk-files/2711/1/244. Kulla e Jupave.JPG",
+    "/dtk-files/2711/1/244. 1. Kulla e Jupave.JPG",
+    "/dtk-files/2711/1/244. 2. Kulla e Jupave.JPG",
+    "/dtk-files/2711/1/Çarshia  e Jupave_069.JPG",
+    "/dtk-files/2711/1/IMG_9444.jpg"
+  ],
+  "ARH-013": [
+    "/dtk-files/2864/1/236. 2 Honi Haragjise.JPG",
+    "/dtk-files/2864/1/157.JPG",
+    "/dtk-files/2864/1/Hani i Haraqise  9Gusht04 (5).jpg",
+    "/dtk-files/2864/1/236.-4 Honi i vjeter iHaraqise.JPG",
+    "/dtk-files/2864/1/158.JPG"
+  ],
+  "ARH-014": [
+    "/dtk-files/2174/1/LostFile_JPG_13889786.jpg",
+    "/dtk-files/2174/1/LostFile_JPG_1961906.jpg",
+    "/dtk-files/2174/1/LostFile_JPG_1961514.jpg",
+    "/dtk-files/2174/1/LostFile_JPG_1962346.jpg",
+    "/dtk-files/2174/1/DSCN5881.JPG"
+  ],
+  "ARH-015": [
+    "/dtk-files/5452/1/065.JPG",
+    "/dtk-files/5452/1/DSCN7205.JPG",
+    "/dtk-files/5452/1/DSCN7854.jpg",
+    "/dtk-files/5452/1/DSCN7855.jpg",
+    "/dtk-files/5452/1/068.JPG"
+  ],
+  "ARH-016": [
+    "/dtk-files/2720/1/DSCN0029.JPG",
+    "/dtk-files/2720/1/Picture 022.jpg",
+    "/dtk-files/2720/1/Picture 031.jpg",
+    "/dtk-files/2720/1/Picture 005.jpg"
+  ],
+  "ARH-017": [
+    "/dtk-files/2615/1/k 1.jpg",
+    "/dtk-files/2615/1/K 5.jpg",
+    "/dtk-files/2615/1/k 7.jpg",
+    "/dtk-files/2615/1/DSC00042.JPG",
+    "/dtk-files/2615/1/Qyteti 200.jpg"
+  ],
+  "ARH-018": [
+    "/dtk-files/8461/1/h 6.jpg",
+    "/dtk-files/8461/1/DSCN0573.JPG",
+    "/dtk-files/8461/1/DSCN0065.JPG",
+    "/dtk-files/8461/1/6.Dusheklluki Kulla e Koshit.jpg"
+  ],
+  "ARH-019": [
+    "/dtk-files/9351/1/DSCN4699.JPG",
+    "/dtk-files/9351/1/DSCN4700.JPG",
+    "/dtk-files/9351/1/DSCN4703.JPG",
+    "/dtk-files/9351/1/DSCN4701.JPG",
+    "/dtk-files/9351/1/DSCN0020.JPG"
+  ],
+  "ARH-020": [
+    "/dtk-files/9353/1/DSCN6991.JPG",
+    "/dtk-files/9353/1/DSCN6992.JPG",
+    "/dtk-files/9353/1/DSCN0012.JPG",
+    "/dtk-files/9353/1/DSCN8082.jpg",
+    "/dtk-files/9353/1/DSCN8110.jpg"
+  ],
+  "ARH-021": [
+    "/dtk-files/5230/1/335. Kulla e Sadik Nivokazit ne Nivokaz.JPG",
+    "/dtk-files/5230/1/335. aa Kulla e Sadik Nivokazi.JPG",
+    "/dtk-files/5230/1/DSCN6999.JPG",
+    "/dtk-files/5230/1/Picture 019.jpg",
+    "/dtk-files/5230/1/DSCN0001.JPG"
+  ],
+  "ARH-022": [
+    "/dtk-files/8467/1/073.jpg",
+    "/dtk-files/8467/1/076.jpg",
+    "/dtk-files/8467/1/061.JPG",
+    "/dtk-files/8467/1/079.JPG",
+    "/dtk-files/8467/1/LostFile_JPG_15802978.jpg"
+  ],
+  "ARH-023": [
+    "/dtk-files/2714/1/k 5.jpg",
+    "/dtk-files/2714/1/k 4.jpg",
+    "/dtk-files/2714/1/DSCN0645.JPG",
+    "/dtk-files/2714/1/DSCN0649.JPG",
+    "/dtk-files/2714/1/DSCN0647.JPG"
+  ],
+  "ARH-024": [
+    "/dtk-files/8161/1/DSC00250.JPG",
+    "/dtk-files/8161/1/DSCN0007.JPG",
+    "/dtk-files/8161/1/Picture 061.jpg",
+    "/dtk-files/8161/1/Picture 055.jpg"
+  ],
+  "ARH-025": [
+    "/dtk-files/6583/1/Suka e Cermjanit.jpg",
+    "/dtk-files/6583/1/a 8.jpg",
+    "/dtk-files/6583/1/a 5.jpg",
+    "/dtk-files/6583/1/a 6.jpg",
+    "/dtk-files/6583/1/a 2.jpg"
+  ],
+  "ARH-026": [
+    "/dtk-files/2870/1/273. 1- Medresa e Madhe.JPG",
+    "/dtk-files/2870/1/273. 6. Medresa e Madhe.JPG",
+    "/dtk-files/2870/1/DSCN6027.JPG",
+    "/dtk-files/2870/1/DSCN6026.JPG",
+    "/dtk-files/2870/1/273. 7. Medresa e Madhe.JPG"
+  ],
+  "ARH-027": [
+    "/dtk-files/3466/1/015.JPG",
+    "/dtk-files/3466/1/026.JPG",
+    "/dtk-files/3466/1/28102014447.jpg",
+    "/dtk-files/3466/1/016.JPG",
+    "/dtk-files/3466/1/Dsc00234.jpg"
+  ],
+  "ARH-028": [
+    "/dtk-files/2876/1/DSCN5839.jpg",
+    "/dtk-files/2876/1/07042016520.jpg",
+    "/dtk-files/2876/1/DSCF4331.JPG",
+    "/dtk-files/2876/1/DSCF2907.JPG",
+    "/dtk-files/2876/1/DSCF2886.JPG"
+  ],
+  "ARH-029": [
+    "/dtk-files/4624/1/DSCN0030.JPG",
+    "/dtk-files/4624/1/DSCN8024.jpg",
+    "/dtk-files/4624/1/DSCN8017.jpg",
+    "/dtk-files/4624/1/DSCN8022.jpg",
+    "/dtk-files/4624/1/DSCN8025.jpg"
+  ],
+  "ARH-030": [
+    "/dtk-files/3207/1/M 1.jpg",
+    "/dtk-files/3207/1/DSC00079.JPG",
+    "/dtk-files/3207/1/M 3.jpg",
+    "/dtk-files/3207/1/DSC00002.JPG",
+    "/dtk-files/3207/1/muzeu etnografik.jpg"
+  ],
+  "ARH-031": [
+    "/dtk-files/2609/1/DSCN0009.JPG",
+    "/dtk-files/2609/1/156.JPG",
+    "/dtk-files/2609/1/DSCN0019.JPG",
+    "/dtk-files/2609/1/LostFile_JPG_1928762.jpg"
+  ],
+  "ARH-032": [
+    "/dtk-files/9358/1/11.09.12 (2).jpg",
+    "/dtk-files/9358/1/11.09.12.jpg",
+    "/dtk-files/9358/1/143.JPG",
+    "/dtk-files/9358/1/11.09.12 (3).jpg",
+    "/dtk-files/9358/1/140.JPG"
+  ],
+  "ARH-033": [
+    "/dtk-files/8581/1/DSCN0050.JPG",
+    "/dtk-files/8581/1/DSCN0052.JPG",
+    "/dtk-files/8581/1/DSCN0053.JPG",
+    "/dtk-files/8581/1/DSCN0051.JPG"
+  ],
+  "ARH-034": [
+    "/dtk-files/3307/1/DSCN0055.JPG",
+    "/dtk-files/3307/1/DSCN0054.JPG",
+    "/dtk-files/3307/1/083.JPG",
+    "/dtk-files/3307/1/081.JPG"
+  ],
+  "ARH-035": [
+    "/dtk-files/3210/1/147.JPG",
+    "/dtk-files/3210/1/P1020374.JPG",
+    "/dtk-files/3210/1/DSCN0016.JPG"
+  ],
+  "ARH-036": [
+    "/dtk-files/2801/1/P090615_12.59.JPG",
+    "/dtk-files/2801/1/P090615_13.00[01].JPG",
+    "/dtk-files/2801/1/P090615_13.02[01].JPG",
+    "/dtk-files/2801/1/DSCN7372.JPG",
+    "/dtk-files/2801/1/DSCN7374.JPG"
+  ],
+  "ARH-037": [
+    "/dtk-files/3355/1/151.JPG",
+    "/dtk-files/3355/1/235. 3. Taphanja.JPG",
+    "/dtk-files/3355/1/150.JPG",
+    "/dtk-files/3355/1/152.JPG",
+    "/dtk-files/3355/1/235. 2. Taphanja.JPG"
+  ],
+  "ARH-038": [
+    "/dtk-files/2507/1/t 6.jpg",
+    "/dtk-files/2507/1/T 1.jpg",
+    "/dtk-files/2507/1/DSCN0388.jpg",
+    "/dtk-files/2507/1/DSCN0386.jpg",
+    "/dtk-files/2507/1/DSCN0405.jpg"
+  ],
+  "ARH-039": [
+    "/dtk-files/2516/1/100.JPG",
+    "/dtk-files/2516/1/101.JPG",
+    "/dtk-files/2516/1/103.JPG",
+    "/dtk-files/2516/1/104.JPG",
+    "/dtk-files/2516/1/DSCN7346.JPG"
+  ],
+  "ARH-040": [
+    "/dtk-files/2381/1/DSCN0061.JPG",
+    "/dtk-files/2381/1/DSCN0587.JPG",
+    "/dtk-files/2381/1/DSCN0608.JPG",
+    "/dtk-files/2381/1/DSCN0615.JPG"
+  ],
+  "ARH-041": [
+    "/dtk-files/2180/1/DSCN0020.JPG",
+    "/dtk-files/2180/1/DSCN0022.JPG",
+    "/dtk-files/2180/1/DSCN0021.JPG",
+    "/dtk-files/2180/1/088.JPG",
+    "/dtk-files/2180/1/091.JPG"
+  ],
+  "ARH-042": [
+    "/dtk-files/1259/1/Q 7.jpg",
+    "/dtk-files/1259/1/C-6.JPG",
+    "/dtk-files/1259/1/C-8.JPG"
+  ],
+  "ARH-043": [
+    "/dtk-files/2810/1/DSCN0128.jpg",
+    "/dtk-files/2810/1/DSCN0086.jpg",
+    "/dtk-files/2810/1/DSCN0013.JPG",
+    "/dtk-files/2810/1/gjate restaurimit.JPG",
+    "/dtk-files/2810/1/ura e tabakut 14 .jpg"
+  ],
+  "ARH-044": [
+    "/dtk-files/2858/1/u 4.jpg",
+    "/dtk-files/2858/1/u 5.jpg",
+    "/dtk-files/2858/1/DSCN0021.JPG",
+    "/dtk-files/2858/1/8.-Foto e vjeter.jpg",
+    "/dtk-files/2858/1/00862-F3 foto 57.JPG"
+  ],
+  "ARH-045": [
+    "/dtk-files/2861/1/u 7.jpg",
+    "/dtk-files/2861/1/u 6.jpg",
+    "/dtk-files/2861/1/u 1.jpg",
+    "/dtk-files/2861/1/Gjakova - Ura e Terzive.JPG",
+    "/dtk-files/2861/1/Gjakova - Ura e Terezive.JPG"
+  ],
+  "ARH-046": [
+    "/dtk-files/7774/1/xh 3.jpg",
+    "/dtk-files/7774/1/xh 5.jpg",
+    "/dtk-files/7774/1/xh 2.jpg",
+    "/dtk-files/7774/1/DSCN0030.JPG",
+    "/dtk-files/7774/1/DSCN0031.JPG"
+  ],
+  "ARH-047": [
+    "/dtk-files/2057/1/DSCN0017.JPG",
+    "/dtk-files/2057/1/092.JPG",
+    "/dtk-files/2057/1/093.JPG",
+    "/dtk-files/2057/1/11650845_10155687487390403_105787658_n.jpg",
+    "/dtk-files/2057/1/095.JPG"
+  ],
+  "ARH-048": [
+    "/dtk-files/2066/1/H 2.jpg",
+    "/dtk-files/2066/1/H 5.jpg",
+    "/dtk-files/2066/1/Xhamija e Hadumit pas luftes.jpg",
+    "/dtk-files/2066/1/DSCF2979.JPG",
+    "/dtk-files/2066/1/DSCF4467.JPG",
+    "/dtk-files/2066/1/xhamia e hadumit.jpg"
+  ],
+  "ARH-049": [
+    "/dtk-files/8251/1/xh 6.jpg",
+    "/dtk-files/8251/1/foto 12.jpg",
+    "/dtk-files/8251/1/foto 2.jpg",
+    "/dtk-files/8251/1/scan0054.jpg",
+    "/dtk-files/8251/1/scan0053.jpg"
+  ],
+  "ARH-050": [
+    "/dtk-files/2063/1/043.JPG",
+    "/dtk-files/2063/1/039.JPG",
+    "/dtk-files/2063/1/047.JPG",
+    "/dtk-files/2063/1/DSCN0029.JPG"
+  ],
+  "ARH-051": [
+    "/dtk-files/2075/1/028.JPG",
+    "/dtk-files/2075/1/032.JPG",
+    "/dtk-files/2075/1/033.JPG",
+    "/dtk-files/2075/1/034.JPG",
+    "/dtk-files/2075/1/DSCN6569.JPG"
+  ],
+  "ARH-052": [
+    "/dtk-files/421/1/DSCN0324.JPG",
+    "/dtk-files/421/1/DSCN0335.JPG",
+    "/dtk-files/421/1/15.12.2011,,.JPG",
+    "/dtk-files/421/1/DSCN0338.JPG"
+  ],
+  "ARH-053": [
+    "/dtk-files/544/1/1.JPG",
+    "/dtk-files/544/1/2.JPG",
+    "/dtk-files/544/1/3.jpg",
+    "/dtk-files/544/1/4.JPG",
+    "/dtk-files/544/1/5.JPG"
+  ],
+  "ARH-054": [
+    "/dtk-files/403/1/DSCN0570.JPG",
+    "/dtk-files/403/1/Picture 043.jpg",
+    "/dtk-files/403/1/mann 3.jpg",
+    "/dtk-files/403/1/IMG_1800.JPG",
+    "/dtk-files/403/1/IMG_1813.JPG"
+  ],
+  "ARH-055": [
+    "/dtk-files/8386/1/1- Hambari i Feriz Llashtices.JPG",
+    "/dtk-files/8386/1/2 - Hambari i Feriz Llashtices.JPG",
+    "/dtk-files/8386/1/3 - Hambari i Feriz Llashtices.JPG",
+    "/dtk-files/8386/1/4 - Hambari i Feriz Llashtices.JPG",
+    "/dtk-files/8386/1/DSCN7927.JPG"
+  ],
+  "ARH-056": [
+    "/dtk-files/1072/1/1-IMMK.JPG",
+    "/dtk-files/1072/1/DSCN3068.JPG",
+    "/dtk-files/1072/1/DSCN3066.JPG"
+  ],
+  "ARH-057": [
+    "/dtk-files/772/1/1.JPG",
+    "/dtk-files/772/1/Pjese e kishes se Shene Anes ne Dunav.JPG",
+    "/dtk-files/772/1/4.JPG",
+    "/dtk-files/772/1/5.JPG"
+  ],
+  "ARH-058": [
+    "/dtk-files/1295/1/1-1.JPG",
+    "/dtk-files/1295/1/ku 4.jpg",
+    "/dtk-files/1295/1/3-3.JPG",
+    "/dtk-files/1295/1/4.JPG"
+  ],
+  "ARH-059": [
+    "/dtk-files/1271/1/1 - Xhele Hajdinit.JPG",
+    "/dtk-files/1271/1/3 - Xhele Hajdinit.JPG",
+    "/dtk-files/1271/1/4 - Xhele Hajdinit.JPG",
+    "/dtk-files/1271/1/5 - Xhele Hajdinit.JPG"
+  ],
+  "ARH-060": [
+    "/dtk-files/9437/1/1.JPG",
+    "/dtk-files/9437/1/2.JPG",
+    "/dtk-files/9437/1/3.JPG",
+    "/dtk-files/9437/1/4.JPG",
+    "/dtk-files/9437/1/5.JPG"
+  ],
+  "ARH-061": [
+    "/dtk-files/1208/1/1.JPG",
+    "/dtk-files/1208/1/6.jpg",
+    "/dtk-files/1208/1/4.jpg",
+    "/dtk-files/1208/1/IMG_8362.JPG",
+    "/dtk-files/1208/1/DSCN6225.JPG"
+  ],
+  "ARH-062": [
+    "/dtk-files/1205/1/DSCN6220.JPG",
+    "/dtk-files/1205/1/DSCN6222.JPG",
+    "/dtk-files/1205/1/nd 4.jpg",
+    "/dtk-files/1205/1/DSCN6221.JPG"
+  ],
+  "ARH-063": [
+    "/dtk-files/733/1/Picture 025.jpg",
+    "/dtk-files/733/1/2.JPG",
+    "/dtk-files/733/1/Nga shkolla e muzikes.jpg",
+    "/dtk-files/733/1/Nga shkolla e MUZIKES-.jpg"
+  ],
+  "ARH-064": [
+    "/dtk-files/1211/1/tek 2.jpg",
+    "/dtk-files/1211/1/DSCN3167.JPG",
+    "/dtk-files/1211/1/3.JPG"
+  ],
+  "ARH-065": [
+    "/dtk-files/550/1/1.JPG",
+    "/dtk-files/550/1/Hevzi Hoxha oda.JPG",
+    "/dtk-files/550/1/DSCN6479.JPG"
+  ],
+  "ARH-066": [
+    "/dtk-files/2732/1/2.JPG",
+    "/dtk-files/2732/1/3.JPG",
+    "/dtk-files/2732/1/4.JPG",
+    "/dtk-files/2732/1/5.JPG"
+  ],
+  "ARH-067": [
+    "/dtk-files/3808/1/1.JPG",
+    "/dtk-files/3808/1/2.JPG",
+    "/dtk-files/3808/1/3.JPG",
+    "/dtk-files/3808/1/4.JPG",
+    "/dtk-files/3808/1/5.JPG"
+  ],
+  "ARH-068": [
+    "/dtk-files/9961/1/1.JPG",
+    "/dtk-files/9961/1/4.JPG",
+    "/dtk-files/9961/1/5.JPG"
+  ],
+  "ARH-069": [
+    "/dtk-files/409/1/shp 2.jpg",
+    "/dtk-files/409/1/5.jpg"
+  ],
+  "ARH-070": [
+    "/dtk-files/781/1/1.jpg",
+    "/dtk-files/781/1/DSCN4729.JPG",
+    "/dtk-files/781/1/DSCN4727.JPG",
+    "/dtk-files/781/1/3.JPG",
+    "/dtk-files/781/1/9.jpg"
+  ],
+  "ARH-071": [
+    "/dtk-files/514/1/1.jpg",
+    "/dtk-files/514/1/4.JPG",
+    "/dtk-files/514/1/5.JPG"
+  ],
+  "ARH-072": [
+    "/dtk-files/910/1/1 - Xhamia ne fshatin Pidic.JPG",
+    "/dtk-files/910/1/2 - Xhamia ne fshatin Pidic.JPG",
+    "/dtk-files/910/1/3 -Xhamia ne fshatin Pidic.JPG",
+    "/dtk-files/910/1/4 - Xhamia ne fshatin Pidic.JPG",
+    "/dtk-files/910/1/5 - Xhamia ne fshatin Pidic.JPG"
+  ],
+  "ARH-073": [
+    "/dtk-files/892/1/1 - Xhamia e Verbices se Zhegocit.JPG",
+    "/dtk-files/892/1/4 -  Xhamia e Verbices se Zhegocit.JPG"
+  ],
+  "ARH-074": [
+    "/dtk-files/9076/1/1.jpg",
+    "/dtk-files/9076/1/2.jpg",
+    "/dtk-files/9076/1/3.jpg",
+    "/dtk-files/9076/1/4.jpg",
+    "/dtk-files/9076/1/Kompleksi Dërvisholli 001.jpg"
+  ],
+  "ARH-075": [
+    "/dtk-files/9074/1/1.jpg",
+    "/dtk-files/9074/1/ku e 1.jpg",
+    "/dtk-files/9074/1/Cikatove e vjeter  IBISH MORINA (33).jpg",
+    "/dtk-files/9074/1/ku ib.jpg",
+    "/dtk-files/9074/1/Ibush Morina (19).jpg"
+  ],
+  "ARH-076": [
+    "/dtk-files/9205/1/Skender Mustafa ose Smajl Hoxha.JPG",
+    "/dtk-files/9205/1/Skender Mustafa ose Smajl Hoxha1.JPG",
+    "/dtk-files/9205/1/SM7B82~1.JPG",
+    "/dtk-files/9205/1/SM599B~1.JPG",
+    "/dtk-files/9205/1/SM5997~1.JPG"
+  ],
+  "ARH-077": [
+    "/dtk-files/3817/1/1.JPG",
+    "/dtk-files/3817/1/2.JPG",
+    "/dtk-files/3817/1/3.JPG",
+    "/dtk-files/3817/1/Gani1.JPG",
+    "/dtk-files/3817/1/5.JPG"
+  ],
+  "ARH-078": [
+    "/dtk-files/3823/1/1.JPG",
+    "/dtk-files/3823/1/2.JPG",
+    "/dtk-files/3823/1/3.JPG",
+    "/dtk-files/3823/1/4.JPG",
+    "/dtk-files/3823/1/5.JPG"
+  ],
+  "ARH-079": [
+    "/dtk-files/3826/1/1.JPG",
+    "/dtk-files/3826/1/6.jpg",
+    "/dtk-files/3826/1/3.jpg",
+    "/dtk-files/3826/1/4.JPG",
+    "/dtk-files/3826/1/5.jpg"
+  ],
+  "ARH-080": [
+    "/dtk-files/8676/1/K 1.jpg",
+    "/dtk-files/8676/1/K 3.jpg",
+    "/dtk-files/8676/1/K 4.jpg",
+    "/dtk-files/8676/1/K 6.jpg",
+    "/dtk-files/8676/1/Kisha e Shen Gjonit crkolez 1.JPG"
+  ],
+  "ARH-081": [
+    "/dtk-files/8125/1/1.jpg",
+    "/dtk-files/8125/1/1.Kulla e Avdurrahmon Ramë Kajtazit.JPG",
+    "/dtk-files/8125/1/IMG_4411 (2).JPG",
+    "/dtk-files/8125/1/2. foto.JPG",
+    "/dtk-files/8125/1/K 1.jpg",
+    "/dtk-files/8125/1/K 7.jpg",
+    "/dtk-files/8125/1/3. Foto.JPG",
+    "/dtk-files/8125/1/4.Foto.JPG",
+    "/dtk-files/8125/1/K 8.jpg",
+    "/dtk-files/8125/1/5. Foto.JPG",
+    "/dtk-files/8125/1/DSC00079.JPG"
+  ],
+  "ARH-082": [
+    "/dtk-files/9066/1/18a.Kulla e Hasan Rexhë Salihaj - Shushicë, Istog.JPG",
+    "/dtk-files/9066/1/1. Foto.jpg",
+    "/dtk-files/9066/1/P1030151 (2).JPG",
+    "/dtk-files/9066/1/18.Kulla e Hasan Rexhë Salihaj - Shushicë, Istog.JPG",
+    "/dtk-files/9066/1/2.Kulla e Hasan Rexhë Salihaj.jpg",
+    "/dtk-files/9066/1/3. foto.JPG"
+  ],
+  "ARH-083": [
+    "/dtk-files/7585/1/1.jpg",
+    "/dtk-files/7585/1/1.Dritaret ne Katin e dytë dhe te tret.JPG",
+    "/dtk-files/7585/1/Kulla e Sali Osmon Bicaj (2).JPG",
+    "/dtk-files/7585/1/P1010809 (2).JPG",
+    "/dtk-files/7585/1/2.Kulla e Sali Osmon Bicaj.JPG",
+    "/dtk-files/7585/1/2.jpg",
+    "/dtk-files/7585/1/3.Ora ne Gurin e Kulles..JPG",
+    "/dtk-files/7585/1/KU 8.jpg",
+    "/dtk-files/7585/1/4. foto.JPG",
+    "/dtk-files/7585/1/6.jpg",
+    "/dtk-files/7585/1/7.jpg",
+    "/dtk-files/7585/1/5.Shkallet e Kulles.JPG"
+  ],
+  "ARH-084": [
+    "/dtk-files/8080/1/1.jpg",
+    "/dtk-files/8080/1/1.Kulla e Lash Ukaj.JPG",
+    "/dtk-files/8080/1/Foto 1.JPG",
+    "/dtk-files/8080/1/P1010736 (2).JPG",
+    "/dtk-files/8080/1/2.Hyrja ne porten kryesore.JPG",
+    "/dtk-files/8080/1/5.jpg",
+    "/dtk-files/8080/1/6.jpg",
+    "/dtk-files/8080/1/3.Dritaret e kulles ne katin e dytë.JPG",
+    "/dtk-files/8080/1/4.Dhoma e ndame me gardh.JPG",
+    "/dtk-files/8080/1/4.jpg",
+    "/dtk-files/8080/1/5. Foto.JPG",
+    "/dtk-files/8080/1/DSC00066.JPG"
+  ],
+  "ARH-085": [
+    "/dtk-files/7630/1/7b.Kulla e Sali Bajram Dreshaj - Vrellë, Istog.JPG",
+    "/dtk-files/7630/1/1.Kulla e Sali Bajram Dreshaj.JPG",
+    "/dtk-files/7630/1/P1010862 (2).JPG",
+    "/dtk-files/7630/1/7a.Kulla e Sali Bajram Dreshaj - Vrellë, Istog.JPG",
+    "/dtk-files/7630/1/2. foto.JPG",
+    "/dtk-files/7630/1/3. Foto.JPG",
+    "/dtk-files/7630/1/DSC00192.JPG",
+    "/dtk-files/7630/1/4.Drani i Portes krysore.JPG",
+    "/dtk-files/7630/1/5.Oxhaku ne dhomen e burrave.JPG"
+  ],
+  "ARH-086": [
+    "/dtk-files/9114/1/1.jpg",
+    "/dtk-files/9114/1/1. Foto.JPG",
+    "/dtk-files/9114/1/P1000164 (2).JPG",
+    "/dtk-files/9114/1/Kulla e Xhafer Sylës 2.JPG",
+    "/dtk-files/9114/1/2. foto.JPG",
+    "/dtk-files/9114/1/2.jpg",
+    "/dtk-files/9114/1/5.jpg",
+    "/dtk-files/9114/1/3.Foto.JPG",
+    "/dtk-files/9114/1/4.Porta.JPG",
+    "/dtk-files/9114/1/7.jpg",
+    "/dtk-files/9114/1/5.Foto.JPG",
+    "/dtk-files/9114/1/Kulla e Ukë Januzit të Sylajve.JPG"
+  ],
+  "ARH-087": [
+    "/dtk-files/8008/1/1.jpg",
+    "/dtk-files/8008/1/1.Mulliri i Bel Bicaj.JPG",
+    "/dtk-files/8008/1/Mulliri i Bel Bicaj (2).JPG",
+    "/dtk-files/8008/1/2.Dera e hyrjes ne Mulli.JPG",
+    "/dtk-files/8008/1/4.jpg",
+    "/dtk-files/8008/1/6.jpg",
+    "/dtk-files/8008/1/3. foto.JPG",
+    "/dtk-files/8008/1/4. foto.JPG",
+    "/dtk-files/8008/1/1.Mulliri i Ali Bel Bicaj.JPG",
+    "/dtk-files/8008/1/2.Mulliri i Ali Bel Bicaj.JPG",
+    "/dtk-files/8008/1/5.Aty ku buron uit tek mulliri.JPG"
+  ],
+  "ARH-088": [
+    "/dtk-files/8680/1/SH 2.jpg",
+    "/dtk-files/8680/1/1. foto.JPG",
+    "/dtk-files/8680/1/Foto 1.JPG",
+    "/dtk-files/8680/1/Foto 2.JPG",
+    "/dtk-files/8680/1/2. foto.JPG",
+    "/dtk-files/8680/1/SH 5.jpg",
+    "/dtk-files/8680/1/SH 4.jpg",
+    "/dtk-files/8680/1/3. foto.JPG",
+    "/dtk-files/8680/1/4. foto.JPG",
+    "/dtk-files/8680/1/SH 8.jpg",
+    "/dtk-files/8680/1/DSCN1847.JPG"
+  ],
+  "ARH-089": [
+    "/dtk-files/8071/1/DSCN1103.JPG",
+    "/dtk-files/8071/1/1. foto.JPG",
+    "/dtk-files/8071/1/DSCN1129 (2).JPG",
+    "/dtk-files/8071/1/P1010719 (2).JPG",
+    "/dtk-files/8071/1/2. foto.JPG",
+    "/dtk-files/8071/1/1.jpg",
+    "/dtk-files/8071/1/5.jpg",
+    "/dtk-files/8071/1/3.Xhamija e Kaliqanit.JPG",
+    "/dtk-files/8071/1/4.Xhamia mrenda ne Kaliqan.JPG",
+    "/dtk-files/8071/1/DSCN1123.JPG",
+    "/dtk-files/8071/1/DSCN1127.JPG",
+    "/dtk-files/8071/1/5.Mimberi.JPG"
+  ],
+  "ARH-090": [
+    "/dtk-files/8687/1/2.jpg",
+    "/dtk-files/8687/1/1.foto (2).JPG",
+    "/dtk-files/8687/1/2.foto (2).JPG",
+    "/dtk-files/8687/1/1.jpg",
+    "/dtk-files/8687/1/3.foto (2).JPG",
+    "/dtk-files/8687/1/3.jpg",
+    "/dtk-files/8687/1/4.jpg",
+    "/dtk-files/8687/1/4.Foto (2).JPG",
+    "/dtk-files/8687/1/5.jpg"
+  ],
+  "ARH-091": [
+    "/dtk-files/3505/1/1.JPG",
+    "/dtk-files/3505/1/2.JPG",
+    "/dtk-files/3505/1/3.JPG",
+    "/dtk-files/3505/1/4.JPG",
+    "/dtk-files/3505/1/5.JPG"
+  ],
+  "ARH-092": [
+    "/dtk-files/2834/1/k 1.jpg",
+    "/dtk-files/2834/1/k 10.jpg",
+    "/dtk-files/2834/1/1..JPG",
+    "/dtk-files/2834/1/k 7.jpg",
+    "/dtk-files/2834/1/DSCN3500.JPG"
+  ],
+  "ARH-093": [
+    "/dtk-files/2840/1/DSC_0036.jpg",
+    "/dtk-files/2840/1/IMG_1611.jpg",
+    "/dtk-files/2840/1/Kisha ilire -Hajnoc e konzervuar.jpg",
+    "/dtk-files/2840/1/IMG_1608.jpg",
+    "/dtk-files/2840/1/IMG_1612.jpg"
+  ],
+  "ARH-094": [
+    "/dtk-files/2603/1/1.JPG",
+    "/dtk-files/2603/1/3.JPG",
+    "/dtk-files/2603/1/DSCN1560.JPG",
+    "/dtk-files/2603/1/DSCN1602.JPG",
+    "/dtk-files/2603/1/DSCN1564.JPG"
+  ],
+  "ARH-095": [
+    "/dtk-files/2747/1/1.JPG",
+    "/dtk-files/2747/1/2.JPG",
+    "/dtk-files/2747/1/3.JPG",
+    "/dtk-files/2747/1/4.JPG",
+    "/dtk-files/2747/1/5.JPG"
+  ],
+  "ARH-096": [
+    "/dtk-files/2663/1/1.JPG",
+    "/dtk-files/2663/1/2.JPG",
+    "/dtk-files/2663/1/3.JPG"
+  ],
+  "ARH-097": [
+    "/dtk-files/8413/1/1 (1).JPG",
+    "/dtk-files/8413/1/Teqja ne Topanice.JPG",
+    "/dtk-files/8413/1/2..JPG",
+    "/dtk-files/8413/1/4.JPG",
+    "/dtk-files/8413/1/5..JPG"
+  ],
+  "ARH-098": [
+    "/dtk-files/976/1/2.JPG",
+    "/dtk-files/976/1/3.jpg",
+    "/dtk-files/976/1/DSCN5315.JPG",
+    "/dtk-files/976/1/5.JPG"
+  ],
+  "ARH-099": [
+    "/dtk-files/9485/1/24. fotografitë gjatë dhe pas restaurimit.JPG",
+    "/dtk-files/9485/1/23. fotografitë gjatë dhe pas restaurimit.JPG",
+    "/dtk-files/9485/1/22. fotografitë gjatë dhe pas restaurimit.JPG",
+    "/dtk-files/9485/1/21. fotografitë gjatë dhe pas restaurimit.JPG",
+    "/dtk-files/9485/1/02.JPG"
+  ],
+  "ARH-100": [
+    "/dtk-files/9273/1/Pamje aktuale e mullirit.JPG",
+    "/dtk-files/9273/1/Pamje aktuale e mullirit (1).jpg",
+    "/dtk-files/9273/1/Pamje aktuale e mullirit (2).jpg",
+    "/dtk-files/9273/1/Pamje gjate gjurmimeve (1).JPG",
+    "/dtk-files/9273/1/Pamje e vitit 1980.jpg"
+  ],
+  "ARH-101": [
+    "/dtk-files/4126/1/Pamje e ures pas restaurimit (3).jpg",
+    "/dtk-files/4126/1/Pamje e ures pas restaurimit (4).JPG",
+    "/dtk-files/4126/1/Pamje e ures pas restaurimit (5).jpg",
+    "/dtk-files/4126/1/Pamje e ures pas restaurimit (2).jpg",
+    "/dtk-files/4126/1/Pamje e ures para restaurimit (3).jpg"
+  ],
+  "ARH-102": [
+    "/dtk-files/9231/1/1.JPG",
+    "/dtk-files/9231/1/2.JPG",
+    "/dtk-files/9231/1/3.JPG",
+    "/dtk-files/9231/1/4.JPG",
+    "/dtk-files/9231/1/5.JPG"
+  ],
+  "ARH-103": [
+    "/dtk-files/1631/1/8.jpg",
+    "/dtk-files/1631/1/2.jpg",
+    "/dtk-files/1631/1/4.jpg",
+    "/dtk-files/1631/1/7.jpg",
+    "/dtk-files/1631/1/6.jpg"
+  ],
+  "ARH-104": [
+    "/dtk-files/8/1/Kisha e Shën Pjetrit 007.jpg",
+    "/dtk-files/8/1/kisha dse.jpg",
+    "/dtk-files/8/1/kisha 2.jpg",
+    "/dtk-files/8/1/015.jpg",
+    "/dtk-files/8/1/Kisha e Shën Pjetrit në 1974.jpg"
+  ],
+  "ARH-105": [
+    "/dtk-files/1697/1/1.JPG",
+    "/dtk-files/1697/1/2.JPG",
+    "/dtk-files/1697/1/3.JPG",
+    "/dtk-files/1697/1/4.JPG",
+    "/dtk-files/1697/1/5.JPG"
+  ],
+  "ARH-106": [
+    "/dtk-files/1655/1/3.JPG",
+    "/dtk-files/1655/1/2.JPG",
+    "/dtk-files/1655/1/4.JPG",
+    "/dtk-files/1655/1/5.JPG",
+    "/dtk-files/1655/1/6.JPG"
+  ],
+  "ARH-107": [
+    "/dtk-files/1712/1/Kulla e Imer Imerit_3.jpg",
+    "/dtk-files/1712/1/DSCN2938.JPG",
+    "/dtk-files/1712/1/3.JPG",
+    "/dtk-files/1712/1/4.JPG",
+    "/dtk-files/1712/1/5.JPG"
+  ],
+  "ARH-108": [
+    "/dtk-files/1652/1/1.JPG",
+    "/dtk-files/1652/1/2.JPG",
+    "/dtk-files/1652/1/3.JPG",
+    "/dtk-files/1652/1/4.JPG",
+    "/dtk-files/1652/1/5.JPG"
+  ],
+  "ARH-109": [
+    "/dtk-files/9865/1/DSCN9194.JPG",
+    "/dtk-files/9865/1/DSCN9254.JPG"
+  ],
+  "ARH-110": [
+    "/dtk-files/1580/1/Kullë e Tupellëve - Shtepi Banim pronë e Luksit.jpg",
+    "/dtk-files/1580/1/2.JPG",
+    "/dtk-files/1580/1/3.JPG",
+    "/dtk-files/1580/1/4.JPG",
+    "/dtk-files/1580/1/5.JPG"
+  ],
+  "ARH-111": [
+    "/dtk-files/1736/1/1.JPG",
+    "/dtk-files/1736/1/2.JPG",
+    "/dtk-files/1736/1/3.JPG",
+    "/dtk-files/1736/1/4.JPG",
+    "/dtk-files/1736/1/5.JPG"
+  ],
+  "ARH-112": [
+    "/dtk-files/1859/1/1.JPG",
+    "/dtk-files/1859/1/2.JPG",
+    "/dtk-files/1859/1/DSCN8917.JPG",
+    "/dtk-files/1859/1/3.JPG",
+    "/dtk-files/1859/1/4.JPG",
+    "/dtk-files/1859/1/5.JPG"
+  ],
+  "ARH-113": [
+    "/dtk-files/4/1/hamami 5.jpg",
+    "/dtk-files/4/1/hamami 6.jpg",
+    "/dtk-files/4/1/hamami 2.jpg"
+  ],
+  "ARH-114": [
+    "/dtk-files/1595/1/deva xixsd.jpg",
+    "/dtk-files/1595/1/xix 2.jpg",
+    "/dtk-files/1595/1/xix 3.jpg",
+    "/dtk-files/1595/1/xix.jpg",
+    "/dtk-files/1595/1/Shtëpi banimi (Pronë e Komunës) në Mitrovicë.jpg"
+  ],
+  "ARH-115": [
+    "/dtk-files/1562/1/DSC03804.JPG",
+    "/dtk-files/1562/1/shpia 4.jpg",
+    "/dtk-files/1562/1/shpia 2.jpg",
+    "/dtk-files/1562/1/shpia 3.jpg"
+  ],
+  "ARH-116": [
+    "/dtk-files/1529/1/1.JPG",
+    "/dtk-files/1529/1/2.JPG",
+    "/dtk-files/1529/1/3.JPG",
+    "/dtk-files/1529/1/4.JPG",
+    "/dtk-files/1529/1/5.JPG"
+  ],
+  "ARH-117": [
+    "/dtk-files/5/1/DSCN0809.jpg",
+    "/dtk-files/5/1/1.jpg",
+    "/dtk-files/5/1/2.JPG",
+    "/dtk-files/5/1/korogli 2.jpg",
+    "/dtk-files/5/1/korogli 1.jpg"
+  ],
+  "ARH-118": [
+    "/dtk-files/1565/1/gjahtar 1.jpg",
+    "/dtk-files/1565/1/sh q 1.jpg",
+    "/dtk-files/1565/1/sh q.jpg",
+    "/dtk-files/1565/1/gjah e1.jpg",
+    "/dtk-files/1565/1/gja 2.jpg"
+  ],
+  "ARH-119": [
+    "/dtk-files/1619/1/DSC03807.JPG",
+    "/dtk-files/1619/1/DSC03808.JPG",
+    "/dtk-files/1619/1/deva 121.jpg",
+    "/dtk-files/1619/1/deva 4.jpg",
+    "/dtk-files/1619/1/DSC03811.JPG"
+  ],
+  "ARH-120": [
+    "/dtk-files/1682/1/ty 34.jpg",
+    "/dtk-files/1682/1/TE 1.jpg",
+    "/dtk-files/1682/1/t 4.jpg",
+    "/dtk-files/1682/1/Teqja e Hafuz Halil Mripës.jpg",
+    "/dtk-files/1682/1/Teqja e Hafuz Halil Mripës_1.jpg"
+  ],
+  "ARH-121": [
+    "/dtk-files/1685/1/tyrbe lart 1.jpg",
+    "/dtk-files/1685/1/sd.jpg",
+    "/dtk-files/1685/1/tyrbe lart.jpg",
+    "/dtk-files/1685/1/ty 3.jpg",
+    "/dtk-files/1685/1/Teqja e Jonuz Efendisë.jpg"
+  ],
+  "ARH-122": [
+    "/dtk-files/6/1/New Picture (1).png",
+    "/dtk-files/6/1/Xhamia e Mazhiqit.JPG",
+    "/dtk-files/6/1/Xhamia e Mazhiqit 026.jpg",
+    "/dtk-files/6/1/xhamia 4.jpg",
+    "/dtk-files/6/1/xhamia 6.jpg"
+  ],
+  "ARH-123": [
+    "/dtk-files/1853/1/1.JPG",
+    "/dtk-files/1853/1/2.JPG",
+    "/dtk-files/1853/1/3.JPG",
+    "/dtk-files/1853/1/4.JPG",
+    "/dtk-files/1853/1/6.JPG"
+  ],
+  "ARH-124": [
+    "/dtk-files/265/1/Kalaja.jpg",
+    "/dtk-files/265/1/kala 21.jpg",
+    "/dtk-files/265/1/2.jpg",
+    "/dtk-files/265/1/k 10.jpg",
+    "/dtk-files/265/1/kal 6.jpg",
+    "/dtk-files/265/1/3.JPG"
+  ],
+  "ARH-125": [
+    "/dtk-files/4690/1/1. Foto.jpg",
+    "/dtk-files/4690/1/Mulliri i Shabanajve.JPG",
+    "/dtk-files/4690/1/20160415_105127 (2).jpg",
+    "/dtk-files/4690/1/DSC00041.JPG",
+    "/dtk-files/4690/1/2.Foto.JPG",
+    "/dtk-files/4690/1/3. Foto.JPG",
+    "/dtk-files/4690/1/20150525_120551.jpg",
+    "/dtk-files/4690/1/DSCN0002.JPG",
+    "/dtk-files/4690/1/4. Foto.JPG",
+    "/dtk-files/4690/1/5. Foto.JPG"
+  ],
+  "ARH-126": [
+    "/dtk-files/9867/1/1.JPG",
+    "/dtk-files/9867/1/2.JPG",
+    "/dtk-files/9867/1/3.JPG",
+    "/dtk-files/9867/1/4.JPG",
+    "/dtk-files/9867/1/5.JPG"
+  ],
+  "ARH-127": [
+    "/dtk-files/3385/1/1.jpg",
+    "/dtk-files/3385/1/kisha sss.jpg",
+    "/dtk-files/3385/1/kisha 6.jpg",
+    "/dtk-files/3385/1/kisha 3.jpg"
+  ],
+  "ARH-128": [
+    "/dtk-files/283/1/1.JPG",
+    "/dtk-files/283/1/5.JPG",
+    "/dtk-files/283/1/kat 5.jpg",
+    "/dtk-files/283/1/kat 8.jpg"
+  ],
+  "ARH-129": [
+    "/dtk-files/3261/1/1.jpg",
+    "/dtk-files/3261/1/1.1.JPG",
+    "/dtk-files/3261/1/2..jpg",
+    "/dtk-files/3261/1/3.JPG",
+    "/dtk-files/3261/1/4.JPG"
+  ],
+  "ARH-130": [
+    "/dtk-files/1226/1/IMG_8525.JPG",
+    "/dtk-files/1226/1/IMG_8635.JPG",
+    "/dtk-files/1226/1/IMG_8553.JPG",
+    "/dtk-files/1226/1/IMG_8641.JPG"
+  ],
+  "ARH-131": [
+    "/dtk-files/8817/1/t 5.jpg",
+    "/dtk-files/8817/1/IMG_1168.jpg",
+    "/dtk-files/8817/1/IMG_1158.jpg",
+    "/dtk-files/8817/1/CAM_0042.JPG",
+    "/dtk-files/8817/1/Foto 2003.jpg"
+  ],
+  "ARH-132": [
+    "/dtk-files/8970/1/turbe 21.jpg",
+    "/dtk-files/8970/1/IMG_1218.jpg",
+    "/dtk-files/8970/1/IMG_1226.jpg",
+    "/dtk-files/8970/1/IMG_1236.jpg",
+    "/dtk-files/8970/1/IMG_1207.jpg"
+  ],
+  "ARH-133": [
+    "/dtk-files/1223/1/1.jpg",
+    "/dtk-files/1223/1/2.jpg",
+    "/dtk-files/1223/1/3.jpg",
+    "/dtk-files/1223/1/Kisha 2.JPG"
+  ],
+  "ARH-134": [
+    "/dtk-files/1319/1/BXH 6.jpg",
+    "/dtk-files/1319/1/2.Bajrakli Xhamia - Pejë 1.jpg",
+    "/dtk-files/1319/1/11.Xhamia e Bajraklive - Pejë.JPG",
+    "/dtk-files/1319/1/bxh 2.jpg",
+    "/dtk-files/1319/1/BXH 5.jpg",
+    "/dtk-files/1319/1/11a.Xhamia e Bajraklive - Pejë.JPG",
+    "/dtk-files/1319/1/BXH 4.jpg",
+    "/dtk-files/1319/1/bxh 3.jpg"
+  ],
+  "ARH-135": [
+    "/dtk-files/8650/1/HXH 8.jpg",
+    "/dtk-files/8650/1/1.Hamam Xhamia.jpg",
+    "/dtk-files/8650/1/2.Hamam Xhamia  - Pejë.JPG",
+    "/dtk-files/8650/1/HXH 6.jpg",
+    "/dtk-files/8650/1/DSCN0937.JPG",
+    "/dtk-files/8650/1/3.Hamam Xhamia  - Pejë.JPG",
+    "/dtk-files/8650/1/4. foto.JPG",
+    "/dtk-files/8650/1/DSCN0936.JPG",
+    "/dtk-files/8650/1/0001.JPG",
+    "/dtk-files/8650/1/5. foto.JPG"
+  ],
+  "ARH-136": [
+    "/dtk-files/1394/1/KI 2.jpg",
+    "/dtk-files/1394/1/KI 5.jpg",
+    "/dtk-files/1394/1/KI 4.jpg",
+    "/dtk-files/1394/1/KI 6.jpg",
+    "/dtk-files/1394/1/Kisha e Zojes se Bekuar Bellopoje 1.JPG"
+  ],
+  "ARH-137": [
+    "/dtk-files/8669/1/K 1.jpg",
+    "/dtk-files/8669/1/K 2.jpg",
+    "/dtk-files/8669/1/K 5.jpg",
+    "/dtk-files/8669/1/K 8.jpg",
+    "/dtk-files/8669/1/K 3.jpg"
+  ],
+  "ARH-138": [
+    "/dtk-files/10/1/9.Kompleksi i Mullirit të Haxhi Zekës - Pejë.JPG",
+    "/dtk-files/10/1/1. kompleksi Haxhi Zeka.JPG",
+    "/dtk-files/10/1/2.kompleksi Haxhi Zeka.JPG",
+    "/dtk-files/10/1/F1.Kompleksi i Mullirit të Haxhi Zekës - Pejë.JPG",
+    "/dtk-files/10/1/F2.Kompleksi i Mullirit të Haxhi Zekës - Pejë.JPG",
+    "/dtk-files/10/1/3.kompleksi Haxhi Zeka.JPG",
+    "/dtk-files/10/1/4.kompleksi Haxhi Zeka.JPG",
+    "/dtk-files/10/1/F3.Kompleksi i Mullirit te Haxhi Zekes.JPG",
+    "/dtk-files/10/1/5. Interjeri i mbrendeshem.JPG",
+    "/dtk-files/10/1/DSC00015.JPG"
+  ],
+  "ARH-139": [
+    "/dtk-files/3167/1/36.Konaku i Haki Spahiut - Pejë.JPG",
+    "/dtk-files/3167/1/1.foto.jpg",
+    "/dtk-files/3167/1/1.29.10.2019.JPG",
+    "/dtk-files/3167/1/2. 29.10.2019.JPG",
+    "/dtk-files/3167/1/2. foto.JPG",
+    "/dtk-files/3167/1/36a.Konaku i Haki Spahiut - Pejë.JPG",
+    "/dtk-files/3167/1/F2.Konaku i Haki Spahiut-Peje.jpg",
+    "/dtk-files/3167/1/3. foto.JPG",
+    "/dtk-files/3167/1/3.29.10.2019.JPG",
+    "/dtk-files/3167/1/foto 5.jpeg",
+    "/dtk-files/3167/1/4.foto.jpg",
+    "/dtk-files/3167/1/F3.Konaku i Haki Spahiut - Pejë - Copy.JPG",
+    "/dtk-files/3167/1/foto 6.jpeg",
+    "/dtk-files/3167/1/003 KONAKU I HAKI SPAHIUT SHEK XX PEJË.jpg"
+  ],
+  "ARH-140": [
+    "/dtk-files/6568/1/Konaku i Jashar Pashës.jpg",
+    "/dtk-files/6568/1/1. foto.JPG",
+    "/dtk-files/6568/1/2. Foto.JPG",
+    "/dtk-files/6568/1/14.Konaku i Jashar Pashës - Pejë.JPG",
+    "/dtk-files/6568/1/14a.Konaku i Jashar Pashës - Pejë.JPG",
+    "/dtk-files/6568/1/3. Foto.JPG",
+    "/dtk-files/6568/1/4. Foto.JPG",
+    "/dtk-files/6568/1/14b.Konaku i Jashar Pashës - Pejë.JPG",
+    "/dtk-files/6568/1/F5.Konaku i Jashar Pashes-Peje.JPG",
+    "/dtk-files/6568/1/5. foto.JPG"
+  ],
+  "ARH-141": [
+    "/dtk-files/3173/1/KO 4.jpg",
+    "/dtk-files/3173/1/Konaku i Tahir Begut - Pejë.JPG",
+    "/dtk-files/3173/1/Konaku i Tahir Begut.JPG",
+    "/dtk-files/3173/1/KO 2.jpg",
+    "/dtk-files/3173/1/KO 5.jpg",
+    "/dtk-files/3173/1/foto.JPG",
+    "/dtk-files/3173/1/foto ..JPG",
+    "/dtk-files/3173/1/KO 3.jpg",
+    "/dtk-files/3173/1/foto..JPG",
+    "/dtk-files/3173/1/002.jpg"
+  ],
+  "ARH-142": [
+    "/dtk-files/2030/1/Kulla e A.B..JPG",
+    "/dtk-files/2030/1/1. foto.JPG",
+    "/dtk-files/2030/1/1. 06.11..2019.JPG",
+    "/dtk-files/2030/1/2. 06.11.2019.JPG",
+    "/dtk-files/2030/1/2. foto.JPG",
+    "/dtk-files/2030/1/60.Kulla e Ali Bajraktarit - Vranoc, Pejë.JPG",
+    "/dtk-files/2030/1/60a.Kulla e Ali Bajraktarit - Vranoc, Pejë.JPG",
+    "/dtk-files/2030/1/3. foto.JPG",
+    "/dtk-files/2030/1/3. 06.11.2019.JPG",
+    "/dtk-files/2030/1/4. 06.11.2019.JPG",
+    "/dtk-files/2030/1/4. foto.JPG",
+    "/dtk-files/2030/1/MVC-454F.JPG",
+    "/dtk-files/2030/1/0002.jpg",
+    "/dtk-files/2030/1/5. foto.JPG",
+    "/dtk-files/2030/1/5. 06.11.2019.JPG"
+  ],
+  "ARH-143": [
+    "/dtk-files/1880/1/2. Kulla e Binak Dines.jpg",
+    "/dtk-files/1880/1/1.Kulla e Binak Dinës - Raushiq, Pejë.JPG",
+    "/dtk-files/1880/1/1.06.11.2019.JPG",
+    "/dtk-files/1880/1/2.06.11.2019.JPG",
+    "/dtk-files/1880/1/2.Kulla e Binak Dinës - Raushiq, Pejë.JPG",
+    "/dtk-files/1880/1/3. Kulla e Binak Dines.jpg",
+    "/dtk-files/1880/1/51a.Kulla e Binak Dinës - Raushiq, Pejë.JPG",
+    "/dtk-files/1880/1/3. Foto.jpg",
+    "/dtk-files/1880/1/3.06.11.2019.JPG",
+    "/dtk-files/1880/1/4.06.11.2019.jpg",
+    "/dtk-files/1880/1/4. Foto.jpg",
+    "/dtk-files/1880/1/137-3764_IMG.JPG",
+    "/dtk-files/1880/1/001.jpg",
+    "/dtk-files/1880/1/5. foto.jpg",
+    "/dtk-files/1880/1/5.06.11.2019.jpg"
+  ],
+  "ARH-144": [
+    "/dtk-files/1232/1/DSC00047.JPG",
+    "/dtk-files/1232/1/1.foto.jpg",
+    "/dtk-files/1232/1/1.06.11.209.JPG",
+    "/dtk-files/1232/1/2.06.11.2019.JPG",
+    "/dtk-files/1232/1/2. foto.jpg",
+    "/dtk-files/1232/1/44.Kulla e Goskajve - Pejë.JPG",
+    "/dtk-files/1232/1/3. foto.jpg",
+    "/dtk-files/1232/1/3.06.11.2019.JPG",
+    "/dtk-files/1232/1/001.JPG",
+    "/dtk-files/1232/1/4.06.11.2019.JPG",
+    "/dtk-files/1232/1/4. foto.jpg",
+    "/dtk-files/1232/1/DSC00045.JPG",
+    "/dtk-files/1232/1/F5.Kulla e Goskajve-Peje.JPG",
+    "/dtk-files/1232/1/5. foto.jpg",
+    "/dtk-files/1232/1/5.06.11.2019.JPG"
+  ],
+  "ARH-145": [
+    "/dtk-files/3228/1/2. Foto.jpg",
+    "/dtk-files/3228/1/1.06.11.2019.JPG",
+    "/dtk-files/3228/1/15a.Kulla e Jashar Pashës - Pejë.JPG",
+    "/dtk-files/3228/1/15.Kulla e Jashar Pashës - Pejë.JPG",
+    "/dtk-files/3228/1/2.06.11.2019.JPG",
+    "/dtk-files/3228/1/3. Foto.jpg",
+    "/dtk-files/3228/1/7. Rafti.JPG",
+    "/dtk-files/3228/1/3.06.11.2019.JPG",
+    "/dtk-files/3228/1/F5.Kulla e Jashar Pashes-Peje.JPG",
+    "/dtk-files/3228/1/DSC00118.JPG",
+    "/dtk-files/3228/1/4 .06.11.2019.JPG",
+    "/dtk-files/3228/1/8. rafti.JPG",
+    "/dtk-files/3228/1/5.06.11.2019.JPG"
+  ],
+  "ARH-146": [
+    "/dtk-files/3246/1/29a. Kulla e Nitajve - Pejë.JPG",
+    "/dtk-files/3246/1/1.foto.jpg",
+    "/dtk-files/3246/1/1. 06.11.2019.jpg",
+    "/dtk-files/3246/1/2. 06.11.2019.jpg",
+    "/dtk-files/3246/1/2. Foto.jpg",
+    "/dtk-files/3246/1/F3.Kulla e Nitajve-Peje.jpg",
+    "/dtk-files/3246/1/MVC-122F.JPG",
+    "/dtk-files/3246/1/3.foto.JPG",
+    "/dtk-files/3246/1/3. 06.11.2019.JPG",
+    "/dtk-files/3246/1/4. 06.11.2019.JPG",
+    "/dtk-files/3246/1/4.foto.jpg",
+    "/dtk-files/3246/1/F5.Kulla e Nitajve.jpg",
+    "/dtk-files/3246/1/MVC-123F.JPG",
+    "/dtk-files/3246/1/5.foto.jpg",
+    "/dtk-files/3246/1/5. 06.11.2019.jpg"
+  ],
+  "ARH-147": [
+    "/dtk-files/2561/1/14.jpg",
+    "/dtk-files/2561/1/1. foto.JPG",
+    "/dtk-files/2561/1/1. 06.11.2019.JPG",
+    "/dtk-files/2561/1/2. 06.11.2019.JPG",
+    "/dtk-files/2561/1/2. foto.JPG",
+    "/dtk-files/2561/1/59a.Kulla e Sylë Rexhëve - Vranoc, Pejë.JPG",
+    "/dtk-files/2561/1/3. foto.JPG",
+    "/dtk-files/2561/1/3. 06.11.2019.JPG",
+    "/dtk-files/2561/1/0003 Restaurimi i Kullës së Sylrexhëve.jpg",
+    "/dtk-files/2561/1/4. 06.11.2019.JPG",
+    "/dtk-files/2561/1/4. foto.JPG",
+    "/dtk-files/2561/1/0002 kulla e syle rexhes.jpg",
+    "/dtk-files/2561/1/0001.jpg",
+    "/dtk-files/2561/1/5. foto.JPG",
+    "/dtk-files/2561/1/5. 06.11.2019.JPG"
+  ],
+  "ARH-148": [
+    "/dtk-files/2600/1/68.Kulla e Ymer Vesel Rexhës - Jabllanicë e vogël, Pejë.JPG",
+    "/dtk-files/2600/1/1. Pamja nga jashtë.JPG",
+    "/dtk-files/2600/1/1.18.11.2019.JPG",
+    "/dtk-files/2600/1/2.18.11.2019.JPG",
+    "/dtk-files/2600/1/2. Pamja nga jashtë.JPG",
+    "/dtk-files/2600/1/F2.Kulla e Ymer Vesel Rexhës - Jabllanicë e vogël, Pejë.JPG",
+    "/dtk-files/2600/1/3. kati Përdhes.JPG",
+    "/dtk-files/2600/1/3.18.11.2019.JPG",
+    "/dtk-files/2600/1/MVC-687F.JPG",
+    "/dtk-files/2600/1/4.18.11.2019.JPG",
+    "/dtk-files/2600/1/4. Divahonja.JPG",
+    "/dtk-files/2600/1/F3.Kulla e Ymer Vesel Rexhaj-Jabllanice e vogel.JPG",
+    "/dtk-files/2600/1/f4.Kulla e Ymer Vesel Rexhaj-Jabllanice e Vogel.JPG",
+    "/dtk-files/2600/1/5. Oda  e burrav.JPG",
+    "/dtk-files/2600/1/5.18.11.2019.JPG"
+  ],
+  "ARH-149": [
+    "/dtk-files/3301/1/F2.Kulla e Zenel Beut..JPG",
+    "/dtk-files/3301/1/1. Foto.JPG",
+    "/dtk-files/3301/1/1.18.11.2019.JPG",
+    "/dtk-files/3301/1/2.18.11.2019.JPG",
+    "/dtk-files/3301/1/F1.Kulla e Zenel Beut.JPG",
+    "/dtk-files/3301/1/2. foto.JPG",
+    "/dtk-files/3301/1/3. foto.JPG",
+    "/dtk-files/3301/1/F5.Zenel Beut.jpg",
+    "/dtk-files/3301/1/3.18.11.2019.JPG",
+    "/dtk-files/3301/1/4.18.11.2019.JPG",
+    "/dtk-files/3301/1/IMG_0058.jpg",
+    "/dtk-files/3301/1/4. foto.JPG",
+    "/dtk-files/3301/1/5. foto.JPG",
+    "/dtk-files/3301/1/IMG_0063.jpg",
+    "/dtk-files/3301/1/5.18.11.2019.JPG"
+  ],
+  "ARH-150": [
+    "/dtk-files/2051/1/JP 2.jpg",
+    "/dtk-files/2051/1/1.20.11.2019.JPG",
+    "/dtk-files/2051/1/2.20.11.2019.JPG",
+    "/dtk-files/2051/1/JP 4.jpg",
+    "/dtk-files/2051/1/3.20.11.2019.JPG",
+    "/dtk-files/2051/1/JP 1.jpg",
+    "/dtk-files/2051/1/4.20.11.2019.JPG",
+    "/dtk-files/2051/1/JP 7.jpg",
+    "/dtk-files/2051/1/Kulla e Hxhi Zekes ne Leshan 3.JPG",
+    "/dtk-files/2051/1/5.20.11.2019.JPG"
+  ],
+  "ARH-151": [
+    "/dtk-files/5185/1/M 1.jpg",
+    "/dtk-files/5185/1/1. foto.JPG",
+    "/dtk-files/5185/1/1.20.11.2019.jpg",
+    "/dtk-files/5185/1/2.20.11.2019.jpg",
+    "/dtk-files/5185/1/2. Foto.JPG",
+    "/dtk-files/5185/1/M 3.jpg",
+    "/dtk-files/5185/1/M 5.jpg",
+    "/dtk-files/5185/1/3. Foto.JPG",
+    "/dtk-files/5185/1/3.20.11.2019.JPG",
+    "/dtk-files/5185/1/4.20.11.2019.JPG",
+    "/dtk-files/5185/1/4. Foto.JPG",
+    "/dtk-files/5185/1/DSCN0215.JPG",
+    "/dtk-files/5185/1/DSCN0216.JPG",
+    "/dtk-files/5185/1/5. Foto.JPG",
+    "/dtk-files/5185/1/5.20.11.2019.JPG"
+  ],
+  "ARH-152": [
+    "/dtk-files/2681/1/MU 1.jpg",
+    "/dtk-files/2681/1/1. Forto Hyrja e në mulli.JPG",
+    "/dtk-files/2681/1/1.20.11.2019.JPG",
+    "/dtk-files/2681/1/2.20.11.2019.JPG",
+    "/dtk-files/2681/1/2. Objekti nga jashatë.JPG",
+    "/dtk-files/2681/1/MU 2.jpg",
+    "/dtk-files/2681/1/MU 3.jpg",
+    "/dtk-files/2681/1/3. Gri i mullirit.JPG",
+    "/dtk-files/2681/1/3.20.11.2019.JPG",
+    "/dtk-files/2681/1/4.20.11.2019.JPG",
+    "/dtk-files/2681/1/4. gurt e  mullinjeve.JPG",
+    "/dtk-files/2681/1/001 mulliri i tahir lush berdynaj.jpg",
+    "/dtk-files/2681/1/002 mulliri i tahir l.berdynaj.jpg",
+    "/dtk-files/2681/1/5. dhoma e mulligjiut.JPG",
+    "/dtk-files/2681/1/5.20.11.2019.JPG"
+  ],
+  "ARH-153": [
+    "/dtk-files/3769/1/2. 127-2739_IMG.JPG",
+    "/dtk-files/3769/1/1.20.11.2019.JPG",
+    "/dtk-files/3769/1/1.foto.JPG",
+    "/dtk-files/3769/1/2.foto.JPG",
+    "/dtk-files/3769/1/2.20.11.2019.JPG",
+    "/dtk-files/3769/1/01.JPG",
+    "/dtk-files/3769/1/DSCN0436.JPG",
+    "/dtk-files/3769/1/3.20.11.2019.JPG",
+    "/dtk-files/3769/1/7.Përmendorja mbivarore e Halil Beut - Pejë.JPG",
+    "/dtk-files/3769/1/4.20.11.2019.JPG",
+    "/dtk-files/3769/1/4.jpg",
+    "/dtk-files/3769/1/5.jpg"
+  ],
+  "ARH-154": [
+    "/dtk-files/2735/1/110-1041_IMG.JPG",
+    "/dtk-files/2735/1/SH 4.jpg",
+    "/dtk-files/2735/1/SH 1.jpg",
+    "/dtk-files/2735/1/SH 7.jpg",
+    "/dtk-files/2735/1/SH 9.jpg"
+  ],
+  "ARH-155": [
+    "/dtk-files/3697/1/P 5.jpg",
+    "/dtk-files/3697/1/1. foto.JPG",
+    "/dtk-files/3697/1/1.20.11.2019.JPG",
+    "/dtk-files/3697/1/2.20.11.2019.JPG",
+    "/dtk-files/3697/1/2. foto.JPG",
+    "/dtk-files/3697/1/P 3.jpg",
+    "/dtk-files/3697/1/P 7.jpg",
+    "/dtk-files/3697/1/3. foto.jpg",
+    "/dtk-files/3697/1/3.20.11.2019.JPG",
+    "/dtk-files/3697/1/4.20.11.2019.JPG",
+    "/dtk-files/3697/1/4. foto.jpg",
+    "/dtk-files/3697/1/P 4.jpg",
+    "/dtk-files/3697/1/5. foto.JPG",
+    "/dtk-files/3697/1/5.20.11.2019.JPG",
+    "/dtk-files/3697/1/DSC00007.JPG"
+  ],
+  "ARH-156": [
+    "/dtk-files/8658/1/Shtepia e Emin Muses 1.JPG",
+    "/dtk-files/8658/1/1.foto.JPG",
+    "/dtk-files/8658/1/foto 1.JPG",
+    "/dtk-files/8658/1/Foto 2.JPG",
+    "/dtk-files/8658/1/Shtepia e Emin Muses 3.JPG",
+    "/dtk-files/8658/1/2. foto.JPG",
+    "/dtk-files/8658/1/3. foto.JPG",
+    "/dtk-files/8658/1/Shtepia e Emin Muses 2.JPG",
+    "/dtk-files/8658/1/EM 3.jpg",
+    "/dtk-files/8658/1/4. foto.JPG",
+    "/dtk-files/8658/1/EM 7.jpg"
+  ],
+  "ARH-157": [
+    "/dtk-files/3054/1/INTERSOS 035.jpg",
+    "/dtk-files/3054/1/INTERSOS 032.jpg",
+    "/dtk-files/3054/1/INTERSOS 028.jpg",
+    "/dtk-files/3054/1/INTERSOS 039.jpg"
+  ],
+  "ARH-158": [
+    "/dtk-files/3700/1/INTERSOS 063.jpg",
+    "/dtk-files/3700/1/foto.JPG",
+    "/dtk-files/3700/1/foto ..JPG",
+    "/dtk-files/3700/1/R 1.jpg",
+    "/dtk-files/3700/1/INTERSOS 069.jpg",
+    "/dtk-files/3700/1/foto..JPG",
+    "/dtk-files/3700/1/INTERSOS 067.jpg"
+  ],
+  "ARH-159": [
+    "/dtk-files/3739/1/41a.Taftali Xhamia - Pejë.JPG",
+    "/dtk-files/3739/1/1. foto.JPG",
+    "/dtk-files/3739/1/foto 1.JPG",
+    "/dtk-files/3739/1/foto 2.JPG",
+    "/dtk-files/3739/1/2. foto.JPG",
+    "/dtk-files/3739/1/~LWF0001.jpg",
+    "/dtk-files/3739/1/~LWF0000.jpg",
+    "/dtk-files/3739/1/3.foto.JPG",
+    "/dtk-files/3739/1/foto 3.JPG",
+    "/dtk-files/3739/1/foto 4.JPG",
+    "/dtk-files/3739/1/4. foto.JPG",
+    "/dtk-files/3739/1/MVC-027E.JPG",
+    "/dtk-files/3739/1/MVC-028E.JPG",
+    "/dtk-files/3739/1/5. foto.JPG"
+  ],
+  "ARH-160": [
+    "/dtk-files/9022/1/t 2.jpg",
+    "/dtk-files/9022/1/1.Foto (2).JPG",
+    "/dtk-files/9022/1/2.foto. (2).JPG",
+    "/dtk-files/9022/1/t 3.jpg",
+    "/dtk-files/9022/1/t 5.jpg",
+    "/dtk-files/9022/1/3.Foto (2).JPG",
+    "/dtk-files/9022/1/4.Foto (2).JPG",
+    "/dtk-files/9022/1/t 4.jpg",
+    "/dtk-files/9022/1/SAM_0511.JPG",
+    "/dtk-files/9022/1/5.Foto (2).JPG"
+  ],
+  "ARH-161": [
+    "/dtk-files/3763/1/AP 3.jpg",
+    "/dtk-files/3763/1/1. foto.JPG",
+    "/dtk-files/3763/1/foto 1.JPG",
+    "/dtk-files/3763/1/foto 2.JPG",
+    "/dtk-files/3763/1/2. foto.JPG",
+    "/dtk-files/3763/1/AP 4.jpg",
+    "/dtk-files/3763/1/AP 5.jpg",
+    "/dtk-files/3763/1/foto 3.JPG",
+    "/dtk-files/3763/1/AP5.jpg",
+    "/dtk-files/3763/1/1. 122-2232_IMG.JPG"
+  ],
+  "ARH-162": [
+    "/dtk-files/3772/1/DSCN0615.JPG",
+    "/dtk-files/3772/1/1. foto.jpg",
+    "/dtk-files/3772/1/Foto 1.JPG",
+    "/dtk-files/3772/1/Foto 2.JPG",
+    "/dtk-files/3772/1/2. foto.JPG",
+    "/dtk-files/3772/1/HZ 1.jpg",
+    "/dtk-files/3772/1/HZ 2.jpg",
+    "/dtk-files/3772/1/3. foto.JPG",
+    "/dtk-files/3772/1/Foto 3.JPG",
+    "/dtk-files/3772/1/2. 116-1604_IMG.JPG",
+    "/dtk-files/3772/1/HZ 4.jpg"
+  ],
+  "ARH-163": [
+    "/dtk-files/4936/1/XhamiaeMadheDecanfoto.JPG",
+    "/dtk-files/4936/1/1. foto.JPG",
+    "/dtk-files/4936/1/IMG_4303 (2).JPG",
+    "/dtk-files/4936/1/IMG_4305.JPG",
+    "/dtk-files/4936/1/DSCN0025.JPG",
+    "/dtk-files/4936/1/2. foto.JPG",
+    "/dtk-files/4936/1/3. foto.JPG",
+    "/dtk-files/4936/1/DSCN0024.JPG",
+    "/dtk-files/4936/1/4.Foto.JPG",
+    "/dtk-files/4936/1/5. Foto.JPG"
+  ],
+  "ARH-164": [
+    "/dtk-files/3787/1/0038.JPG",
+    "/dtk-files/3787/1/1. foto.JPG",
+    "/dtk-files/3787/1/Foto 1.JPG",
+    "/dtk-files/3787/1/Foto 2.JPG",
+    "/dtk-files/3787/1/2. foto.JPG",
+    "/dtk-files/3787/1/0065.JPG",
+    "/dtk-files/3787/1/0047.JPG",
+    "/dtk-files/3787/1/3. foto.JPG",
+    "/dtk-files/3787/1/Foto 3.JPG",
+    "/dtk-files/3787/1/Foto 4.JPG",
+    "/dtk-files/3787/1/4. foto.JPG",
+    "/dtk-files/3787/1/0025.JPG",
+    "/dtk-files/3787/1/5.foto.JPG"
+  ],
+  "ARH-165": [
+    "/dtk-files/9147/1/4.JPG",
+    "/dtk-files/9147/1/5.JPG",
+    "/dtk-files/9147/1/mullini i  metohi1.jpg",
+    "/dtk-files/9147/1/mulliri i metohi5 (1).jpg",
+    "/dtk-files/9147/1/mulliri i metohi5.jpg"
+  ],
+  "ARH-166": [
+    "/dtk-files/9334/1/mulliri1.jpg",
+    "/dtk-files/9334/1/DSCN0233.jpg",
+    "/dtk-files/9334/1/DSCN0234.jpg",
+    "/dtk-files/9334/1/mullirid.a2.jpg",
+    "/dtk-files/9334/1/DSCN0235.jpg"
+  ],
+  "ARH-167": [
+    "/dtk-files/9046/1/llaush e ulte avdulla avdullahu4.jpg",
+    "/dtk-files/9046/1/llaush e ulte avdulla avdullahu5.jpg",
+    "/dtk-files/9046/1/llaush e ulte avdullah avdullahu1.jpg",
+    "/dtk-files/9046/1/llaush e ulte avdulla avdullahu11.jpg",
+    "/dtk-files/9046/1/llaush e ulte avdulla avdullahu21.jpg"
+  ],
+  "ARH-168": [
+    "/dtk-files/8515/1/FOTO21~3.JPG",
+    "/dtk-files/8515/1/FO309F~1.JPG",
+    "/dtk-files/8515/1/FOTO21~4.JPG",
+    "/dtk-files/8515/1/FO3471~1.JPG",
+    "/dtk-files/8515/1/DSC_0533.JPG"
+  ],
+  "ARH-169": [
+    "/dtk-files/8819/1/b 1.jpg",
+    "/dtk-files/8819/1/b h.jpg",
+    "/dtk-files/8819/1/bi 6.jpg",
+    "/dtk-files/8819/1/Arkivi i biblotekës.jpg",
+    "/dtk-files/8819/1/b 4.jpg"
+  ],
+  "ARH-170": [
+    "/dtk-files/9495/1/bibloteka (1).jpg",
+    "/dtk-files/9495/1/DSC_0235.JPG",
+    "/dtk-files/9495/1/Biblioteka e Kosoves (8).jpg",
+    "/dtk-files/9495/1/Biblioteka e Kosoves (25).jpg",
+    "/dtk-files/9495/1/Biblioteka e Kosoves (26).jpg"
+  ],
+  "ARH-171": [
+    "/dtk-files/8638/1/xh 2.jpg",
+    "/dtk-files/8638/1/xh 1.jpg",
+    "/dtk-files/8638/1/Xhamia e carshise 3.05.2012 (3).jpg",
+    "/dtk-files/8638/1/Xhamia e Çarshisë (3).JPG",
+    "/dtk-files/8638/1/XH500C~1.JPG"
+  ],
+  "ARH-172": [
+    "/dtk-files/9447/1/ceshmja ne shesh.jpg",
+    "/dtk-files/9447/1/DSCN2511.JPG",
+    "/dtk-files/9447/1/DSCN9942.JPG",
+    "/dtk-files/9447/1/qeshmja2.jpg",
+    "/dtk-files/9447/1/qeshmja 1.jpg"
+  ],
+  "ARH-173": [
+    "/dtk-files/9219/1/Gjim 2013.jpg",
+    "/dtk-files/9219/1/Gjimnazi Sami Frashëri 2012 (1).jpg",
+    "/dtk-files/9219/1/s 4.jpg",
+    "/dtk-files/9219/1/s 1.jpg",
+    "/dtk-files/9219/1/s 2.jpg"
+  ],
+  "ARH-174": [
+    "/dtk-files/8632/1/2010 Hamami i Madh (3).JPG",
+    "/dtk-files/8632/1/CAM_0018.JPG",
+    "/dtk-files/8632/1/h 5.jpg",
+    "/dtk-files/8632/1/h 4.jpg",
+    "/dtk-files/8632/1/h 2.jpg",
+    "/dtk-files/8632/1/Hamami  779.jpg"
+  ],
+  "ARH-175": [
+    "/dtk-files/9197/1/IMG_6397.JPG",
+    "/dtk-files/9197/1/DSCN22051.jpg",
+    "/dtk-files/9197/1/DSCN2217.jpg",
+    "/dtk-files/9197/1/DSCN2214.jpg",
+    "/dtk-files/9197/1/DSCN2212.jpg",
+    "/dtk-files/9197/1/DSCN4678.jpg"
+  ],
+  "ARH-176": [
+    "/dtk-files/9260/1/Ish spitali i TBC - Ministria e shëndetësisë 2012.jpg",
+    "/dtk-files/9260/1/Ish spitali i TBC - Ministria e shëndetësisë 2012 (3).jpg",
+    "/dtk-files/9260/1/DSC_0641.JPG",
+    "/dtk-files/9260/1/Ish spitali i TBC - Ministria e shëndetësisë 2012 (2).jpg",
+    "/dtk-files/9260/1/DSC_0644.JPG"
+  ],
+  "ARH-177": [
+    "/dtk-files/9936/1/Kompleks Banimi - ETNOTEATRI.JPG",
+    "/dtk-files/9936/1/Shtëpi banimi P+0.JPG",
+    "/dtk-files/9936/1/Shtëpi banimi P+1.JPG",
+    "/dtk-files/9936/1/Pleme.JPG",
+    "/dtk-files/9936/1/DSCN0519.JPG"
+  ],
+  "ARH-178": [
+    "/dtk-files/8943/1/mu 6.jpg",
+    "/dtk-files/8943/1/mu 5.jpg",
+    "/dtk-files/8943/1/mu 9.jpg",
+    "/dtk-files/8943/1/mu 11.jpg",
+    "/dtk-files/8943/1/Emin Gjiku (24).jpg"
+  ],
+  "ARH-179": [
+    "/dtk-files/8942/1/Xhamia e Çarshisë (7).JPG",
+    "/dtk-files/8942/1/biblioteka 003.jpg",
+    "/dtk-files/8942/1/MUFD3E~1.JPG",
+    "/dtk-files/8942/1/biblioteka 032.jpg",
+    "/dtk-files/8942/1/Sahat Kulla shkurt 2013 (7).jpg"
+  ],
+  "ARH-180": [
+    "/dtk-files/9199/1/grac 1.jpg",
+    "/dtk-files/9199/1/grac 3.jpg",
+    "/dtk-files/9199/1/grac 2.jpg",
+    "/dtk-files/9199/1/Gracanica1.jpg",
+    "/dtk-files/9199/1/Gracanica.jpg"
+  ],
+  "ARH-181": [
+    "/dtk-files/8815/1/m 5.jpg",
+    "/dtk-files/8815/1/m 4.jpg",
+    "/dtk-files/8815/1/m 1.jpg",
+    "/dtk-files/8815/1/MUZEUI~2.JPG",
+    "/dtk-files/8815/1/DSCN4341.jpg"
+  ],
+  "ARH-182": [
+    "/dtk-files/8620/1/Sahat kulla pas konzervimit (viti 2008).JPG",
+    "/dtk-files/8620/1/s 1.jpg",
+    "/dtk-files/8620/1/2008 para konservimit.JPG",
+    "/dtk-files/8620/1/1. Rr.Emin Duraku (1950).JPG"
+  ],
+  "ARH-183": [
+    "/dtk-files/8820/1/shat 2.jpg",
+    "/dtk-files/8820/1/Pamja 127.jpg",
+    "/dtk-files/8820/1/shat 3.jpg",
+    "/dtk-files/8820/1/shat 5.jpg",
+    "/dtk-files/8820/1/Shadërvani - faqja IV 115.jpg"
+  ],
+  "ARH-184": [
+    "/dtk-files/9050/1/IMG_0048.JPG",
+    "/dtk-files/9050/1/SH P Shqipe 2013 (9).jpg",
+    "/dtk-files/9050/1/IMG_9488.JPG",
+    "/dtk-files/9050/1/DSC_0504.JPG",
+    "/dtk-files/9050/1/SHKOLL~1.JPG"
+  ],
+  "ARH-185": [
+    "/dtk-files/8482/1/exhika1.jpg",
+    "/dtk-files/8482/1/exhika.jpg",
+    "/dtk-files/8482/1/elena 2.jpg",
+    "/dtk-files/8482/1/elena 3.jpg",
+    "/dtk-files/8482/1/elena 6.jpg"
+  ],
+  "ARH-186": [
+    "/dtk-files/8637/1/ak 34.jpg",
+    "/dtk-files/8637/1/Pamja kah oborri  052.jpg",
+    "/dtk-files/8637/1/Dukja kah rruga.jpg",
+    "/dtk-files/8637/1/Detali i erkerit 1.jpg",
+    "/dtk-files/8637/1/Shkallët 043.jpg"
+  ],
+  "ARH-187": [
+    "/dtk-files/7495/1/LUANR~10.JPG",
+    "/dtk-files/7495/1/LUANR~11.JPG",
+    "/dtk-files/7495/1/LUANR~14.JPG",
+    "/dtk-files/7495/1/LUANRU~1.JPG",
+    "/dtk-files/7495/1/LUANRU~2.JPG"
+  ],
+  "ARH-188": [
+    "/dtk-files/9901/1/Pamja ballore.jpg",
+    "/dtk-files/9901/1/Pamja jug-lindje.jpg",
+    "/dtk-files/9901/1/Qardaku i mbyllur.jpg",
+    "/dtk-files/9901/1/Erkeri i theksuar ne fasaden jug-lindje.jpg",
+    "/dtk-files/9901/1/Guri i me mbishkrim ne fasade.jpg"
+  ],
+  "ARH-189": [
+    "/dtk-files/8940/1/IMMK 2013 (1) - Copy.jpg",
+    "/dtk-files/8940/1/IMMK 2013 (2) - Copy.jpg",
+    "/dtk-files/8940/1/DSC_0545.JPG",
+    "/dtk-files/8940/1/DSC_0551.JPG",
+    "/dtk-files/8940/1/DSC_0546.JPG"
+  ],
+  "ARH-190": [
+    "/dtk-files/8818/1/Hinilerët 2001 (12).JPG",
+    "/dtk-files/8818/1/shpia 4.jpg",
+    "/dtk-files/8818/1/Hinilerët 2001 (3).JPG",
+    "/dtk-files/8818/1/Hinilerët 2001.JPG",
+    "/dtk-files/8818/1/Hinilerët 2001 (17).JPG"
+  ],
+  "ARH-191": [
+    "/dtk-files/9211/1/Trafo e rrymës 1. 10. 2012.jpg",
+    "/dtk-files/9211/1/foto 21.11.2013 007.jpg",
+    "/dtk-files/9211/1/11234972_859065024143092_4442673751775443957_n.jpg",
+    "/dtk-files/9211/1/11796238_859065274143067_1201157733089652048_n.jpg",
+    "/dtk-files/9211/1/11828561_859065084143086_335662887988708089_n.jpg"
+  ],
+  "ARH-192": [
+    "/dtk-files/8633/1/1.jpg",
+    "/dtk-files/8633/1/2.jpg",
+    "/dtk-files/8633/1/3.jpg",
+    "/dtk-files/8633/1/CAM_0008.jpg",
+    "/dtk-files/8633/1/biblioteka 011.jpg"
+  ],
+  "ARH-193": [
+    "/dtk-files/8509/1/XHAFEB~1.JPG",
+    "/dtk-files/8509/1/XH9FEF~1.JPG",
+    "/dtk-files/8509/1/XHA9C7~1 - Copy.JPG",
+    "/dtk-files/8509/1/XH9BE1~1.JPG",
+    "/dtk-files/8509/1/XHA9CD~1.JPG"
+  ],
+  "ARH-194": [
+    "/dtk-files/8622/1/m 1.jpg",
+    "/dtk-files/8622/1/m 4.jpg",
+    "/dtk-files/8622/1/m 5.jpg",
+    "/dtk-files/8622/1/Xhamia e Mbretit (2008 v).JPG"
+  ],
+  "ARH-195": [
+    "/dtk-files/8802/1/01.JPG",
+    "/dtk-files/8802/1/kala 21.jpg",
+    "/dtk-files/8802/1/kala 234.jpg",
+    "/dtk-files/8802/1/02.JPG",
+    "/dtk-files/8802/1/Kisha paleokristiane ne Korishe.jpg"
+  ],
+  "ARH-196": [
+    "/dtk-files/1571/1/Hamami i Gazi Mehmed Pashës.jpg",
+    "/dtk-files/1571/1/012.jpg",
+    "/dtk-files/1571/1/hamami para 1965.jpg",
+    "/dtk-files/1571/1/008.jpg",
+    "/dtk-files/1571/1/pastrimi i lokaleve përeth hamamit.JPG"
+  ],
+  "ARH-197": [
+    "/dtk-files/4591/1/001.jpg",
+    "/dtk-files/4591/1/005.jpg",
+    "/dtk-files/4591/1/elek 3.jpg",
+    "/dtk-files/4591/1/010.jpg",
+    "/dtk-files/4591/1/Hidroelektrana 1963 c.jpg"
+  ],
+  "ARH-198": [
+    "/dtk-files/6229/1/Kalaja e Prizrenit.jpg",
+    "/dtk-files/6229/1/kalaja 1.jpg",
+    "/dtk-files/6229/1/8.jpg",
+    "/dtk-files/6229/1/1.jpg",
+    "/dtk-files/6229/1/KALA 2.jpg",
+    "/dtk-files/6229/1/003.jpg"
+  ],
+  "ARH-199": [
+    "/dtk-files/4477/1/at 3.jpg",
+    "/dtk-files/4477/1/02.JPG",
+    "/dtk-files/4477/1/at 1.jpg",
+    "/dtk-files/4477/1/at 6.jpg",
+    "/dtk-files/4477/1/at 4.jpg"
+  ],
+  "ARH-200": [
+    "/dtk-files/1292/1/005.JPG",
+    "/dtk-files/1292/1/nam 3.jpg",
+    "/dtk-files/1292/1/nam 2.jpg",
+    "/dtk-files/1292/1/003.jpg",
+    "/dtk-files/1292/1/001.jpg"
+  ],
+  "ARH-201": [
+    "/dtk-files/8793/1/sh n 1.jpg",
+    "/dtk-files/8793/1/sh n 2.jpg",
+    "/dtk-files/8793/1/sh n 5.jpg",
+    "/dtk-files/8793/1/sh n 7.jpg",
+    "/dtk-files/8793/1/03.JPG"
+  ],
+  "ARH-202": [
+    "/dtk-files/8764/1/sh d 5.jpg",
+    "/dtk-files/8764/1/sh d 1.jpg",
+    "/dtk-files/8764/1/03.JPG",
+    "/dtk-files/8764/1/sh d 4.jpg"
+  ],
+  "ARH-203": [
+    "/dtk-files/9246/1/Kisha e Shën Gjergjit (Sinodale).jpg",
+    "/dtk-files/9246/1/01.jpg",
+    "/dtk-files/9246/1/Kisha e Sehn Gjorgje Runoviqit.jpg",
+    "/dtk-files/9246/1/Kisha e Shen Gjorgje Runoviqit 2.jpg",
+    "/dtk-files/9246/1/Kisha e Shen Gjorgje Runoviqit 3.jpg",
+    "/dtk-files/9246/1/03.jpg"
+  ],
+  "ARH-204": [
+    "/dtk-files/8808/1/k23.jpg",
+    "/dtk-files/8808/1/sh 2.jpg",
+    "/dtk-files/8808/1/01.JPG",
+    "/dtk-files/8808/1/IMG_0453.JPG",
+    "/dtk-files/8808/1/03.JPG"
+  ],
+  "ARH-205": [
+    "/dtk-files/8755/1/01.JPG",
+    "/dtk-files/8755/1/02.JPG",
+    "/dtk-files/8755/1/03.JPG"
+  ],
+  "ARH-206": [
+    "/dtk-files/8754/1/01.JPG",
+    "/dtk-files/8754/1/03.JPG",
+    "/dtk-files/8754/1/sh n 1.jpg",
+    "/dtk-files/8754/1/sh n 2.jpg"
+  ],
+  "ARH-207": [
+    "/dtk-files/8806/1/DSCF1710.JPG",
+    "/dtk-files/8806/1/k 5.jpg",
+    "/dtk-files/8806/1/01.JPG",
+    "/dtk-files/8806/1/22.04.2010 (6).JPG",
+    "/dtk-files/8806/1/k 3.jpg"
+  ],
+  "ARH-208": [
+    "/dtk-files/8809/1/Perspective view of St Nicholas church in Drajqiq village.JPG",
+    "/dtk-files/8809/1/DRA 3.jpg",
+    "/dtk-files/8809/1/kisha ser.jpg",
+    "/dtk-files/8809/1/DSCF1648.JPG",
+    "/dtk-files/8809/1/IMG_3955.jpg"
+  ],
+  "ARH-209": [
+    "/dtk-files/8810/1/DSCF1732.JPG",
+    "/dtk-files/8810/1/04.jpg",
+    "/dtk-files/8810/1/K 1.jpg",
+    "/dtk-files/8810/1/K 2.jpg",
+    "/dtk-files/8810/1/K 6.jpg"
+  ],
+  "ARH-210": [
+    "/dtk-files/6250/1/001.jpg",
+    "/dtk-files/6250/1/IMG_6178.JPG",
+    "/dtk-files/6250/1/IMG_6182.JPG",
+    "/dtk-files/6250/1/kisha e shen premtes 2.jpg",
+    "/dtk-files/6250/1/shën Premte në periudhën Osmane 1.JPG"
+  ],
+  "ARH-211": [
+    "/dtk-files/8807/1/IMG_3826.jpg",
+    "/dtk-files/8807/1/IMG_3867.jpg",
+    "/dtk-files/8807/1/Exterior view of Saint Apostles church in Mushnikovë.JPG",
+    "/dtk-files/8807/1/DSCF1728.JPG",
+    "/dtk-files/8807/1/IMG_3832.jpg"
+  ],
+  "ARH-212": [
+    "/dtk-files/8711/1/kisha 34.jpg",
+    "/dtk-files/8711/1/k s 3.jpg",
+    "/dtk-files/8711/1/k s 1.jpg",
+    "/dtk-files/8711/1/009.JPG",
+    "/dtk-files/8711/1/006.JPG"
+  ],
+  "ARH-213": [
+    "/dtk-files/1505/1/Tyrbet dhe varrezat e vjetra.JPG",
+    "/dtk-files/1505/1/Tyrbja e Mustafa Karabash Efendisë.JPG",
+    "/dtk-files/1505/1/Tyrbja e Mustafa Karabash Efendisë - enterier.JPG",
+    "/dtk-files/1505/1/Tyrbja e Rabia Hanëmit.JPG",
+    "/dtk-files/1505/1/Tyrbja e Sheh Hyseinit.JPG"
+  ],
+  "ARH-214": [
+    "/dtk-files/8766/1/LAGJ 3.jpg",
+    "/dtk-files/8766/1/marash 1.jpg",
+    "/dtk-files/8766/1/03.JPG",
+    "/dtk-files/8766/1/01.jpg",
+    "/dtk-files/8766/1/L 5.jpg"
+  ],
+  "ARH-215": [
+    "/dtk-files/1508/1/1.Pamje e kompleksit.JPG",
+    "/dtk-files/1508/1/3. Tyrbja.JPG",
+    "/dtk-files/1508/1/6. Pusi i vnedosur ne tyrbe.JPG",
+    "/dtk-files/1508/1/9. Guret mbivarror.JPG",
+    "/dtk-files/1508/1/10. Guret mbivarror.JPG"
+  ],
+  "ARH-216": [
+    "/dtk-files/1664/1/001.JPG",
+    "/dtk-files/1664/1/Kompleksi Lidhja e Prizrenit 2.jpg",
+    "/dtk-files/1664/1/pamja nga oborri.jpg",
+    "/dtk-files/1664/1/008.JPG",
+    "/dtk-files/1664/1/lidhja sh 1.jpg"
+  ],
+  "ARH-217": [
+    "/dtk-files/1541/1/Pamje e kroit 2015 (2).JPG",
+    "/dtk-files/1541/1/Pamje e kroit 2015 (1).jpg",
+    "/dtk-files/1541/1/Pamje e kroit 2015 (4).JPG",
+    "/dtk-files/1541/1/Pamje e kroit 2015 (5).JPG",
+    "/dtk-files/1541/1/kroi Binbashi-1975.jpg"
+  ],
+  "ARH-218": [
+    "/dtk-files/1538/1/c 3.jpg",
+    "/dtk-files/1538/1/01.jpg",
+    "/dtk-files/1538/1/c 1.jpg",
+    "/dtk-files/1538/1/IMG_4182.jpg",
+    "/dtk-files/1538/1/kroi beledijes.jpg"
+  ],
+  "ARH-219": [
+    "/dtk-files/8779/1/Pamje e kroit 2015 (3).JPG",
+    "/dtk-files/8779/1/Pamje e kroit 2015 (2).JPG",
+    "/dtk-files/8779/1/Pamje e kroit 2015 (1).JPG",
+    "/dtk-files/8779/1/Pamje e kroit 2015 (4).JPG",
+    "/dtk-files/8779/1/Pamje e kroit 2015.JPG"
+  ],
+  "ARH-220": [
+    "/dtk-files/8778/1/Pamje ballore e kroit.JPG",
+    "/dtk-files/8778/1/Pamje anesore e kroit.JPG",
+    "/dtk-files/8778/1/Kroi në oborr të Muzeut Arkeologjik-1.JPG",
+    "/dtk-files/8778/1/Kroi në oborr të Muzeut Arkeologjik.JPG",
+    "/dtk-files/8778/1/Pamje anesore.JPG"
+  ],
+  "ARH-221": [
+    "/dtk-files/9992/1/Pamjet 2015 (3).JPG",
+    "/dtk-files/9992/1/Pamjet 2015 (2).JPG",
+    "/dtk-files/9992/1/Pamjet 2015 (1).JPG",
+    "/dtk-files/9992/1/Pamjet 2015.JPG"
+  ],
+  "ARH-222": [
+    "/dtk-files/9487/1/Pamje e vitit 2015.JPG",
+    "/dtk-files/9487/1/Pamje e vitit 2015 (4).JPG",
+    "/dtk-files/9487/1/Pamje e vitit 2015 (3).JPG",
+    "/dtk-files/9487/1/Pamje e vitit 2015 (2).JPG",
+    "/dtk-files/9487/1/Kroi i Qorrages_1975.jpg"
+  ],
+  "ARH-223": [
+    "/dtk-files/1544/1/Kroi i Shatërvanit.jpg",
+    "/dtk-files/1544/1/001.JPG",
+    "/dtk-files/1544/1/002.JPG",
+    "/dtk-files/1544/1/sh 4.jpg",
+    "/dtk-files/1544/1/sh 2.jpg"
+  ],
+  "ARH-224": [
+    "/dtk-files/1574/1/Sahat Kulla - Muzeu Arkeologjik.jpg",
+    "/dtk-files/1574/1/002.jpg",
+    "/dtk-files/1574/1/006.jpg",
+    "/dtk-files/1574/1/008.jpg",
+    "/dtk-files/1574/1/s 1.jpg"
+  ],
+  "ARH-225": [
+    "/dtk-files/4339/1/m 2.jpg",
+    "/dtk-files/4339/1/001.JPG",
+    "/dtk-files/4339/1/009.jpg",
+    "/dtk-files/4339/1/005.JPG"
+  ],
+  "ARH-226": [
+    "/dtk-files/4501/1/min 23.jpg",
+    "/dtk-files/4501/1/ast min.jpg",
+    "/dtk-files/4501/1/as min 1.jpg",
+    "/dtk-files/4501/1/006.jpg",
+    "/dtk-files/4501/1/008.jpg"
+  ],
+  "ARH-227": [
+    "/dtk-files/1553/1/2. Mulliri ne Tabakhane.JPG",
+    "/dtk-files/1553/1/7. Pamje pas restaurimit.JPG",
+    "/dtk-files/1553/1/8.Pamje pas restaurimit.JPG",
+    "/dtk-files/1553/1/1. Mulliri ne Tabakhane.JPG",
+    "/dtk-files/1553/1/13. Guret per bluarje.JPG"
+  ],
+  "ARH-228": [
+    "/dtk-files/1694/1/sh 1.jpg",
+    "/dtk-files/1694/1/002.JPG",
+    "/dtk-files/1694/1/003.JPG",
+    "/dtk-files/1694/1/sh 3.jpg"
+  ],
+  "ARH-229": [
+    "/dtk-files/2144/1/IMG_8766.JPG",
+    "/dtk-files/2144/1/290720111145.jpg",
+    "/dtk-files/2144/1/kp 3.jpg",
+    "/dtk-files/2144/1/001.jpg",
+    "/dtk-files/2144/1/003.jpg"
+  ],
+  "ARH-230": [
+    "/dtk-files/8765/1/01.jpg",
+    "/dtk-files/8765/1/lidhja 7.jpg",
+    "/dtk-files/8765/1/lidhja 3.jpg",
+    "/dtk-files/8765/1/lidhja 2.jpg",
+    "/dtk-files/8765/1/002.jpg"
+  ],
+  "ARH-231": [
+    "/dtk-files/2153/1/241120122334.jpg",
+    "/dtk-files/2153/1/shkolla ruzhdie.jpg",
+    "/dtk-files/2153/1/shkolla ruzh.jpg",
+    "/dtk-files/2153/1/shkolla ruzhs.jpg",
+    "/dtk-files/2153/1/shkolla ruzhdie e.jpg"
+  ],
+  "ARH-232": [
+    "/dtk-files/1502/1/nishani.jpg",
+    "/dtk-files/1502/1/001.jpg",
+    "/dtk-files/1502/1/005.jpg",
+    "/dtk-files/1502/1/nishani 1.jpg",
+    "/dtk-files/1502/1/006.jpg"
+  ],
+  "ARH-233": [
+    "/dtk-files/1535/1/Permendore mbivarrore e Emin Pashes.jpg",
+    "/dtk-files/1535/1/per emin pshaa.jpg",
+    "/dtk-files/1535/1/03.JPG",
+    "/dtk-files/1535/1/003.jpg",
+    "/dtk-files/1535/1/004.jpg"
+  ],
+  "ARH-234": [
+    "/dtk-files/1829/1/02 Objekti pas restaurimit.JPG",
+    "/dtk-files/1829/1/03 Dukja ballore.JPG",
+    "/dtk-files/1829/1/04 Dhoma ne kat.JPG",
+    "/dtk-files/1829/1/05 Koridori.JPG",
+    "/dtk-files/1829/1/06 Qardaku.JPG"
+  ],
+  "ARH-235": [
+    "/dtk-files/1667/1/07.JPG",
+    "/dtk-files/1667/1/GR 6.jpg",
+    "/dtk-files/1667/1/025.JPG",
+    "/dtk-files/1667/1/020.JPG",
+    "/dtk-files/1667/1/003.JPG"
+  ],
+  "ARH-236": [
+    "/dtk-files/1688/1/Fasada ballore - djathtas.JPG",
+    "/dtk-files/1688/1/Fasada ballore - majtas.JPG",
+    "/dtk-files/1688/1/Detaj i dritareve.JPG",
+    "/dtk-files/1688/1/AGA 5.jpg",
+    "/dtk-files/1688/1/Pamje e Tavanit.JPG"
+  ],
+  "ARH-237": [
+    "/dtk-files/2006/1/01 Dukja ballore.JPG",
+    "/dtk-files/2006/1/02 Dera e oborit.JPG",
+    "/dtk-files/2006/1/04 Tavani dhomes.JPG",
+    "/dtk-files/2006/1/05 Hajati.JPG",
+    "/dtk-files/2006/1/06 Tavani Qoshkut.JPG"
+  ],
+  "ARH-238": [
+    "/dtk-files/9486/1/02 Shtepia pas restaurimit.jpg",
+    "/dtk-files/9486/1/DSCN2133.JPG",
+    "/dtk-files/9486/1/08 Fasada Lindore.JPG",
+    "/dtk-files/9486/1/DSCN2145.JPG",
+    "/dtk-files/9486/1/03 Dera hyrese.JPG"
+  ],
+  "ARH-239": [
+    "/dtk-files/1775/1/01 Fasada ballore.JPG",
+    "/dtk-files/1775/1/06 Oborri me kallderm.JPG",
+    "/dtk-files/1775/1/02 Detaj nga fasada ballore.JPG",
+    "/dtk-files/1775/1/04 Fasada Jugore.JPG",
+    "/dtk-files/1775/1/05 Hajati.JPG"
+  ],
+  "ARH-240": [
+    "/dtk-files/9977/1/IMG-25292751bb9d06e5f871b8ed87b0b4d9-V.jpg",
+    "/dtk-files/9977/1/02. Fasada Perendimore.JPG",
+    "/dtk-files/9977/1/03. Detali i cardakut.JPG",
+    "/dtk-files/9977/1/IMG_2945.JPG",
+    "/dtk-files/9977/1/04. Hajati ne kat.JPG"
+  ],
+  "ARH-241": [
+    "/dtk-files/8631/1/05.jpg",
+    "/dtk-files/8631/1/SH K 1.jpg",
+    "/dtk-files/8631/1/SH K 4.jpg",
+    "/dtk-files/8631/1/SH K 6.jpg",
+    "/dtk-files/8631/1/SH K 7.jpg"
+  ],
+  "ARH-242": [
+    "/dtk-files/1781/1/01 Fasada Ballore.JPG",
+    "/dtk-files/1781/1/03 Fasada Anesore.JPG",
+    "/dtk-files/1781/1/09 Fasada Perendimore.JPG",
+    "/dtk-files/1781/1/08 Tavani ne dhome.JPG",
+    "/dtk-files/1781/1/13 Pamje nga holi.JPG"
+  ],
+  "ARH-243": [
+    "/dtk-files/2117/1/01 Dukja kah oborri.JPG",
+    "/dtk-files/2117/1/02 Dukja kah rruga e Farkatareve.JPG",
+    "/dtk-files/2117/1/03 Kroi në oborr.JPG",
+    "/dtk-files/2117/1/04 Hajati.JPG",
+    "/dtk-files/2117/1/05 Dolapi.JPG"
+  ],
+  "ARH-244": [
+    "/dtk-files/1778/1/003.jpg",
+    "/dtk-files/1778/1/Shtëpia e familjes Mustafa Pomaku (2).JPG",
+    "/dtk-files/1778/1/005.jpg",
+    "/dtk-files/1778/1/sh p 6.jpg",
+    "/dtk-files/1778/1/sh p 1.jpg",
+    "/dtk-files/1778/1/017.JPG"
+  ],
+  "ARH-245": [
+    "/dtk-files/1970/1/01 Fasada ballore.JPG",
+    "/dtk-files/1970/1/04 Mbishkrimi ne fasade.JPG",
+    "/dtk-files/1970/1/08 Hajati ne perdhese.JPG",
+    "/dtk-files/1970/1/02 Jazi dhe kroi.JPG",
+    "/dtk-files/1970/1/03 Dhoma ne perdhes.JPG"
+  ],
+  "ARH-246": [
+    "/dtk-files/9282/1/Shtëpi muze Katarina Josipit (3).JPG",
+    "/dtk-files/9282/1/Shtëpi muze Katarina Josipit (1).JPG",
+    "/dtk-files/9282/1/Fasada anesore pas restaurimit.JPG",
+    "/dtk-files/9282/1/Shtëpi muze Katarina Josipit (2).JPG",
+    "/dtk-files/9282/1/Shtëpi muze Katarina Josipit (4).JPG",
+    "/dtk-files/9282/1/Shtëpi muze Katarina Josipit (6).JPG"
+  ],
+  "ARH-247": [
+    "/dtk-files/1937/1/Shtëpia e Musa Shehzades.jpg",
+    "/dtk-files/1937/1/001.JPG",
+    "/dtk-files/1937/1/004.JPG",
+    "/dtk-files/1937/1/022.JPG",
+    "/dtk-files/1937/1/shtëpia shehzada.jpg"
+  ],
+  "ARH-248": [
+    "/dtk-files/1790/1/01 Fasada Ballore.JPG",
+    "/dtk-files/1790/1/02 Tavani ne kat.JPG",
+    "/dtk-files/1790/1/04 Dhoma ne kat.JPG",
+    "/dtk-files/1790/1/05 Hamamgjiku ne kat.JPG",
+    "/dtk-files/1790/1/07 Jyklyk.JPG"
+  ],
+  "ARH-249": [
+    "/dtk-files/1958/1/01 Fasda ballore.JPG",
+    "/dtk-files/1958/1/22.jpg",
+    "/dtk-files/1958/1/21.jpg",
+    "/dtk-files/1958/1/07 Gjyl Tavani i dhomes ne kat.JPG",
+    "/dtk-files/1958/1/05 Hajati.JPG"
+  ],
+  "ARH-250": [
+    "/dtk-files/8780/1/tabakhane.jpg",
+    "/dtk-files/8780/1/01.jpg",
+    "/dtk-files/8780/1/02.jpg",
+    "/dtk-files/8780/1/tabkhane 12.jpg"
+  ],
+  "ARH-251": [
+    "/dtk-files/1469/1/teqe 2.jpg",
+    "/dtk-files/1469/1/003.JPG",
+    "/dtk-files/1469/1/teqe t.jpg",
+    "/dtk-files/1469/1/011.JPG",
+    "/dtk-files/1469/1/teq 5.jpg"
+  ],
+  "ARH-252": [
+    "/dtk-files/1475/1/IMG_2358.jpg",
+    "/dtk-files/1475/1/IMG_2355.jpg",
+    "/dtk-files/1475/1/002.jpg",
+    "/dtk-files/1475/1/004.jpg",
+    "/dtk-files/1475/1/006.jpg"
+  ],
+  "ARH-253": [
+    "/dtk-files/1493/1/03 Pamja nga rruga.jpg",
+    "/dtk-files/1493/1/01 Para ndertimit te ri.jpg",
+    "/dtk-files/1493/1/02 Pas rindertimit.jpg",
+    "/dtk-files/1493/1/04 Detaj nga tyrbja.jpg"
+  ],
+  "ARH-254": [
+    "/dtk-files/1514/1/02 Pamje nga pjesa e brendshme.JPG",
+    "/dtk-files/1514/1/03 Varri i tyrbes.JPG",
+    "/dtk-files/1514/1/01 Fasada Lindore.JPG",
+    "/dtk-files/1514/1/04 Fasada Jugore.JPG",
+    "/dtk-files/1514/1/05 Murri rrethues i tyrbes.JPG"
+  ],
+  "ARH-255": [
+    "/dtk-files/1487/1/01 Pamja Lindore.JPG",
+    "/dtk-files/1487/1/04 Pamja Jugore.JPG",
+    "/dtk-files/1487/1/02 Pamje e brendshme.JPG",
+    "/dtk-files/1487/1/06 Arke druri.JPG",
+    "/dtk-files/1487/1/08 Dokument ne gjuhen arabe.JPG"
+  ],
+  "ARH-256": [
+    "/dtk-files/1550/1/002.jpg",
+    "/dtk-files/1550/1/ura 1.jpg",
+    "/dtk-files/1550/1/URA URA.jpg",
+    "/dtk-files/1550/1/003.JPG",
+    "/dtk-files/1550/1/ura pz 1.jpg"
+  ],
+  "ARH-257": [
+    "/dtk-files/8714/1/ura 3.jpg",
+    "/dtk-files/8714/1/ura 4.jpg",
+    "/dtk-files/8714/1/IMG_0443.JPG",
+    "/dtk-files/8714/1/IMG_0444.JPG",
+    "/dtk-files/8714/1/02.jpg"
+  ],
+  "ARH-258": [
+    "/dtk-files/1376/1/1. Pamje e jashtme e xhamise.JPG",
+    "/dtk-files/1376/1/1. Pamje e vjeter e xhamise.jpg",
+    "/dtk-files/1376/1/2. Porta dhe minarja.JPG",
+    "/dtk-files/1376/1/10. Guret mbivarror.JPG",
+    "/dtk-files/1376/1/11. Guret mbivarror me dekorime.JPG"
+  ],
+  "ARH-259": [
+    "/dtk-files/1367/1/01 Pamje nga rruga kryesore.JPG",
+    "/dtk-files/1367/1/02 Minberi dhe Mihrabi.JPG",
+    "/dtk-files/1367/1/03 Hapesira e brendshme.JPG",
+    "/dtk-files/1367/1/06 Kupolla e xhamise.JPG",
+    "/dtk-files/1367/1/07 Ore e vjeter brenda xhamise.JPG"
+  ],
+  "ARH-260": [
+    "/dtk-files/1418/1/01. Pamje e xhamise.JPG",
+    "/dtk-files/1418/1/02. Minarja.JPG",
+    "/dtk-files/1418/1/05. Porta dhe mbishkrimi i vjeter.JPG",
+    "/dtk-files/1418/1/07. Shkallet e vjetra te minares.JPG",
+    "/dtk-files/1418/1/09. Pamje e mihrabit dhe minberit.JPG"
+  ],
+  "ARH-261": [
+    "/dtk-files/1316/1/Xhamia e Emin Pashës.jpg",
+    "/dtk-files/1316/1/_DSC0433.JPG",
+    "/dtk-files/1316/1/015.jpg",
+    "/dtk-files/1316/1/017.jpg",
+    "/dtk-files/1316/1/_DSC0440.JPG"
+  ],
+  "ARH-262": [
+    "/dtk-files/1373/1/1. Pamje e xhamise.JPG",
+    "/dtk-files/1373/1/2. Pamje e jashtme e xhamise.JPG",
+    "/dtk-files/1373/1/3. Minarja.JPG",
+    "/dtk-files/1373/1/8. Ora e vjeter.JPG",
+    "/dtk-files/1373/1/9. Guret mbivarror.JPG"
+  ],
+  "ARH-263": [
+    "/dtk-files/1307/1/xhamia 1.jpg",
+    "/dtk-files/1307/1/003.jpg",
+    "/dtk-files/1307/1/009.JPG",
+    "/dtk-files/1307/1/006.JPG",
+    "/dtk-files/1307/1/004.jpg"
+  ],
+  "ARH-264": [
+    "/dtk-files/1325/1/sar 3.jpg",
+    "/dtk-files/1325/1/Sarac Xhamia.jpg",
+    "/dtk-files/1325/1/003.JPG",
+    "/dtk-files/1325/1/009.JPG",
+    "/dtk-files/1325/1/001.JPG"
+  ],
+  "ARH-265": [
+    "/dtk-files/1310/1/XH M P.jpg",
+    "/dtk-files/1310/1/003.jpg",
+    "/dtk-files/1310/1/005.jpg",
+    "/dtk-files/1310/1/022.jpg",
+    "/dtk-files/1310/1/kompl.G.Mehmed P.1.jpg"
+  ],
+  "ARH-266": [
+    "/dtk-files/1283/1/Xhamia Myderiz Ali Efendi (1).JPG",
+    "/dtk-files/1283/1/Xhamia Myderiz Ali Efendi (2).JPG",
+    "/dtk-files/1283/1/001.jpg",
+    "/dtk-files/1283/1/003.jpg",
+    "/dtk-files/1283/1/xh efend 2.jpg"
+  ],
+  "ARH-267": [
+    "/dtk-files/1364/1/Enterieri.JPG",
+    "/dtk-files/1364/1/Pamje e vjeter e xhamise_vitet 1950'.jpg",
+    "/dtk-files/1364/1/Pamje e jashtme e xhamise.JPG",
+    "/dtk-files/1364/1/Hajati.JPG"
+  ],
+  "ARH-268": [
+    "/dtk-files/1268/1/Xhamia e Sinan Pashës.jpg",
+    "/dtk-files/1268/1/003.jpg",
+    "/dtk-files/1268/1/015.jpg",
+    "/dtk-files/1268/1/009.JPG",
+    "/dtk-files/1268/1/005.jpg"
+  ],
+  "ARH-269": [
+    "/dtk-files/1304/1/xham suz 1.jpg",
+    "/dtk-files/1304/1/xhamia e suziut 3.jpg",
+    "/dtk-files/1304/1/xhamia suz 3.jpg",
+    "/dtk-files/1304/1/014.JPG",
+    "/dtk-files/1304/1/001.JPG"
+  ],
+  "ARH-270": [
+    "/dtk-files/1370/1/1. Pamje e jashtme e xhamise.jpg",
+    "/dtk-files/1370/1/4. Mihrabi dhe minbari.JPG",
+    "/dtk-files/1370/1/5. Mahvili.JPG",
+    "/dtk-files/1370/1/6. Shtyllat e mahvilit.JPG",
+    "/dtk-files/1370/1/7. Parmaket e mahvilit.JPG"
+  ],
+  "ARH-271": [
+    "/dtk-files/1463/1/04 Pamja Veriore.jpg",
+    "/dtk-files/1463/1/03 Pamja Jugore.JPG",
+    "/dtk-files/1463/1/01 Pamja Perendimore.jpg",
+    "/dtk-files/1463/1/05 Hajati.JPG",
+    "/dtk-files/1463/1/02 Enterieri i xhamise.JPG"
+  ],
+  "ARH-272": [
+    "/dtk-files/5704/1/1. Pamje ballore e kroit.JPG",
+    "/dtk-files/5704/1/2. Pamje anesore e kroit.JPG",
+    "/dtk-files/5704/1/4. Pamje anesore e kroit.JPG",
+    "/dtk-files/5704/1/5. Vaska e kroit.JPG",
+    "/dtk-files/5704/1/6. Dekorimi i pjeses se siperme.JPG"
+  ],
+  "ARH-273": [
+    "/dtk-files/5701/1/05. Fasada jugore - ballore.JPG",
+    "/dtk-files/5701/1/02. Fasada veriore.JPG",
+    "/dtk-files/5701/1/06. Porta ne fasaden ballore.JPG",
+    "/dtk-files/5701/1/15. Shkallet e drurit qe shpijne ne kat.JPG",
+    "/dtk-files/5701/1/16. Qasja ne dhomat ne kat.JPG"
+  ],
+  "ARH-274": [
+    "/dtk-files/9270/1/6. Kulla pas restaurimit_2015 (2).JPG",
+    "/dtk-files/9270/1/2. Sheshi Vrella (1).JPG",
+    "/dtk-files/9270/1/3. Kulla para restaurimit_2013.JPG",
+    "/dtk-files/9270/1/4. Kulla pas restaurimit_2015.JPG",
+    "/dtk-files/9270/1/11.Detaj i muratimit (1).JPG"
+  ],
+  "ARH-275": [
+    "/dtk-files/5629/1/DSC_0137.JPG",
+    "/dtk-files/5629/1/Fasada verilindore.JPG",
+    "/dtk-files/5629/1/Pamje jug-lindore.JPG",
+    "/dtk-files/5629/1/Pamje perendimore.JPG",
+    "/dtk-files/5629/1/Detaj i çardakut.JPG"
+  ],
+  "ARH-276": [
+    "/dtk-files/5743/1/DSCN0525.JPG",
+    "/dtk-files/5743/1/DSCN6400.jpg",
+    "/dtk-files/5743/1/001.jpg",
+    "/dtk-files/5743/1/05.JPG",
+    "/dtk-files/5743/1/07.JPG"
+  ],
+  "ARH-277": [
+    "/dtk-files/5632/1/s 2.jpg",
+    "/dtk-files/5632/1/DSC_0194.JPG",
+    "/dtk-files/5632/1/s 3.jpg",
+    "/dtk-files/5632/1/003.jpg",
+    "/dtk-files/5632/1/006.JPG"
+  ],
+  "ARH-278": [
+    "/dtk-files/9269/1/Fasada lindore.jpg",
+    "/dtk-files/9269/1/Fasada Jugore.jpg",
+    "/dtk-files/9269/1/DSCN6391.jpg",
+    "/dtk-files/9269/1/DSCN6392.jpg",
+    "/dtk-files/9269/1/Pamjet e oborrit (2).jpg"
+  ],
+  "ARH-279": [
+    "/dtk-files/5707/1/2. Tyrbja - pamja jugore kah rruga.JPG",
+    "/dtk-files/5707/1/3. Mbishkrimi ne fasaden ballore.JPG",
+    "/dtk-files/5707/1/4. Semahanja - salla e lutjeve.JPG",
+    "/dtk-files/5707/1/5. Mihrabi ne semahane.JPG",
+    "/dtk-files/5707/1/12. Pamje e vjeter e teqes.JPG"
+  ],
+  "ARH-280": [
+    "/dtk-files/5650/1/T V4.jpg",
+    "/dtk-files/5650/1/T 2.jpg",
+    "/dtk-files/5650/1/016.jpg",
+    "/dtk-files/5650/1/010.jpg",
+    "/dtk-files/5650/1/007.jpg"
+  ],
+  "ARH-281": [
+    "/dtk-files/9253/1/01 Fasada ballore.JPG",
+    "/dtk-files/9253/1/02 Pamje nga oborri.JPG",
+    "/dtk-files/9253/1/07 Varret rreth tyrbes.JPG",
+    "/dtk-files/9253/1/03 Tavani.JPG",
+    "/dtk-files/9253/1/09 Varri me mbishkrim.JPG"
+  ],
+  "ARH-282": [
+    "/dtk-files/9271/1/Ura e gurit Fortese.JPG",
+    "/dtk-files/9271/1/Ura e gurit Fortese (1).JPG",
+    "/dtk-files/9271/1/Ura e gurit Fortese (2).JPG",
+    "/dtk-files/9271/1/Ura e gurit Fortese (4).JPG",
+    "/dtk-files/9271/1/Ura e gurit Fortese (5).JPG"
+  ],
+  "ARH-283": [
+    "/dtk-files/5746/1/01. Dukja perendimore.JPG",
+    "/dtk-files/5746/1/2. Dukja jugore.JPG",
+    "/dtk-files/5746/1/04. Dukja veriore.JPG",
+    "/dtk-files/5746/1/5. Porta e vjeter.JPG",
+    "/dtk-files/5746/1/03. Dukja veriperendimore.JPG"
+  ],
+  "ARH-284": [
+    "/dtk-files/9281/1/2.jpg",
+    "/dtk-files/9281/1/3.jpg",
+    "/dtk-files/9281/1/4.jpg",
+    "/dtk-files/9281/1/5.jpg",
+    "/dtk-files/9281/1/6.jpg"
+  ],
+  "ARH-285": [
+    "/dtk-files/8047/1/ku 2.jpg",
+    "/dtk-files/8047/1/ku 6.jpg",
+    "/dtk-files/8047/1/ku 7.jpg",
+    "/dtk-files/8047/1/OBRI E ULËT Rexhë Gashi (8).JPG"
+  ],
+  "ARH-286": [
+    "/dtk-files/8065/1/mu 1.jpg",
+    "/dtk-files/8065/1/mu 4.jpg",
+    "/dtk-files/8065/1/KOPILIQI I ULËT Jetish Mala (1).JPG",
+    "/dtk-files/8065/1/KOPILIQI I ULËT Jetish Mala (2).JPG",
+    "/dtk-files/8065/1/KOPILIQI I ULËT Jetish Mala (9).JPG"
+  ],
+  "ARH-287": [
+    "/dtk-files/5818/1/1.JPG",
+    "/dtk-files/5818/1/2.JPG",
+    "/dtk-files/5818/1/3.JPG",
+    "/dtk-files/5818/1/4.JPG",
+    "/dtk-files/5818/1/5.JPG"
+  ],
+  "ARH-288": [
+    "/dtk-files/5710/1/1.JPG",
+    "/dtk-files/5710/1/2.JPG",
+    "/dtk-files/5710/1/3.JPG",
+    "/dtk-files/5710/1/4.JPG",
+    "/dtk-files/5710/1/5.JPG"
+  ],
+  "ARH-289": [
+    "/dtk-files/8347/1/PEMISHTË Fetah Loshi (1).JPG",
+    "/dtk-files/8347/1/PEMISHTË Fetah Loshi (3).JPG",
+    "/dtk-files/8347/1/PEMISHTË Fetah Loshi (4).JPG",
+    "/dtk-files/8347/1/PEMISHTË Fetah Loshi (5).JPG",
+    "/dtk-files/8347/1/PEMISHTË Fetah Loshi (6).JPG"
+  ],
+  "ARH-290": [
+    "/dtk-files/9349/1/1.JPG",
+    "/dtk-files/9349/1/2.JPG",
+    "/dtk-files/9349/1/3.JPG",
+    "/dtk-files/9349/1/4.JPG",
+    "/dtk-files/9349/1/5.JPG"
+  ],
+  "ARH-291": [
+    "/dtk-files/8824/1/mu 1.jpg",
+    "/dtk-files/8824/1/01.jpg",
+    "/dtk-files/8824/1/mu 2.jpg",
+    "/dtk-files/8824/1/mu 3.jpg",
+    "/dtk-files/8824/1/mu 4.jpg"
+  ],
+  "ARH-292": [
+    "/dtk-files/8822/1/sh 5.jpg",
+    "/dtk-files/8822/1/01.jpg",
+    "/dtk-files/8822/1/sh 1.jpg",
+    "/dtk-files/8822/1/sh 2.jpg",
+    "/dtk-files/8822/1/sh 3.jpg"
+  ],
+  "ARH-293": [
+    "/dtk-files/3937/1/01 Fasada juglindore.JPG",
+    "/dtk-files/3937/1/03 Fasada verilindore.JPG",
+    "/dtk-files/3937/1/04 Kulmi i mbuluar me rrasa guri.JPG",
+    "/dtk-files/3937/1/07 Fasada jugperendimore.JPG",
+    "/dtk-files/3937/1/11 Oxhaku.JPG"
+  ],
+  "ARH-294": [
+    "/dtk-files/3946/1/01 Pamja ballore e mullirit.JPG",
+    "/dtk-files/3946/1/03 Mulliri pas restaurimit.JPG",
+    "/dtk-files/3946/1/06 Fasada Jugëperëndimore.JPG",
+    "/dtk-files/3946/1/07 Mekanizmi i mullirit.JPG",
+    "/dtk-files/3946/1/08 Ambienti rrethues.JPG"
+  ],
+  "ARH-295": [
+    "/dtk-files/883/1/1.JPG",
+    "/dtk-files/883/1/4.JPG",
+    "/dtk-files/883/1/6.JPG"
+  ],
+  "ARH-296": [
+    "/dtk-files/8587/1/man 4.jpg",
+    "/dtk-files/8587/1/man 1.jpg",
+    "/dtk-files/8587/1/1.JPG",
+    "/dtk-files/8587/1/man 7.jpg",
+    "/dtk-files/8587/1/3.JPG"
+  ],
+  "ARH-297": [
+    "/dtk-files/8575/1/stubell 1..jpg",
+    "/dtk-files/8575/1/stubell 3.jpg",
+    "/dtk-files/8575/1/stubell 2.jpg",
+    "/dtk-files/8575/1/11.JPG",
+    "/dtk-files/8575/1/12.JPG"
+  ],
+  "ARH-298": [
+    "/dtk-files/8401/1/1.JPG",
+    "/dtk-files/8401/1/oda 1.jpg",
+    "/dtk-files/8401/1/2.jpg",
+    "/dtk-files/8401/1/4.JPG"
+  ],
+  "ARH-299": [
+    "/dtk-files/3916/1/Shtëpi  me  çardak, Sejde Ismaili,   Budrigë e Epërme.JPG",
+    "/dtk-files/3916/1/DSCN4186.JPG",
+    "/dtk-files/3916/1/Foto.03.JPG",
+    "/dtk-files/3916/1/Foto.02.JPG",
+    "/dtk-files/3916/1/Foto.04.JPG"
+  ],
+  "ARH-300": [
+    "/dtk-files/8398/1/DSCN3349.JPG",
+    "/dtk-files/8398/1/DSCN7660.JPG",
+    "/dtk-files/8398/1/DSCN7620.JPG",
+    "/dtk-files/8398/1/DSCN7713.JPG"
+  ],
+  "ARH-301": [
+    "/dtk-files/2915/1/1.JPG",
+    "/dtk-files/2915/1/2.JPG",
+    "/dtk-files/2915/1/3.JPG",
+    "/dtk-files/2915/1/4.JPG",
+    "/dtk-files/2915/1/5.JPG"
+  ],
+  "ARH-302": [
+    "/dtk-files/8560/1/1.JPG",
+    "/dtk-files/8560/1/2.jpg",
+    "/dtk-files/8560/1/4.JPG",
+    "/dtk-files/8560/1/5.JPG",
+    "/dtk-files/8560/1/Xh.Sllatinë enterier 9.JPG"
+  ],
+  "ARH-303": [
+    "/dtk-files/8706/1/ham 1.jpg",
+    "/dtk-files/8706/1/ham 3.jpg",
+    "/dtk-files/8706/1/ham 5.jpg",
+    "/dtk-files/8706/1/ham 6.jpg",
+    "/dtk-files/8706/1/ham s.jpg"
+  ],
+  "ARH-304": [
+    "/dtk-files/9958/1/1.JPG",
+    "/dtk-files/9958/1/2.JPG",
+    "/dtk-files/9958/1/3.JPG",
+    "/dtk-files/9958/1/4.JPG",
+    "/dtk-files/9958/1/5.JPG"
+  ],
+  "ARH-305": [
+    "/dtk-files/8708/1/ka 6.jpg",
+    "/dtk-files/8708/1/ka 4.jpg",
+    "/dtk-files/8708/1/ka 5.jpg",
+    "/dtk-files/8708/1/ka 1.jpg",
+    "/dtk-files/8708/1/ka 2.jpg"
+  ],
+  "ARH-306": [
+    "/dtk-files/8705/1/sam 3.jpg",
+    "/dtk-files/8705/1/sam 1.jpg",
+    "/dtk-files/8705/1/sam 2.jpg",
+    "/dtk-files/8705/1/kisha cicili.jpg",
+    "/dtk-files/8705/1/sam 5.jpg"
+  ],
+  "ARH-307": [
+    "/dtk-files/9236/1/Kulla e Kadri Hysenit.JPG",
+    "/dtk-files/9236/1/kulla ash 3.jpg",
+    "/dtk-files/9236/1/sh.jpg",
+    "/dtk-files/9236/1/kull ash 1.jpg",
+    "/dtk-files/9236/1/kulla ash 4.jpg"
+  ],
+  "ARH-308": [
+    "/dtk-files/9846/1/1.JPG",
+    "/dtk-files/9846/1/2.JPG",
+    "/dtk-files/9846/1/3.JPG",
+    "/dtk-files/9846/1/4.JPG",
+    "/dtk-files/9846/1/5.JPG"
+  ],
+  "ARH-309": [
+    "/dtk-files/9876/1/DSCN6522.JPG",
+    "/dtk-files/9876/1/2.JPG",
+    "/dtk-files/9876/1/DSCN6516.JPG",
+    "/dtk-files/9876/1/DSCN9775.JPG",
+    "/dtk-files/9876/1/3.JPG",
+    "/dtk-files/9876/1/4.JPG",
+    "/dtk-files/9876/1/5.JPG"
+  ],
+  "ARH-310": [
+    "/dtk-files/9152/1/Shtëpi banimi - Mahmut Pashë Gjinolli.jpg"
+  ],
+  "ARH-311": [
+    "/dtk-files/9127/1/shpi 1.jpg",
+    "/dtk-files/9127/1/shpi 3.jpg",
+    "/dtk-files/9127/1/shpi 5.jpg",
+    "/dtk-files/9127/1/shpi 7.jpg",
+    "/dtk-files/9127/1/Shtëpia e Shaban Agës 4.JPG"
+  ],
+  "ARH-312": [
+    "/dtk-files/9237/1/Shtëpia e Familjes Pantina.JPG",
+    "/dtk-files/9237/1/shpi 1.jpg",
+    "/dtk-files/9237/1/shpi 3.jpg",
+    "/dtk-files/9237/1/shpi 4.jpg",
+    "/dtk-files/9237/1/shpi 5.jpg"
+  ],
+  "ARH-313": [
+    "/dtk-files/9128/1/1.JPG",
+    "/dtk-files/9128/1/2.JPG",
+    "/dtk-files/9128/1/3.JPG",
+    "/dtk-files/9128/1/4.JPG",
+    "/dtk-files/9128/1/5.JPG"
+  ],
+  "ARH-314": [
+    "/dtk-files/9235/1/cec 1.jpg",
+    "/dtk-files/9235/1/cec 2.jpg",
+    "/dtk-files/9235/1/cec d.jpg",
+    "/dtk-files/9235/1/cec s.jpg",
+    "/dtk-files/9235/1/cec de.jpg"
+  ],
+  "ARH-315": [
+    "/dtk-files/8707/1/ura 2.jpg",
+    "/dtk-files/8707/1/ura 3.jpg",
+    "/dtk-files/8707/1/ura 5.jpg",
+    "/dtk-files/8707/1/ura 4.jpg",
+    "/dtk-files/8707/1/Picture 016.jpg"
+  ],
+  "ARH-316": [
+    "/dtk-files/8700/1/xh 5.jpg",
+    "/dtk-files/8700/1/xham 2.jpg",
+    "/dtk-files/8700/1/xham 3.jpg",
+    "/dtk-files/8700/1/xham 4.jpg",
+    "/dtk-files/8700/1/xhamia 1.jpg"
+  ],
+  "ARH-317": [
+    "/dtk-files/7/1/boletin.jpg",
+    "/dtk-files/7/1/boletin 3.jpg",
+    "/dtk-files/7/1/boletin 4.jpg",
+    "/dtk-files/7/1/boletin 7.jpg",
+    "/dtk-files/7/1/boletin 6.jpg"
+  ],
+  "ARH-318": [
+    "/dtk-files/8699/1/Manastiri i Sokolices 1.jpg",
+    "/dtk-files/8699/1/Manastiri i Sokolices.jpg"
+  ],
+  "LUA-001": [
+    "/dtk-files/9806/1/17.png"
+  ],
+  "LUA-002": [
+    "/dtk-files/9799/1/10.png"
+  ],
+  "LUA-003": [
+    "/dtk-files/9822/1/41.png"
+  ],
+  "LUA-004": [
+    "/dtk-files/9808/1/19.png"
+  ],
+  "LUA-005": [
+    "/dtk-files/9790/1/1.png"
+  ],
+  "LUA-006": [
+    "/dtk-files/9804/1/15.png"
+  ],
+  "LUA-007": [
+    "/dtk-files/9812/1/23.png"
+  ],
+  "LUA-008": [
+    "/dtk-files/9798/1/9.png"
+  ],
+  "LUA-009": [
+    "/dtk-files/9824/1/43.png"
+  ],
+  "LUA-010": [
+    "/dtk-files/9825/1/44.png"
+  ],
+  "LUA-011": [
+    "/dtk-files/9826/1/45.png"
+  ],
+  "LUA-012": [
+    "/dtk-files/9791/1/2.png"
+  ],
+  "LUA-013": [
+    "/dtk-files/9797/1/8.png"
+  ],
+  "LUA-014": [
+    "/dtk-files/9842/1/54.png"
+  ],
+  "LUA-015": [
+    "/dtk-files/9833/1/40.png"
+  ],
+  "LUA-016": [
+    "/dtk-files/9832/1/39.png"
+  ],
+  "LUA-017": [
+    "/dtk-files/9855/1/58.png"
+  ],
+  "LUA-018": [
+    "/dtk-files/9794/1/5.png"
+  ],
+  "LUA-019": [
+    "/dtk-files/9805/1/16.png"
+  ],
+  "LUA-020": [
+    "/dtk-files/9796/1/7.png"
+  ],
+  "LUA-021": [
+    "/dtk-files/9800/1/11.png"
+  ],
+  "LUA-022": [
+    "/dtk-files/9801/1/12.png"
+  ],
+  "LUA-023": [
+    "/dtk-files/9807/1/18.png"
+  ],
+  "LUA-024": [
+    "/dtk-files/9792/1/3.png"
+  ],
+  "LUA-025": [
+    "/dtk-files/9827/1/34.png"
+  ],
+  "LUA-026": [
+    "/dtk-files/9829/1/36.png"
+  ],
+  "LUA-027": [
+    "/dtk-files/9831/1/38.png"
+  ],
+  "LUA-028": [
+    "/dtk-files/9830/1/37.png"
+  ],
+  "LUA-029": [
+    "/dtk-files/9823/1/42.png"
+  ]
+}

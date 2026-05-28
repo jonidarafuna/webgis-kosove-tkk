@@ -1,0 +1,35 @@
+SI TA HAPESH WEBGIS-IN (E RENDESISHME)
+=====================================
+
+MOS hap index.html me dy-klik ose "Open with Live Server" pa proxy.
+Poligonet dhe monumentet NUK do te shfaqen.
+
+MENYRA E SAKTE (Windows):
+-------------------------
+1. Nis GeoServer: Start Menu -> Start GeoServer (prit 1 minute)
+
+2. Dy-klik:  HAPNI.bat   (ne kete folder "web")
+   OSE ne terminal:
+      cd web
+      node serve.js
+
+3. Ne shfletues hap vetem:
+      http://localhost:5500
+
+4. Ctrl+F5 (rifreskim i plote)
+
+SKEDARET:
+---------
+  index.html   — faqja (vetem permes localhost:5500)
+  serve.js     — server + lidhja me GeoServer
+  HAPNI.bat    — nis serverin dhe hap shfletuesin
+  js/          — logjika e hartes
+
+RAPORTIM:
+  Butoni "Raporto problem" -> formular me vendndodhje ne harte.
+  Raportet ruhen ne: data/vgi-reports.json (permes node serve.js)
+
+Nese poligonet/pikat mungojne:
+  - GeoServer OFF? -> Start GeoServer
+  - Hape nga file://? -> perdor HAPNI.bat ose node serve.js
+  - Terminali u mbyll? -> node serve.js duhet te mbetet hapur

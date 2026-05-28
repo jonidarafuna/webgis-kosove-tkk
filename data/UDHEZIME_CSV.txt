@@ -1,0 +1,56 @@
+UDHËZIME — Plotësimi i sites.csv nga DTK
+=====================================
+
+Burimi: https://dtk.rks-gov.net/
+  → Rajoni: Prishtinë
+  → Lloji: Trashëgimi arkeologjike (ose "Zbulo në hartë" + filtrim)
+
+HAPAT
+-----
+1. Hap çdo sit në DTK dhe shëno në CSV.
+2. Koordinatat (lat, lon): merri nga harta DTK (kliko sitin → koordinata WGS84).
+   Nëse nuk dalin, vendos pikë në QGIS mbi vendndodhjen dhe shkruaj:
+   koordinata_burimi = "QGIS manual"
+3. id: PR-001, PR-002, ... (unik, mos përsërit).
+4. burimi: gjithmonë "DTK" ose "DTK + MKRS Guidë" kur ke përshkrim nga guida.
+5. verifikuar: "po" vetëm kur ke parë sitin në DTK ose në terren.
+
+KOLONAT (çfarë shkruan në secilën)
+----------------------------------
+id              — Kodi unik (PR-001, PR-002, ...)
+emri            — Emri zyrtar nga DTK
+tipi_siti       — gropa | varr | kalajë | vendbanim | urë | nekropoli | tjeter
+periudha        — epoka kryesore: neolit | eneolit | bronz | helenistik | romak | mesjetar | osman | moderne | i panjohur
+periudha_detaj  — shekuj, faza (opsional)
+komuna          — Prishtinë | Lipjan | Obiliq | Podujevë | Drenas | Fushë Kosovë | Graçanicë
+rajon           — gjithmonë: Prishtinë
+lat             — gjerësi WGS84 (pika decimale, p.sh. 42.5406)
+lon             — gjatësi WGS84 (p.sh. 21.1414)
+koordinata_burimi — DTK | literature | QGIS manual
+gjendja         — e mire | e demtuar | e panjohur
+status_mbrojtjes — liste perkohshme | e mbrojtur | e pa percaktuar
+pershkrim_i_shkurter — 1–3 fjali (me fjalët e tua, mos kopjo gjithë MKRS)
+burimi          — DTK | MKRS Guide | DTK + MKRS Guide
+url_dtk         — link i faqes së sitit në DTK (nëse ekziston)
+verifikuar      — po | jo
+shenime         — çdo gjë tjetër (p.sh. "koordinata e përafërt")
+
+NUMËR NË DTK (automatik, maj 2026)
+----------------------------------
+Kategoria "Trashëgimi arkeologjike" në dtk.rks-gov.net ka 55 objekte për të gjithë Kosovën.
+Për Rajonin e Prishtinës (8 komuna) dalin 15 objekte — skedari sites_dtk_prishtina.csv.
+Obiliq dhe Drenas: 0 në këtë kategori (Llapushnik/Vuçak janë në Gllogoc sipas DTK).
+
+Mund ta zgjerosh manualisht nga harta "Zbulo" ose MKRS Guidë.
+
+PAS PLOTËSIMIT
+--------------
+1. Hap sites.csv në Excel ose LibreOffice.
+2. Ruaj si CSV UTF-8 (ndërse të ruhen shkronjat ë, ç, š).
+3. Në QGIS: Layer → Add Delimited Text Layer → X=lon, Y=lat, CRS=EPSG:4326.
+4. Eksporto shapefile në KosovaRef01 për GeoServer.
+
+KOMUNAT E RAJONIT (për kontroll)
+--------------------------------
+Prishtinë, Lipjan, Obiliq, Podujevë, Drenas, Fushë Kosovë, Graçanicë
+(sipas DTK / MKRS — kontrollo listën në portal)

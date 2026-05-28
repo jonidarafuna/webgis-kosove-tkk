@@ -1,0 +1,106 @@
+================================================================================
+  HAPI 2 — TË DHËNAT (CSV) — UDHËZIME PËR FILLESTARË
+  Projekti: WebGIS trashëgimi kulturore e Kosovës (TKK)
+================================================================================
+
+ÇFARË U BË NË HAPIN 2?
+----------------------
+U mblodhën automatikisht nga portali zyrtar https://dtk.rks-gov.net/
+të dhënat për 3 llojet e trashëgimisë dhe u ruajtën si skedarë CSV
+në folderin:  data\
+
+================================================================================
+SKEDARËT KRYESORË (çfarë të hapësh)
+================================================================================
+
+  sites_arkeologjike.csv .............. 55 (WGS84 + KosovaRef01 në të njëjtin skedar)
+  sites_arkitekturore.csv ............. 318
+  sites_luajtshme.csv ................. 29
+
+  Rindërto / normalizo:
+      node build_three_csv.mjs
+
+Hap CSV me Excel ose LibreOffice Calc (UTF-8).
+
+================================================================================
+NUMRAT (maj 2026)
+================================================================================
+
+  | Lloji              | Sasia | Me koordinata |
+  |--------------------|-------|---------------|
+  | Arkeologjike       | 55    | 55            |
+  | Arkitekturore      | 318   | 318           |
+  | e Luajtshme        | 29    | 29            |
+  | GJITHSEJ           | 402   | 402           |
+
+Shënim: Arkitekturore në DTK janë shumë më shumë se 29 — linku i saktë
+është tipi=Arkitekturale (me -ale), jo Arkitekturore.
+
+================================================================================
+ÇFARË ËSHTË CSV? (shumë thjesht)
+================================================================================
+
+CSV = tabelë si Excel: rreshta = monumente, kolona = informacione.
+
+Shembull (1 monument):
+
+  id .............. kodi unik (ARK-001, LUA-005...)
+  emri ............ emri nga DTK
+  lloji_trashegimise ... arkeologjike | arkitekturore | luajtshme
+  kategoria ....... lokalitet, kulla, muze, objekt_fetar...
+  komuna .......... Prishtinë, Prizren...
+  lat, lon ........ koordinata për hartën (WGS84, si GPS)
+  easting_kosovaref01, northing_kosovaref01 ... metra (për QGIS/detyrën)
+
+================================================================================
+KOLONAT — KU I PËRDORIM
+================================================================================
+
+  lat / lon .................. Harta në internet (Leaflet) — Hapi 5
+  easting / northing ......... QGIS + GeoServer — Hapi 3–4
+  lloji_trashegimise ......... 3 shtresa në WebGIS (ndez/fik)
+  url_dtk .................... Link në popup kur klikon pikën
+  saktesia_koordinates ....... e mire | e perafert — shkruaj në punim
+
+================================================================================
+BURIMI I TË DHËNAVE
+================================================================================
+
+  • DTK (dtk.rks-gov.net) — emër, komuna, periudha, përshkrim
+  • 6 site arkeologjike pa koordinatë në DTK → plotësuar me OSM (herët)
+  • Objektet e luajtshme (muze) → shpesh pa GPS në DTK → qendra e komunës
+  • ~94 monumente arkitekturore pa GPS në faqe → qendra e komunës (përafërt)
+
+Në punim shkruaj: "Koordinatat kryesore nga TKK; ku mungojnë, u përdor
+geokodim me OpenStreetMap, me shënim 'e përafërt'."
+
+================================================================================
+ÇFARË TË BËSH TI TANI (5–10 min)
+================================================================================
+
+  [ ] 1. Hap data\sites_arkeologjike.csv — shiko 2–3 rreshta (Ulpiana, Harilaq...)
+  [ ] 2. Hap data\sites_arkitekturore.csv — shiko xhami/kulla
+  [ ] 3. Hap data\sites_luajtshme.csv — objekte muzeu (jo gjithmonë në terren)
+  [ ] 4. Në shfletues: https://dtk.rks-gov.net/ → kliko 1 monument → krahaso me CSV
+  [ ] 5. Lexo këtë skedar + mesazhin në chat
+
+Kur të jesh gati për QGIS:
+  Shkruaj në chat:  vazhdo hapi 3
+
+================================================================================
+HAPI 3 — PARAPAMJE (mos e bëj ende)
+================================================================================
+
+  • Import CSV në QGIS (WGS84 ose KosovaRef01)
+  • Ruaj si shapefile në qgis\
+  • Publikim në GeoServer (WMS/WFS)
+
+================================================================================
+SKRIPTET (opsionale — nuk ke nevojë t'i ekzekutosh)
+================================================================================
+
+  build_all_types.mjs .......... rimarrje nga DTK
+  convert_kosovaref01.js ....... WGS84 → metra
+  merge_arkeologjike_coords.mjs  plotësim 6 site arkeologjike
+
+================================================================================

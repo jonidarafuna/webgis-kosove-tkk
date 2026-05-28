@@ -1,0 +1,18 @@
+PLANI I PLOTË — 12 HAPA (përputhet me detyrën e profesorit)
+=========================================================
+
+ Hapi  1  Përgatitja, folderët, programet          ✓
+ Hapi  2  Të dhënat: 3 CSV nga DTK (3 lloje)       ✓ (402 monumente)
+ Hapi  3  QGIS: import, KosovaRef01, simbole, eksport
+ Hapi  4  GeoServer: WMS + WFS
+ Hapi  5  Faqja web: HTML + Leaflet (harta bazë)
+ Hapi  6  Interaktiv: kërkim, filtra, popup
+ Hapi  7  Analiza: matje, buffer + VGI + shkarkim
+ Hapi  8  Pamje mobil (CSS)
+ Hapi  9  GitHub Pages (online)
+ Hapi 10  Punimi Word + screenshot (10 kërkesat)
+ Hapi 11  Test WMS/WFS në QGIS
+ Hapi 12  Përmirësime / stil si mockup-i
+
+Titull i punimit (sugjerim):
+"WebGIS i trashëgimisë kulturore të Kosovës sipas klasifikimit TKK"

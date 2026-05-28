@@ -1,0 +1,29 @@
+================================================================================
+  SI TË PËRDORËSH IKONAT E TUA (nga interneti / PC)
+================================================================================
+
+1. KOPJO SKEDARËT NË PROJEKT
+   Folder: web/images/icons/
+
+   Emrat (ose ndrysho në config.js):
+     arkeologjike.png
+     arkitekturore.png
+     luajtshme.png
+
+2. OSE — JEP PATH-IN DHE PËRDOR SKRIPTIN
+   node data/copy_monument_icons.mjs "C:\Users\...\Downloads\kolona.png" arkeologjike
+
+3. NDRYSHO MADHËSINË (nëse ikona duket shumë e madhe/vogël)
+   Hape web/js/config.js → MONUMENT_ICONS → size dhe anchor
+
+4. FORMAT TJETËR (.svg, .webp)
+   Kopjo si arkeologjike.svg dhe në config.js:
+     file: "arkeologjike.svg"
+
+5. RIFRESKO
+   node serve.js  →  http://localhost:5500  →  Ctrl+F5
+
+================================================================================
+MOS përdor path absolut C:\... direkt në faqe — shfletuesi nuk e lexon.
+Gjithmonë kopjo në web/images/icons/
+================================================================================

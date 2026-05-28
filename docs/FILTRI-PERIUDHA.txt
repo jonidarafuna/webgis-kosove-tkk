@@ -1,0 +1,20 @@
+================================================================================
+  FILTRI PERIUDHË HISTORIKE — çfarë bën çdo skedar
+================================================================================
+
+RRJEDHA:
+  CSV (kolona periudha) → GeoServer WFS → JavaScript filtron pikat në hartë
+
+SKEDARËT:
+  config.js    — lista e butonave (Romake, Mesjetë, …)
+  chart.js     — normalizePeriudha() + grafiku
+  filters.js   — logjika e filtrit (i ri)
+  map.js       — regjistron çdo pikë, thërret filtrin
+  index.html   — kutia e butonave majtas
+  style.css    — pamja e butonave dhe chips
+
+TEST:
+  node serve.js → http://localhost:5500 → kliko "Romake"
+  → vetëm pikat romake + grafik përditësohet
+
+================================================================================

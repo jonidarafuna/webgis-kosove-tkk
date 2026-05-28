@@ -1,0 +1,20 @@
+# Node / mjedis
+node_modules/
+.env
+*.log
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# GeoServer / të dhëna të mëdha (mos i ngarko në GitHub)
+geoserver-data/
+*.zip
+*.tar
+*.gz
+
+# Skedarë personal / prova
+*.key
+*.pem

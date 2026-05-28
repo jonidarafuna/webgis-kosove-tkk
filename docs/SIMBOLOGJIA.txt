@@ -1,0 +1,34 @@
+================================================================================
+  SIMBOLOGJIA E HARTËS
+================================================================================
+
+ÇFARË U RREGULLUA:
+  - Hequr WMS për pikat (kuadratët e kuq të GeoServer-it) — vetëm WFS me ngjyra
+  - Poligonet (Kosova, Komunat, Rajonet) me SLD nga web/js/symbology.js
+  - Legjenda poshtë-djathtas në hartë
+  - Ngjyra: portokalli / cyan / jeshile (si sidebar-i)
+
+MONUMENTET (WFS) — ikona SVG + cluster:
+  Arkeologjike   → portokalli + kolonë
+  Arkitekturore  → cyan + ndërtesë
+  E luajtshme    → verdhë + amforë
+  Grumbullim (cluster) me numër kur zoom larg
+
+SKEDARËT SHTESË:
+  web/lib/leaflet.markercluster.js
+  web/js/symbology.js (ikona)
+
+POLIGONET (WMS + SLD):
+  Kosova   → kufi cyan, mbushje shumë e lehtë
+  Komunat  → vijë gri e thyer
+  Rajonet  → vijë gri e plotë
+
+NË GEOSERVER (opsionale — nëse SLD nga web nuk punon):
+  Ngarko skedarët nga geoserver/sld/ si stile për çdo layer.
+
+SKEDARËT:
+  web/js/symbology.js
+  web/js/map.js
+  web/css/style.css
+
+================================================================================

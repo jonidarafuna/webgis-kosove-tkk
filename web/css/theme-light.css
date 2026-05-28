@@ -1,0 +1,510 @@
+/* Tema light — kontrast i lexueshëm (mbivendos ngjyrat e hardcoduara të dark mode) */
+
+html[data-theme="light"] header.app-header {
+  color: var(--text);
+}
+
+/* —— Timeline —— */
+html[data-theme="light"] .timeline-panel {
+  color: var(--text);
+}
+
+html[data-theme="light"] .timeline-title,
+html[data-theme="light"] .app-mockup .timeline-title {
+  color: var(--text);
+}
+
+html[data-theme="light"] .timeline-info {
+  border-color: #94a3b8;
+  color: var(--muted);
+}
+
+html[data-theme="light"] .timeline-info:hover {
+  border-color: #ea580c;
+  color: #c2410c;
+}
+
+html[data-theme="light"] .tl-period-btn {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .tl-period-btn:hover {
+  color: var(--text);
+  background: rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .tl-period-icon {
+  color: #64748b;
+}
+
+html[data-theme="light"] .tl-period-btn.is-active {
+  color: var(--text);
+  background: rgba(249, 115, 22, 0.1);
+}
+
+html[data-theme="light"] .tl-period-btn.is-active .tl-period-icon {
+  color: #ea580c;
+}
+
+html[data-theme="light"] .timeline-track-bg {
+  background: #e2e8f0;
+}
+
+html[data-theme="light"] .timeline-tick-label {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .timeline-handle {
+  border-color: #fff;
+}
+
+/* —— Paneli i detajeve —— */
+html[data-theme="light"] .detail-panel,
+html[data-theme="light"] .app-mockup .detail-panel {
+  color: var(--text);
+  background: var(--bg-panel);
+}
+
+html[data-theme="light"] .detail-title,
+html[data-theme="light"] .app-mockup .detail-title,
+html[data-theme="light"] #detailTitle {
+  color: var(--text);
+}
+
+html[data-theme="light"] .detail-location {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .detail-close {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .detail-close:hover {
+  color: var(--teal);
+}
+
+html[data-theme="light"] .detail-photo-main {
+  background: var(--bg-soft);
+  border-color: var(--border);
+}
+
+/* Zona «Foto nga DTK» — gri e butë, jo e bardhë */
+html[data-theme="light"] .detail-photo-placeholder {
+  background: var(--bg-soft);
+  color: var(--muted);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .detail-photo-thumb-btn {
+  background: var(--bg-panel-2);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .detail-tab {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .detail-tab.active {
+  color: var(--accent);
+}
+
+html[data-theme="light"] .detail-tabs,
+html[data-theme="light"] .app-mockup .detail-tabs {
+  border-bottom-color: var(--border);
+}
+
+/* Lista INFO — etiketat & vlerat */
+html[data-theme="light"] .detail-row {
+  border-bottom-color: var(--border);
+}
+
+html[data-theme="light"] .detail-row dt {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .detail-row dd {
+  color: var(--text);
+}
+
+html[data-theme="light"] .detail-row dd.accent,
+html[data-theme="light"] dd.accent {
+  color: var(--accent-warm, #b45309);
+  font-weight: 600;
+}
+
+html[data-theme="light"] .detail-reports {
+  border-top-color: var(--border);
+}
+
+html[data-theme="light"] .detail-reports__title {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .detail-reports__empty,
+html[data-theme="light"] .detail-reports__date {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .detail-reports__item {
+  background: var(--bg-soft);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .detail-reports__desc {
+  color: var(--text);
+}
+
+html[data-theme="light"] .detail-reports__map-btn {
+  color: var(--teal);
+  border-color: rgba(15, 107, 92, 0.4);
+}
+
+html[data-theme="light"] .detail-reports__map-btn:hover {
+  background: rgba(15, 107, 92, 0.1);
+}
+
+/* Lidhja DTK — jo kuti e errët */
+html[data-theme="light"] .detail-dtk {
+  background: var(--bg-soft);
+  color: var(--teal);
+  border: 1px solid rgba(15, 107, 92, 0.35);
+  font-weight: 600;
+}
+
+html[data-theme="light"] .detail-dtk:hover {
+  background: rgba(15, 107, 92, 0.1);
+  color: #0c5a4e;
+  border-color: var(--teal);
+}
+
+html[data-theme="light"] .detail-dtk-empty {
+  color: var(--muted);
+}
+
+/* Shigjeta e veriut */
+html[data-theme="light"] .map-north-arrow {
+  filter: drop-shadow(0 1px 4px rgba(15, 23, 42, 0.18));
+}
+
+html[data-theme="light"] .map-north-arrow-ring {
+  fill: var(--bg-panel);
+  stroke: var(--border);
+}
+
+html[data-theme="light"] .map-north-arrow-head {
+  fill: var(--teal);
+  stroke: #0f766e;
+}
+
+html[data-theme="light"] .map-north-arrow-label {
+  fill: var(--muted);
+}
+
+html[data-theme="light"] .detail-tag--arkeologjike {
+  background: rgba(249, 115, 22, 0.15);
+  color: #c2410c;
+  border-color: #f97316;
+}
+
+html[data-theme="light"] .detail-tag--arkitekturore {
+  background: rgba(13, 148, 136, 0.12);
+  color: #0f766e;
+  border-color: var(--teal);
+}
+
+html[data-theme="light"] .detail-tag--luajtshme {
+  background: rgba(101, 163, 13, 0.12);
+  color: #4d7c0f;
+  border-color: #65a30d;
+}
+
+/* —— Shtresat (sidebar) —— */
+html[data-theme="light"] .layer-row {
+  background: var(--bg-panel-2);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .layer-row:hover {
+  border-color: #94a3b8;
+}
+
+html[data-theme="light"] .sidebar-header-flyout-btn,
+html[data-theme="light"] .sidebar-collapse-btn {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .sidebar-header-flyout-btn:hover,
+html[data-theme="light"] .sidebar-collapse-btn:hover {
+  color: var(--teal);
+}
+
+/* —— Kërkimi —— */
+html[data-theme="light"] .search-panel-title {
+  color: var(--text);
+}
+
+html[data-theme="light"] .search-panel-head-icon {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .search-input-wrap {
+  background: var(--bg-panel-2);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .search-input-icon,
+html[data-theme="light"] .search-input,
+html[data-theme="light"] .search-input-clear {
+  color: var(--text);
+}
+
+html[data-theme="light"] .search-input::placeholder {
+  color: #94a3b8;
+}
+
+html[data-theme="light"] .search-dropdown {
+  background: var(--bg-panel);
+  border-color: var(--border);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+}
+
+html[data-theme="light"] .search-result-title {
+  color: var(--text);
+}
+
+html[data-theme="light"] .search-result-meta {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .search-result-btn:hover {
+  background: rgba(13, 148, 136, 0.08);
+}
+
+html[data-theme="light"] .search-history-btn {
+  color: var(--text);
+}
+
+html[data-theme="light"] .search-history-clear {
+  color: var(--muted);
+}
+
+/* —— Mjetet e hartës —— */
+html[data-theme="light"] .map-toolbar {
+  background: rgba(239, 233, 223, 0.96);
+  box-shadow: 0 4px 16px rgba(42, 36, 28, 0.12);
+}
+
+html[data-theme="light"] .map-tool-btn {
+  background: var(--bg-panel-2);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .map-tool-btn:hover,
+html[data-theme="light"] .map-tool-btn--active {
+  color: var(--text);
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+html[data-theme="light"] .map-tool-menu {
+  background: var(--bg-panel);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+
+html[data-theme="light"] .map-tool-menu-input,
+html[data-theme="light"] .map-tool-menu-select {
+  background: var(--bg-panel-2);
+  color: var(--text);
+}
+
+html[data-theme="light"] .map-tool-result {
+  background: rgba(239, 233, 223, 0.98);
+  color: var(--text);
+  box-shadow: 0 6px 24px rgba(42, 36, 28, 0.12);
+}
+
+html[data-theme="light"] .map-coords-bar {
+  background: rgba(239, 233, 223, 0.96);
+}
+
+html[data-theme="light"] .map-coords-system {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath fill='%23475569' d='M0 0l4 5 4-5z'/%3E%3C/svg%3E");
+}
+
+html[data-theme="light"] .map-coords-value {
+  color: var(--text);
+}
+
+html[data-theme="light"] .map-view-option,
+html[data-theme="light"] .map-view-restore {
+  background: var(--bg-panel-2);
+}
+
+html[data-theme="light"] .map-view-option.is-active,
+html[data-theme="light"] .map-view-restore.is-active {
+  color: var(--text);
+}
+
+/* —— Legjenda —— */
+html[data-theme="light"] .map-legend {
+  color: var(--text);
+}
+
+html[data-theme="light"] .map-legend--dock {
+  background: var(--bg-panel-2);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .map-legend-title {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .map-legend-row--icon span:last-child {
+  color: var(--text);
+}
+
+/* —— Leaflet —— */
+html[data-theme="light"] .app-mockup .leaflet-control-zoom a {
+  background: var(--bg-panel) !important;
+  color: #334155 !important;
+  border-color: var(--border) !important;
+}
+
+html[data-theme="light"] .app-mockup .leaflet-control-zoom a:hover {
+  background: var(--bg-panel-2) !important;
+  color: var(--teal) !important;
+}
+
+html[data-theme="light"] .app-mockup .leaflet-control-zoom a.leaflet-disabled {
+  background: var(--bg-soft) !important;
+  color: #94a3b8 !important;
+}
+
+html[data-theme="light"] .app-mockup .leaflet-control-scale {
+  background: rgba(239, 233, 223, 0.96) !important;
+}
+
+html[data-theme="light"] .app-mockup .leaflet-control-scale-line {
+  border-color: #64748b !important;
+  color: #475569 !important;
+}
+
+html[data-theme="light"] .leaflet-control-attribution {
+  background: rgba(239, 233, 223, 0.9) !important;
+  color: var(--muted) !important;
+}
+
+/* —— Scrollbar —— */
+html[data-theme="light"] .app-mockup,
+html[data-theme="light"] .app-mockup * {
+  scrollbar-color: #b5aa98 #e6dfd3;
+}
+
+html[data-theme="light"] .app-mockup ::-webkit-scrollbar-track {
+  background: #e6dfd3;
+}
+
+html[data-theme="light"] .app-mockup ::-webkit-scrollbar-thumb {
+  background: #b5aa98;
+  border-color: #e6dfd3;
+}
+
+html[data-theme="light"] .app-mockup ::-webkit-scrollbar-thumb:hover {
+  background: #8f8578;
+}
+
+html[data-theme="light"] .app-mockup ::-webkit-scrollbar-corner {
+  background: #e6dfd3;
+}
+
+/* —— Statistika / grafiku —— */
+html[data-theme="light"] .chart-panel,
+html[data-theme="light"] .app-mockup .chart-panel {
+  background: var(--bg-panel);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .chart-title,
+html[data-theme="light"] .chart-panel-title {
+  color: var(--text);
+}
+
+html[data-theme="light"] .chart-total,
+html[data-theme="light"] .chart-empty,
+html[data-theme="light"] .chart-download-hint {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .chart-section-divider {
+  background: var(--border);
+}
+
+html[data-theme="light"] .chart-geo-tab {
+  color: var(--muted);
+  background: var(--bg-soft);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .chart-geo-tab:hover {
+  color: var(--text);
+  background: var(--bg-panel-2);
+  border-color: #94a3b8;
+}
+
+html[data-theme="light"] .chart-geo-tab.is-active {
+  color: var(--text);
+  background: rgba(15, 107, 92, 0.14);
+  border-color: var(--teal);
+}
+
+html[data-theme="light"] .vchart-value {
+  color: var(--text);
+}
+
+html[data-theme="light"] .vchart-label {
+  color: var(--muted);
+}
+
+html[data-theme="light"] .vchart-track {
+  background: var(--track-bg, #c4b8a8);
+}
+
+html[data-theme="light"] .hchart-label {
+  color: var(--text);
+}
+
+html[data-theme="light"] .hchart-value {
+  color: var(--text);
+}
+
+html[data-theme="light"] .hchart-track {
+  background: var(--track-bg, #c4b8a8);
+}
+
+html[data-theme="light"] .chart-download-wrap {
+  border-top-color: var(--border);
+}
+
+html[data-theme="light"] .chart-download-btn {
+  background: var(--bg-soft);
+  color: var(--teal);
+  border: 1px solid rgba(15, 107, 92, 0.35);
+  font-weight: 600;
+}
+
+html[data-theme="light"] .chart-download-btn:hover {
+  background: rgba(15, 107, 92, 0.1);
+  color: #0c5a4e;
+  border-color: var(--teal);
+}
+
+/* —— Modal VGI —— */
+html[data-theme="light"] .vgi-modal__panel {
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+}
+
+html[data-theme="light"] .vgi-modal__backdrop {
+  background: rgba(15, 23, 42, 0.35);
+}

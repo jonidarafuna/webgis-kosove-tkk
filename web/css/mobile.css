@@ -1,0 +1,471 @@
+/* Version mobil — shtresa si drawer, detaje si bottom sheet, hartë e plotë */
+
+:root {
+  --mobile-nav-h: calc(3.35rem + env(safe-area-inset-bottom, 0px));
+}
+
+.mobile-backdrop {
+  display: none;
+}
+
+.mobile-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body.is-mobile {
+    --sidebar-col-w: 0px;
+    overflow: hidden;
+  }
+
+  body.is-mobile .app-header {
+    padding-left: 0.45rem;
+    padding-right: 0.45rem;
+  }
+
+  body.is-mobile .app-header-actions {
+    gap: 0.35rem;
+  }
+
+  body.is-mobile .app-header-control-label {
+    display: none;
+  }
+
+  body.is-mobile .app-lang-select {
+    min-width: 2.6rem;
+    font-size: 0.65rem;
+  }
+
+  body.is-mobile .app-header-vgi-toggle span {
+    display: none;
+  }
+
+  body.is-mobile .layout {
+    display: block;
+    height: calc(100dvh - var(--app-header-h, 40px) - var(--mobile-nav-h));
+    height: calc(100vh - var(--app-header-h, 40px) - var(--mobile-nav-h));
+    grid-template-columns: 1fr !important;
+    transition: none;
+  }
+
+  body.is-mobile .layout--flyout-open {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.is-mobile .sidebar-column {
+    position: fixed;
+    inset: 0;
+    z-index: 820;
+    width: 0;
+    height: 0;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  body.is-mobile .sidebar-left,
+  body.is-mobile .sidebar-flyout.is-open {
+    pointer-events: auto;
+  }
+
+  body.is-mobile #sidebarRail,
+  body.is-mobile .sidebar-collapse-btn {
+    display: none !important;
+  }
+
+  body.is-mobile.mobile-panel-layers .sidebar-header-actions {
+    display: flex !important;
+  }
+
+  body.is-mobile .layout--sidebar-collapsed .sidebar-left {
+    transform: translateX(-105%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  body.is-mobile.mobile-panel-layers .sidebar-left {
+    position: fixed;
+    top: var(--app-header-h, 40px);
+    left: 0;
+    bottom: var(--mobile-nav-h);
+    width: min(100vw, 20.5rem);
+    max-width: 100%;
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    display: block !important;
+    z-index: 860;
+    box-shadow: 8px 0 28px rgba(0, 0, 0, 0.45);
+  }
+
+  body.is-mobile.mobile-panel-layers .sidebar-left.is-suppressed {
+    display: block !important;
+  }
+
+  body.is-mobile .sidebar-flyout {
+    position: fixed;
+    top: var(--app-header-h, 40px);
+    left: 0;
+    right: 0;
+    bottom: var(--mobile-nav-h);
+    width: 100% !important;
+    max-width: 100%;
+    z-index: 865;
+    transform: translateX(105%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      transform 0.28s ease,
+      opacity 0.22s ease,
+      visibility 0.22s ease;
+    box-shadow: none;
+  }
+
+  body.is-mobile .layout--sidebar-collapsed .sidebar-flyout.is-open {
+    left: 0;
+    width: 100% !important;
+  }
+
+  body.is-mobile .sidebar-flyout.is-open,
+  body.is-mobile.mobile-panel-search .sidebar-flyout--search.is-open,
+  body.is-mobile.mobile-panel-filters .sidebar-flyout--filters.is-open,
+  body.is-mobile.mobile-panel-chart .sidebar-flyout--chart.is-open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* Hartë + timeline poshtë (flex), paneli mobil sipër */
+  body.is-mobile .map-wrap {
+    position: fixed;
+    top: var(--app-header-h, 40px);
+    left: 0;
+    right: 0;
+    bottom: var(--mobile-nav-h);
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    min-height: 0;
+    z-index: 1;
+  }
+
+  body.is-mobile .map-canvas {
+    flex: 1 1 auto;
+    min-height: 0;
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.is-mobile .map-canvas #map {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    height: auto;
+  }
+
+  body.is-mobile .panel-right {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: var(--mobile-nav-h);
+    z-index: 870;
+    max-height: min(72dvh, 72vh, 34rem);
+    padding: 0.55rem 0.6rem calc(0.35rem + env(safe-area-inset-bottom, 0px));
+    border-left: none;
+    border-top: 1px solid var(--border);
+    border-radius: 14px 14px 0 0;
+    box-shadow: 0 -10px 36px rgba(0, 0, 0, 0.5);
+    transform: translateY(110%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 0.28s ease, opacity 0.2s ease, visibility 0.2s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  body.is-mobile.mobile-panel-detail .panel-right,
+  body.is-mobile .panel-right:has(.detail-panel.is-open) {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  body.is-mobile .panel-right .detail-panel {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body.is-mobile .map-bottom-bar {
+    flex-shrink: 0;
+    position: relative;
+    padding-bottom: 0.25rem;
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+  }
+
+  body.is-mobile .map-bottom-bar .timeline-panel {
+    max-width: 100%;
+  }
+
+  /* Raportimi sipër shkallës — pak më vogël dhe më lart */
+  body.is-mobile .map-bottom-bar .report-problem-btn {
+    position: absolute;
+    right: 0.45rem;
+    bottom: calc(100% + 2.15rem);
+    left: auto;
+    top: auto;
+    width: 3.15rem;
+    height: 3.15rem;
+    margin: 0;
+    padding: 0.3rem 0.22rem 0.28rem;
+    z-index: 750;
+    transform: none;
+  }
+
+  body.is-mobile .report-problem-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  body.is-mobile .report-problem-line {
+    font-size: 0.44rem;
+  }
+
+  body.is-mobile .map-bottom-bar .report-problem-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  body.is-mobile .map-bottom-bar .report-problem-btn:active {
+    transform: translateY(0);
+  }
+
+  body.is-mobile .map-toolbar--dock {
+    min-width: 0;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.22rem;
+  }
+
+  body.is-mobile .map-toolbar--dock .map-tool-group {
+    width: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  body.is-mobile .map-tool-btn-label {
+    display: none;
+  }
+
+  body.is-mobile .map-toolbar--dock .map-tool-btn {
+    width: 2.15rem;
+    height: 2.15rem;
+    padding: 0;
+    gap: 0;
+    justify-content: center;
+    align-items: center;
+  }
+
+  body.is-mobile .map-tool-btn-icon {
+    width: 0.85rem;
+    height: 0.85rem;
+    margin: 0;
+    display: block;
+  }
+
+  /* Koordinatat — gjerësi vetëm sipas përmbajtjes */
+  body.is-mobile .map-coords-bar {
+    left: 0.35rem;
+    right: auto;
+    bottom: 0.45rem;
+    width: fit-content;
+    max-width: min(calc(100vw - 6rem), 19rem);
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.18rem 0.35rem;
+    z-index: 810;
+  }
+
+  body.is-mobile .map-coords-system {
+    font-size: 0.5rem;
+    padding: 0.12rem 0.95rem 0.12rem 0.28rem;
+  }
+
+  body.is-mobile .map-coords-value {
+    flex: 0 1 auto;
+    min-width: 0;
+    font-size: 0.5rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: unset;
+  }
+
+  body.is-mobile .leaflet-bottom.leaflet-left {
+    left: auto !important;
+    right: 0.45rem !important;
+    bottom: 0.85rem !important;
+    transform: scale(0.82);
+    transform-origin: bottom right;
+    margin-bottom: 0 !important;
+  }
+
+  body.is-mobile .leaflet-control-scale {
+    padding: 1px 3px !important;
+  }
+
+  body.is-mobile .leaflet-control-scale-line {
+    font-size: 0.46rem !important;
+    padding: 1px 3px 0 !important;
+    border-width: 1.5px !important;
+  }
+
+  body.is-mobile .timeline-tick-labels {
+    height: 0.8rem;
+    margin: 0 0.05rem;
+    padding: 0 0.2rem;
+  }
+
+  body.is-mobile .timeline-tick-label {
+    font-size: 0.4rem;
+    letter-spacing: -0.01em;
+  }
+
+  body.is-mobile .timeline-tick-label--start,
+  body.is-mobile .timeline-tick-label:first-child {
+    transform: translateX(0);
+    text-align: left;
+  }
+
+  body.is-mobile .timeline-tick-label--early {
+    transform: translateX(0);
+    text-align: left;
+  }
+
+  body.is-mobile .timeline-tick-label--end,
+  body.is-mobile .timeline-tick-label:last-child {
+    transform: translateX(0);
+    text-align: right;
+  }
+
+  body.is-mobile .leaflet-control-attribution {
+    right: 0.35rem !important;
+    left: auto !important;
+    max-width: 42vw;
+  }
+
+  body.is-mobile .map-north-arrow {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  body.is-mobile .symbology-panel {
+    margin-top: 0.35rem;
+  }
+
+  body.is-mobile .mobile-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 810;
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(4, 8, 14, 0.55);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body.is-mobile .mobile-backdrop[hidden] {
+    display: none !important;
+  }
+
+  body.is-mobile.mobile-open .mobile-backdrop:not([hidden]) {
+    display: block;
+  }
+
+  body.is-mobile .mobile-nav {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 900;
+    height: var(--mobile-nav-h);
+    padding: 0.28rem 0.2rem env(safe-area-inset-bottom, 0px);
+    box-sizing: border-box;
+    align-items: stretch;
+    justify-content: space-around;
+    gap: 0.1rem;
+    background: var(--bg-panel);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  body.is-mobile .mobile-nav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.08rem;
+    min-width: 0;
+    padding: 0.18rem 0.08rem;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.48rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body.is-mobile .mobile-nav-btn span {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  body.is-mobile .mobile-nav-btn svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  body.is-mobile .mobile-nav-btn.is-active {
+    color: var(--teal);
+    background: rgba(45, 212, 191, 0.1);
+  }
+
+  body.is-mobile .mobile-nav-btn:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+}
+
+html[data-theme="light"] body.is-mobile .mobile-backdrop {
+  background: rgba(42, 36, 28, 0.4);
+}
+
+html[data-theme="light"] body.is-mobile .mobile-nav {
+  box-shadow: 0 -2px 16px rgba(42, 36, 28, 0.12);
+}
