@@ -207,8 +207,9 @@ const RAJON_LABEL_MAX_SCALE_METERS = 30000;
 const KOMUNA_LABEL_MAX_SCALE_METERS = SATELLITE_MAX_SCALE_METERS;
 /** Komunat + emrat (rezervë kur shkalla nuk matet): zoom >= 9 */
 const KOMUNAT_MIN_ZOOM = 9;
-/** Rezervë Auto: satelit kur zoom >= 10 (~shkallë 10 km e poshtë) */
-const SATELLITE_AUTO_MIN_ZOOM = 10;
+/** Auto: satelit kur zoom >= 11 (~5 km); fiket kur zoom <= 10 */
+const SATELLITE_AUTO_MIN_ZOOM = 11;
+const SATELLITE_AUTO_OFF_ZOOM = 10;
 /** Satelit i tejdukshëm që simbolet të duken më mirë */
 const SATELLITE_LAYER_OPACITY = 0.72;
 /** Shtresë e errët poshtë satelitit (kontrast) */
@@ -237,9 +238,8 @@ function tkkGoogleSatelliteTileUrl(withLabels) {
   return (
     window.location.origin +
     base +
-    "google-tiles/?lyrs=" +
-    lyrs +
-    "&s={s}&x={x}&y={y}&z={z}"
+    "google-tiles/{z}/{x}/{y}?lyrs=" +
+    lyrs
   );
 }
 window.tkkGoogleSatelliteTileUrl = tkkGoogleSatelliteTileUrl;

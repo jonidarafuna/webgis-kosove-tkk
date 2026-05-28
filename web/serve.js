@@ -57,11 +57,20 @@ function proxyGeoServer(req, res) {
 
 /** Pllaka Google Satellite — proxy me Referer (shmang 403 / URL të gabuar) */
 function proxyGoogleTiles(req, res) {
+  const pathOnly = req.url.split("?")[0];
   const q = req.url.includes("?") ? req.url.split("?")[1] : "";
   const params = new URLSearchParams(q);
-  const x = params.get("x");
-  const y = params.get("y");
-  const z = params.get("z");
+  let x = params.get("x");
+  let y = params.get("y");
+  let z = params.get("z");
+  const pathMatch = pathOnly.match(
+    /\/google-tiles\/(\d+)\/(\d+)\/(\d+)(?:\.[a-z]+)?$/i
+  );
+  if (pathMatch) {
+    z = pathMatch[1];
+    x = pathMatch[2];
+    y = pathMatch[3];
+  }
   const s = params.get("s") || "0";
 
   if (x == null || y == null || z == null) {

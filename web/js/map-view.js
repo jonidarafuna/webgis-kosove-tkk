@@ -73,6 +73,9 @@ function handleBasemapModeClick(mode) {
   if (typeof setBasemapMode === "function") {
     setBasemapMode(mode);
   }
+  if (mode === "auto" && typeof window.syncBasemapForZoom === "function") {
+    window.syncBasemapForZoom();
+  }
   refreshViewPanel();
 }
 
