@@ -1,5 +1,5 @@
-Monumentet per GitHub Pages (si te Genita Selmani)
-==================================================
+Monumentet per GitHub Pages
+==========================
 
 Keto 3 skedare krijohen me EKSPORTO-MONUMENTE.bat (GeoServer + HAPNI.bat):
 
@@ -11,4 +11,4 @@ Pa to, aplikacioni online nuk ka pika ne harte.
 
 Pas eksportit: git add, commit, push — pastaj GitHub Pages.
 
-Udhëzues: GITHUB-PAGES-GENITA.md (ne rrënjë të projektit).
+Udhëzues: GITHUB-PAGES-HAP-PAS-HAPI.md (ne rrënjë të projektit).

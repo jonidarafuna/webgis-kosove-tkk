@@ -1,8 +1,6 @@
-# Publikimi si Genita Selmani (GitHub Pages)
+# Publikimi në internet (GitHub Pages)
 
-Shembull i Genitës: https://genitaselmani.github.io/the-village-webgis/
-
-Ti do të kesh diçka të ngjashme:
+Aplikacioni publik:
 
 **https://jonidarafuna.github.io/webgis-kosove-tkk/**
 
@@ -35,12 +33,14 @@ Duhet të shohësh: `arkeologjike.geojson`, `arkitekturore.geojson`, `luajtshme.
 
 ## Hapi 2 — Ngarko në GitHub
 
-Në PowerShell (ndrysho rrugën nëse duhet):
+Në GitHub Desktop: zgjidh ndryshimet → **Commit to main** → **Push origin**.
+
+Ose në PowerShell:
 
 ```powershell
 cd "c:\Users\rafun\Desktop\UNI\Master\Viti II\Semestri III\Ueb GIS\Detyra\Detyra\webgis-kosove-tkk"
-git add web/data/monuments
-git commit -m "GeoJSON monumentesh per GitHub Pages"
+git add .
+git commit -m "GitHub Pages dhe GeoJSON monumentesh"
 git push
 ```
 
@@ -48,19 +48,19 @@ git push
 
 ## Hapi 3 — Aktivizo GitHub Pages
 
-1. Hap: https://github.com/jonidarafuna/webgis-kosove-tkk/settings/pages
-2. **Build and deployment** → Source: **Deploy from a branch**
-3. Branch: **main**, Folder: **/web**
-4. Save
+GitHub **nuk lejon** folderin `/web` te “Deploy from a branch”. Përdoret **GitHub Actions** (`.github/workflows/github-pages.yml`).
 
-Pas 1–3 minuta, faqja është live te linku më sipër.
+1. Bëj **push** (Hapi 2).
+2. Hap: https://github.com/jonidarafuna/webgis-kosove-tkk/settings/pages
+3. **Build and deployment** → Source: **GitHub Actions**
+4. Shko te **Actions** — prit “Deploy WebGIS…” **green** (1–3 min).
 
 ---
 
 ## Hapi 4 — Në telefon (si app)
 
 1. Hap linkun në Chrome/Safari.
-2. **Add to Home Screen** / **Shto në ekranin kryesor**.
+2. **Shto në ekranin kryesor** / Add to Home Screen.
 3. Hap nga ikona — funksionon pa Wi‑Fi të PC-së.
 
 ---
@@ -69,14 +69,15 @@ Pas 1–3 minuta, faqja është live te linku më sipër.
 
 - **Kapitulli 8:** linku publik + repo GitHub.
 - **Kapitulli 7.2:** screenshot nga telefoni me linkun `github.io`.
-- Shkruaj që versioni publik përdor **GeoJSON statik** (si shumë WebGIS universitare), ndërsa zhvillimi lokal përdor **WFS/WMS GeoServer**.
+- Versioni publik = **GeoJSON statik**; zhvillimi lokal = **WFS/WMS GeoServer**.
 
 ---
 
 ## Nëse faqja është bosh
 
 - A ke bërë **Hapi 1** dhe **push** të `web/data/monuments/*.geojson`?
-- Në Settings → Pages, a është folderi **/web**?
+- A është **GitHub Actions** aktiv te Settings → Pages?
+- A është workflow-i **green** te Actions?
 
 ---
 

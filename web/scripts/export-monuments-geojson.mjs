@@ -66,7 +66,7 @@ async function main() {
 
   console.log(`\nGati. Gjithsej ${total} monumente.`);
   console.log("Tani: git add data/monuments && git commit && git push");
-  console.log("Pastaj aktivizo GitHub Pages (shiko GITHUB-PAGES-GENITA.md).");
+  console.log("Pastaj aktivizo GitHub Pages (shiko GITHUB-PAGES-HAP-PAS-HAPI.md).");
 }
 
 main().catch((err) => {
