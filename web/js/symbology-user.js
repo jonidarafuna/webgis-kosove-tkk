@@ -6,16 +6,14 @@ const USER_COLORS_STORAGE_KEY = "tkkUserPointStyles";
 const HERITAGE_TYPES = ["arkeologjike", "arkitekturore", "luajtshme"];
 
 const COLOR_PRESETS = [
+  "#FC8D62",
+  "#8DA0CB",
+  "#66C2A5",
   "#f97316",
   "#ea580c",
-  "#b45309",
-  "#dc2626",
   "#2dd4bf",
-  "#0d9488",
-  "#14b8a6",
   "#38bdf8",
   "#a3e635",
-  "#65a30d",
   "#64748b",
   "#1e293b",
 ];

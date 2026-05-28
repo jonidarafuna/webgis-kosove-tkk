@@ -948,16 +948,16 @@ aside h2:first-child,
 }
 
 .dot.ark {
-  background: #f97316;
-  box-shadow: 0 0 0 1px #fb923c;
+  background: #fc8d62;
+  box-shadow: 0 0 0 1px #e07850;
 }
 .dot.arh {
-  background: #2dd4bf;
-  box-shadow: 0 0 0 1px #14b8a6;
+  background: #8da0cb;
+  box-shadow: 0 0 0 1px #7589b5;
 }
 .dot.lua {
-  background: #facc15;
-  box-shadow: 0 0 0 1px #fbbf24;
+  background: #66c2a5;
+  box-shadow: 0 0 0 1px #52a88d;
 }
 
 .dot--custom-icon {
@@ -1074,18 +1074,18 @@ aside h2:first-child,
 }
 
 .map-legend-swatch--ark {
-  background: #f97316;
-  box-shadow: 0 0 0 1px #fb923c;
+  background: #fc8d62;
+  box-shadow: 0 0 0 1px #e07850;
 }
 
 .map-legend-swatch--arh {
-  background: #2dd4bf;
-  box-shadow: 0 0 0 1px #14b8a6;
+  background: #8da0cb;
+  box-shadow: 0 0 0 1px #7589b5;
 }
 
 .map-legend-swatch--lua {
-  background: #facc15;
-  box-shadow: 0 0 0 1px #fbbf24;
+  background: #66c2a5;
+  box-shadow: 0 0 0 1px #52a88d;
 }
 
 /* Zona e klikueshme më e madhe se ikona e dukshme */

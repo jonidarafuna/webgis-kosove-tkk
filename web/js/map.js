@@ -534,18 +534,7 @@ function updateLayerRowVisual(key, effectiveOn) {
 }
 
 function syncRajonetLayersForZoom() {
-  const layer = window.tkkRajonetLayer;
-  if (!layer) return;
-
-  const prefs = window._tkkLayerPrefs || {};
-  const userOn = prefs.rajonet !== false;
-  const show = tkkRajonetShouldShowOnMap();
-
-  orderAdminBoundaryLayers();
-
-  updateLayerRowVisual("rajonet", userOn);
-  const row = document.querySelector('.layer-row[data-layer="rajonet"]');
-  if (row) row.classList.toggle("is-scale-hidden", userOn && !show);
+  syncScaleDependentAdminLayers();
 }
 
 const STATIC_BOUNDARY_GEOJSON = {
@@ -832,23 +821,26 @@ function syncKomunaLabelVisibility() {
 }
 
 function syncKomunatLayersForZoom() {
-  const layer = window.tkkKomunatLayer;
-  if (!layer) return;
-
-  const prefs = window._tkkLayerPrefs || {};
-  const userOn = prefs.komunat !== false;
-  const show = tkkKomunatShouldShowOnMap();
-
-  orderAdminBoundaryLayers();
-
-  updateLayerRowVisual("komunat", userOn);
-  const rowK = document.querySelector('.layer-row[data-layer="komunat"]');
-  if (rowK) rowK.classList.toggle("is-scale-hidden", userOn && !show);
+  syncScaleDependentAdminLayers();
 }
 
 function syncScaleDependentAdminLayers() {
-  syncKomunatLayersForZoom();
-  syncRajonetLayersForZoom();
+  orderAdminBoundaryLayers();
+
+  const prefs = window._tkkLayerPrefs || {};
+  const userOnK = prefs.komunat !== false;
+  const userOnR = prefs.rajonet !== false;
+  const showK = tkkKomunatShouldShowOnMap();
+  const showR = tkkRajonetShouldShowOnMap();
+
+  updateLayerRowVisual("komunat", userOnK);
+  updateLayerRowVisual("rajonet", userOnR);
+
+  const rowK = document.querySelector('.layer-row[data-layer="komunat"]');
+  if (rowK) rowK.classList.toggle("is-scale-hidden", userOnK && !showK);
+
+  const rowR = document.querySelector('.layer-row[data-layer="rajonet"]');
+  if (rowR) rowR.classList.toggle("is-scale-hidden", userOnR && !showR);
 }
 
 window.tkkRajonetLayer = rajonetLayer;

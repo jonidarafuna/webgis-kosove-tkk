@@ -537,15 +537,15 @@ html[data-theme="light"] .app-logo {
 }
 
 .search-result-type--arkeologjike {
-  color: #94a3b8;
+  color: #fc8d62;
 }
 
 .search-result-type--arkitekturore {
-  color: #38bdf8;
+  color: #8da0cb;
 }
 
 .search-result-type--luajtshme {
-  color: #a3e635;
+  color: #66c2a5;
 }
 
 .search-show-all {
@@ -2389,13 +2389,13 @@ body.vgi-pick-map-mode #map {
 }
 
 .app-mockup .dot.lua {
-  background: var(--lime);
-  box-shadow: 0 0 0 1px #84cc16;
+  background: #66c2a5;
+  box-shadow: 0 0 0 1px #52a88d;
 }
 
 .app-mockup .map-legend-swatch--lua {
-  background: var(--lime);
-  box-shadow: 0 0 0 1px #84cc16;
+  background: #66c2a5;
+  box-shadow: 0 0 0 1px #52a88d;
 }
 
 /* Panel djathtas */
@@ -2518,15 +2518,15 @@ body.vgi-pick-map-mode #map {
 }
 
 .monument-picker-item--arkeologjike .monument-picker-item__icon {
-  background: #f97316;
+  background: #fc8d62;
 }
 
 .monument-picker-item--arkitekturore .monument-picker-item__icon {
-  background: #2dd4bf;
+  background: #8da0cb;
 }
 
 .monument-picker-item--luajtshme .monument-picker-item__icon {
-  background: #a3e635;
+  background: #66c2a5;
 }
 
 .monument-picker-item__body {
@@ -2612,21 +2612,21 @@ body.vgi-pick-map-mode #map {
 }
 
 .detail-tag--arkeologjike {
-  background: rgba(249, 115, 22, 0.25);
-  color: #fdba74;
-  border: 1px solid var(--orange);
+  background: rgba(252, 141, 98, 0.22);
+  color: #fec8a8;
+  border: 1px solid #fc8d62;
 }
 
 .detail-tag--arkitekturore {
-  background: rgba(45, 212, 191, 0.2);
-  color: #99f6e4;
-  border: 1px solid var(--teal);
+  background: rgba(141, 160, 203, 0.22);
+  color: #c5d0ea;
+  border: 1px solid #8da0cb;
 }
 
 .detail-tag--luajtshme {
-  background: rgba(163, 230, 53, 0.2);
-  color: #d9f99d;
-  border: 1px solid var(--lime);
+  background: rgba(102, 194, 165, 0.22);
+  color: #a8e6d4;
+  border: 1px solid #66c2a5;
 }
 
 /* Leaflet — zoom (kompakt, dark mode) */

@@ -201,21 +201,21 @@ html[data-theme="light"] .map-north-arrow-label {
 }
 
 html[data-theme="light"] .detail-tag--arkeologjike {
-  background: rgba(249, 115, 22, 0.15);
-  color: #c2410c;
-  border-color: #f97316;
+  background: rgba(252, 141, 98, 0.18);
+  color: #c45a2c;
+  border-color: #fc8d62;
 }
 
 html[data-theme="light"] .detail-tag--arkitekturore {
-  background: rgba(13, 148, 136, 0.12);
-  color: #0f766e;
-  border-color: var(--teal);
+  background: rgba(141, 160, 203, 0.18);
+  color: #4a5f8f;
+  border-color: #8da0cb;
 }
 
 html[data-theme="light"] .detail-tag--luajtshme {
-  background: rgba(101, 163, 13, 0.12);
-  color: #4d7c0f;
-  border-color: #65a30d;
+  background: rgba(102, 194, 165, 0.18);
+  color: #2d7a62;
+  border-color: #66c2a5;
 }
 
 /* —— Shtresat (sidebar) —— */

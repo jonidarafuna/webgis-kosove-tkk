@@ -109,23 +109,29 @@ const WFS_LAYERS = {
   luajtshme: "tkk:sites_luajtshme",
 };
 
-/** Ngjyra afër mockup-it (portokalli / teal / verdhë) */
+/** Paleta Set2 — 3 ngjyra për monumentet (Loading.io / ColorBrewer) */
+const MONUMENT_SET2_COLORS = {
+  arkeologjike: { fill: "#FC8D62", stroke: "#e07850" },
+  arkitekturore: { fill: "#8DA0CB", stroke: "#7589b5" },
+  luajtshme: { fill: "#66C2A5", stroke: "#52a88d" },
+};
+
 const POINT_STYLES = {
   arkeologjike: {
-    fill: "#f97316",
-    stroke: "#fb923c",
+    fill: MONUMENT_SET2_COLORS.arkeologjike.fill,
+    stroke: MONUMENT_SET2_COLORS.arkeologjike.stroke,
     radius: 7,
     label: "Trashëgimia arkeologjike",
   },
   arkitekturore: {
-    fill: "#2dd4bf",
-    stroke: "#14b8a6",
+    fill: MONUMENT_SET2_COLORS.arkitekturore.fill,
+    stroke: MONUMENT_SET2_COLORS.arkitekturore.stroke,
     radius: 7,
     label: "Trashëgimia arkitekturore",
   },
   luajtshme: {
-    fill: "#a3e635",
-    stroke: "#65a30d",
+    fill: MONUMENT_SET2_COLORS.luajtshme.fill,
+    stroke: MONUMENT_SET2_COLORS.luajtshme.stroke,
     radius: 7,
     label: "Trashëgimia e luajtshme",
   },
