@@ -144,11 +144,12 @@ const RAJONET_STYLE = {
   fillOpacity: 0,
 };
 
-/** Komunat — GeoJSON statik (GitHub Pages) */
+/** Komunat — GeoJSON statik (i njëjti stil si WMS: teal, vijë e ndërprerë) */
 const KOMUNAT_VECTOR_STYLE = {
-  color: "#94a3b8",
+  color: "#5eead4",
   weight: ADMIN_BORDER_WEIGHT.komunat,
-  opacity: 0.7,
+  opacity: 0.9,
+  dashArray: "6 4",
   fill: false,
   fillOpacity: 0,
 };

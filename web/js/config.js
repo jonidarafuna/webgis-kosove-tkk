@@ -197,6 +197,8 @@ const SATELLITE_MAX_SCALE_METERS = 10000;
 const SATELLITE_AUTO_ON_MAX_METERS = 9000;
 /** Emrat e rajoneve vetëm kur shkalla < 30 km (vijat e rajoneve mbeten >= 10 km) */
 const RAJON_LABEL_MAX_SCALE_METERS = 30000;
+/** Emrat e komunave vetëm kur shkalla < 10 km (vijat e komunave nën ~9 km) */
+const KOMUNA_LABEL_MAX_SCALE_METERS = SATELLITE_MAX_SCALE_METERS;
 /** Satelit i tejdukshëm që simbolet të duken më mirë */
 const SATELLITE_LAYER_OPACITY = 0.72;
 /** Shtresë e errët poshtë satelitit (kontrast) */
