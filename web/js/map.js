@@ -93,7 +93,9 @@ function loadStaticMonumentGeoJson(typeKey, clusterGroup) {
   const url = STATIC_MONUMENT_GEOJSON[typeKey];
   if (!url) return Promise.resolve([]);
 
-  return fetch(url, { cache: "no-store" })
+  const base =
+    typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "";
+  return fetch(base + url, { cache: "no-store" })
     .then((response) => {
       if (!response.ok) {
         throw new Error("GeoJSON " + typeKey + ": HTTP " + response.status);
@@ -554,8 +556,67 @@ function syncRajonetLayersForZoom() {
   if (row) row.classList.toggle("is-scale-hidden", userOn && !show);
 }
 
+const STATIC_BOUNDARY_GEOJSON = {
+  kosova: "data/boundaries/kosova.geojson",
+  rajonet: "data/boundaries/rajonet.geojson",
+  komunat: "data/boundaries/komunat.geojson",
+};
+
+function fetchStaticBoundaryGeoJson(key) {
+  const url = STATIC_BOUNDARY_GEOJSON[key];
+  if (!url) return Promise.reject(new Error("missing key"));
+  const base =
+    typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "";
+  return fetch(base + url, { cache: "no-store" }).then((r) => {
+    if (!r.ok) throw new Error(key + " HTTP " + r.status);
+    return r.json();
+  });
+}
+
+function loadStaticAdminBoundaries() {
+  fetchStaticBoundaryGeoJson("kosova")
+    .then((data) => {
+      if (!data.features?.length) throw new Error("kosova bosh");
+      const border = L.geoJSON(data, {
+        style: KOSOVA_BORDER_STYLE,
+        interactive: false,
+      });
+      kosovaLayer.addLayer(border);
+      orderAdminBoundaryLayers();
+    })
+    .catch((err) => console.warn("Kufiri Kosovës (statik):", err));
+
+  fetchStaticBoundaryGeoJson("rajonet")
+    .then((data) => {
+      if (!data.features?.length) throw new Error("rajonet bosh");
+      applyRajonetGeoJson(data);
+    })
+    .catch((err) => console.warn("Rajonet (statik):", err));
+
+  fetchStaticBoundaryGeoJson("komunat")
+    .then((data) => {
+      if (!data.features?.length) throw new Error("komunat bosh");
+      const polys = L.geoJSON(data, {
+        style: POLYGON_WMS_STYLE.komunat,
+        interactive: false,
+      });
+      if (polys.setZIndex) polys.setZIndex(ADMIN_LAYER_Z_INDEX.komunat);
+      komunatLayer.addLayer(polys);
+      applyKomunatLabelsGeoJson(data);
+      orderAdminBoundaryLayers();
+      if (typeof syncKomunatLayersForZoom === "function") {
+        syncKomunatLayersForZoom();
+      }
+    })
+    .catch((err) => console.warn("Komunat (statik):", err));
+}
+
 function loadRajonetLayer() {
-  if (window.tkkIsStaticPublish || !WFS_URL) return;
+  if (window.tkkIsStaticPublish) {
+    loadStaticAdminBoundaries();
+    return;
+  }
+  if (!WFS_URL) return;
   addRajonetWmsToGroup();
   tryLoadRajonetWfs(0);
   loadRajonetLabels();
@@ -819,8 +880,10 @@ function loadKosovaBorderLayer() {
 }
 
 if (wmsKomunat.setZIndex) wmsKomunat.setZIndex(ADMIN_LAYER_Z_INDEX.komunat);
-loadKomunatLabels();
-loadKosovaBorderLayer();
+if (!window.tkkIsStaticPublish) {
+  loadKomunatLabels();
+  loadKosovaBorderLayer();
+}
 loadRajonetLayer();
 orderAdminBoundaryLayers();
 

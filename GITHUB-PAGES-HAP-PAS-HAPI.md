@@ -25,9 +25,12 @@ Poligonet administrative mungojnë online — harta bazë (OSM) dhe të gjitha p
 1. Nis **GeoServer** (Start Menu).
 2. Dy-klik **`web/HAPNI.bat`** — lëre dritaren hapur.
 3. Hap http://localhost:5500 — sigurohu që monumentet shfaqen.
-4. Dy-klik **`web/EKSPORTO-MONUMENTE.bat`**.
+4. Dy-klik **`web/EKSPORTO-MONUMENTE.bat`** (monumentet).
+5. Dy-klik **`web/EKSPORTO-KUFIJT.bat`** (kufijtë rajonet/komunat/Kosova).
 
-Duhet të shohësh: `arkeologjike.geojson`, `arkitekturore.geojson`, `luajtshme.geojson` në `web/data/monuments/`.
+Skedarët:
+- `web/data/monuments/*.geojson`
+- `web/data/boundaries/*.geojson`
 
 ---
 

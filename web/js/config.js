@@ -8,6 +8,59 @@ function tkkDetectStaticPublish() {
 
 window.tkkIsStaticPublish = tkkDetectStaticPublish();
 
+/** Bazë e shtesës për GitHub Pages (p.sh. /webgis-kosove-tkk/) */
+function tkkAppBase() {
+  if (typeof window === "undefined") return "/";
+  let p = window.location.pathname || "/";
+  if (!p.endsWith("/")) {
+    if (/index\.html?$/i.test(p)) p = p.replace(/[^/]+$/, "");
+    else p = p.replace(/[^/]*$/, "") || "/";
+  }
+  return p;
+}
+window.tkkAppBase = tkkAppBase;
+
+function tkkEncodeUrlPath(url) {
+  try {
+    const u = new URL(url);
+    u.pathname = u.pathname
+      .split("/")
+      .map((seg) => (seg ? encodeURIComponent(decodeURIComponent(seg)) : ""))
+      .join("/");
+    return u.href;
+  } catch {
+    return url;
+  }
+}
+
+/** Foto DTK: proxy lokale (serve.js) ose URL direkte në GitHub Pages */
+function tkkResolveMediaUrl(path) {
+  if (!path) return path;
+  const s = String(path).trim();
+  if (/^https?:\/\//i.test(s)) {
+    const m = s.match(/dtk\.rks-gov\.net\/files(\/.+)/i);
+    if (m) {
+      if (window.tkkIsStaticPublish) {
+        return tkkEncodeUrlPath("https://dtk.rks-gov.net/files" + m[1]);
+      }
+      return tkkEncodeUrlPath(window.location.origin + "/dtk-files" + m[1]);
+    }
+    return s;
+  }
+  if (s.startsWith("/dtk-files")) {
+    const rest = s.replace(/^\/dtk-files/, "");
+    if (window.tkkIsStaticPublish) {
+      return tkkEncodeUrlPath("https://dtk.rks-gov.net/files" + rest);
+    }
+    return tkkEncodeUrlPath(window.location.origin + s);
+  }
+  if (s.startsWith("/")) {
+    return window.location.origin + tkkAppBase() + s.replace(/^\//, "");
+  }
+  return tkkAppBase() + s.replace(/^\//, "");
+}
+window.tkkResolveMediaUrl = tkkResolveMediaUrl;
+
 /** GeoServer — përmes proxy në serve.js (shmang CORS); jo në GitHub Pages */
 const GEOSERVER_BASE = window.tkkIsStaticPublish
   ? ""

@@ -56,13 +56,11 @@ function resolvePhotoUrls(props) {
 }
 
 function toAbsoluteUrl(path) {
-  if (!path) return path;
-  if (/^https?:\/\//i.test(path)) {
-    const m = path.match(/dtk\.rks-gov\.net\/files(\/.+)/i);
-    if (m) return window.location.origin + "/dtk-files" + m[1];
-    return path;
+  if (typeof window.tkkResolveMediaUrl === "function") {
+    return window.tkkResolveMediaUrl(path);
   }
-  if (path.startsWith("/dtk-files")) return window.location.origin + path;
+  if (!path) return path;
+  if (/^https?:\/\//i.test(path)) return path;
   const base = window.location.href.replace(/\/[^/]*$/, "/");
   return base + path.replace(/^\//, "");
 }
@@ -123,11 +121,21 @@ function applyDtkLinks(dtkUrl) {
 }
 
 function fetchDtkPhotoUrls(heritageId) {
+  if (window.tkkIsStaticPublish) {
+    return Promise.resolve([]);
+  }
   return fetch(
     "/api/dtk-photos?heritageId=" + encodeURIComponent(heritageId)
   )
     .then((r) => (r.ok ? r.json() : null))
-    .then((data) => (data && Array.isArray(data.urls) ? data.urls : []))
+    .then((data) => {
+      const urls = data && Array.isArray(data.urls) ? data.urls : [];
+      return urls.map((u) =>
+        typeof window.tkkResolveMediaUrl === "function"
+          ? window.tkkResolveMediaUrl(u)
+          : u
+      );
+    })
     .catch(() => []);
 }
 
@@ -326,12 +334,26 @@ function closeDetailPanel(ev) {
   resetDetailPanel();
 }
 
+function rewritePhotoIndexEntry(entry) {
+  const fix =
+    typeof window.tkkResolveMediaUrl === "function"
+      ? window.tkkResolveMediaUrl
+      : (u) => u;
+  if (Array.isArray(entry)) return entry.map(fix);
+  return fix(entry);
+}
+
 function loadPhotoIndex() {
-  return fetch("data/photos.json")
+  const base =
+    typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "";
+  return fetch(base + "data/photos.json")
     .then((r) => (r.ok ? r.json() : {}))
     .then((data) => {
-      photoIndex = data || {};
-      delete photoIndex._info;
+      photoIndex = {};
+      Object.keys(data || {}).forEach((key) => {
+        if (key.startsWith("_")) return;
+        photoIndex[key] = rewritePhotoIndexEntry(data[key]);
+      });
     })
     .catch(() => {
       photoIndex = {};
