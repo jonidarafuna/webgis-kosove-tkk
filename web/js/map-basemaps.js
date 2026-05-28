@@ -147,24 +147,24 @@ function applyBasemapTileUrls() {
   }
 }
 
+function shouldUseSatelliteBasemap(map) {
+  const m = map || basemapMap;
+  if (!m) return false;
+  if (basemapMode === "satellite") return true;
+  if (basemapMode === "auto") return shouldShowSatelliteAuto(m);
+  return false;
+}
+
 function applyThemeToBasemap() {
   if (!basemapMap || !basemapOsmLayerLight) return;
 
-  const hadSatellite =
-    activeSatelliteLayer && basemapMap.hasLayer(activeSatelliteLayer);
-  const opacity = hadSatellite ? getSatelliteBlendOpacity() : 1;
-
-  mountActiveOsmLayer(opacity);
-
-  if (hadSatellite && typeof activeSatelliteLayer.bringToFront === "function") {
-    activeSatelliteLayer.bringToFront();
-  }
-
+  updatePairedOsmLayerUrls();
   lastBasemapTileKey = "";
-  if (syncBasemapImpl) {
-    syncBasemapImpl();
+
+  if (shouldUseSatelliteBasemap()) {
+    ensureSatelliteVisible();
   } else {
-    syncBasemap();
+    ensureOsmVisible();
   }
 }
 
@@ -186,13 +186,16 @@ function pickSatelliteLayer() {
 function useSatelliteLayer(layer) {
   if (!basemapMap || !layer) return;
 
-  if (activeSatelliteLayer && basemapMap.hasLayer(activeSatelliteLayer)) {
-    basemapMap.removeLayer(activeSatelliteLayer);
+  const alreadyOn =
+    activeSatelliteLayer === layer && basemapMap.hasLayer(layer);
+  if (!alreadyOn) {
+    if (activeSatelliteLayer && basemapMap.hasLayer(activeSatelliteLayer)) {
+      basemapMap.removeLayer(activeSatelliteLayer);
+    }
+    activeSatelliteLayer = layer;
+    setSatelliteLayerOpacity(layer);
+    layer.addTo(basemapMap);
   }
-
-  activeSatelliteLayer = layer;
-  setSatelliteLayerOpacity(layer);
-  layer.addTo(basemapMap);
 
   mountActiveOsmLayer(getSatelliteBlendOpacity());
 
@@ -224,11 +227,7 @@ function syncBasemap() {
     applyBasemapTileUrls();
   }
 
-  if (basemapMode === "osm") {
-    ensureOsmVisible();
-  } else if (basemapMode === "satellite") {
-    ensureSatelliteVisible();
-  } else if (shouldShowSatelliteAuto(basemapMap)) {
+  if (shouldUseSatelliteBasemap(basemapMap)) {
     ensureSatelliteVisible();
   } else {
     ensureOsmVisible();
@@ -299,6 +298,7 @@ function initMapBasemaps(map) {
   lastBasemapTileKey = "";
   syncBasemap();
 
+  map.on("zoom", syncBasemap);
   map.on("zoomend", syncBasemap);
   map.on("moveend", syncBasemap);
 
