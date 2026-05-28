@@ -47,9 +47,15 @@ function resolvePhotoUrls(props) {
   }
 
   if (id && id !== "—") {
-    add("images/monuments/" + id + ".jpg");
-    add("images/monuments/" + id + ".png");
-    add("images/monuments/" + id + "_2.jpg");
+    const indexed = photoIndex[id];
+    const hasIndexed = Array.isArray(indexed)
+      ? indexed.length > 0
+      : !!(indexed && String(indexed).trim());
+    if (!hasIndexed) {
+      add("images/monuments/" + id + ".jpg");
+      add("images/monuments/" + id + ".png");
+      add("images/monuments/" + id + "_2.jpg");
+    }
   }
 
   return urls;

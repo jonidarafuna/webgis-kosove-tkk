@@ -107,8 +107,23 @@ function mergeVgiReportLists(serverList, localList) {
   return arr.concat(local.filter((r) => r.id && !ids.has(r.id)));
 }
 
+async function fetchStaticVgiReportsJson() {
+  const base =
+    typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "";
+  try {
+    const r = await fetch(base + "data/vgi-reports.json", { cache: "no-store" });
+    if (!r.ok) return [];
+    const data = await r.json();
+    if (Array.isArray(data)) return data;
+    if (data && Array.isArray(data.reports)) return data.reports;
+    return [];
+  } catch {
+    return [];
+  }
+}
+
 async function probeVgiApi() {
-  if (window.TKK_APP_MODE === "file") {
+  if (window.TKK_APP_MODE === "file" || window.tkkIsStaticPublish) {
     window.TKK_VGI_API_OK = false;
     return false;
   }
@@ -195,16 +210,27 @@ async function fetchAllVgiReports() {
   const local = getLocalVgiReports();
   if (window.TKK_APP_MODE === "file") return local;
 
+  const withStatic = () =>
+    fetchStaticVgiReportsJson().then((staticList) =>
+      mergeVgiReportLists(staticList, local)
+    );
+
+  if (window.tkkIsStaticPublish || window.TKK_VGI_API_OK !== true) {
+    return withStatic();
+  }
+
   try {
-    const r = await fetch(window.location.origin + "/api/vgi-reports", { cache: "no-store" });
+    const r = await fetch(window.location.origin + "/api/vgi-reports", {
+      cache: "no-store",
+    });
     const ct = r.headers.get("content-type") || "";
     if (!r.ok || !ct.includes("application/json")) {
-      return local;
+      return withStatic();
     }
     const server = await r.json();
     return mergeVgiReportLists(server, local);
   } catch {
-    return local;
+    return withStatic();
   }
 }
 
@@ -760,12 +786,17 @@ function initReportVgi() {
     }
   });
 
-  probeVgiApi().then(() => updateVgiServerHint());
+  const bootReports = () => {
+    probeVgiApi().then(() => {
+      updateVgiServerHint();
+      loadCrowdReportsOnMap();
+    });
+  };
 
   if (window.map && typeof window.map.whenReady === "function") {
-    window.map.whenReady(() => loadCrowdReportsOnMap());
+    window.map.whenReady(bootReports);
   } else {
-    setTimeout(loadCrowdReportsOnMap, 800);
+    setTimeout(bootReports, 800);
   }
 }
 
