@@ -496,6 +496,7 @@ function tryLoadRajonetLabelsOnly(index) {
 }
 
 function isRajonetOverviewScale() {
+  if (window.tkkIsStaticPublish) return true;
   return (
     typeof shouldShowSatellite === "function" && !shouldShowSatellite(map)
   );
@@ -574,41 +575,38 @@ function fetchStaticBoundaryGeoJson(key) {
 }
 
 function loadStaticAdminBoundaries() {
-  fetchStaticBoundaryGeoJson("kosova")
-    .then((data) => {
-      if (!data.features?.length) throw new Error("kosova bosh");
-      const border = L.geoJSON(data, {
-        style: KOSOVA_BORDER_STYLE,
-        interactive: false,
-      });
-      kosovaLayer.addLayer(border);
-      orderAdminBoundaryLayers();
-    })
-    .catch((err) => console.warn("Kufiri Kosovës (statik):", err));
-
-  fetchStaticBoundaryGeoJson("rajonet")
-    .then((data) => {
-      if (!data.features?.length) throw new Error("rajonet bosh");
-      applyRajonetGeoJson(data);
-    })
-    .catch((err) => console.warn("Rajonet (statik):", err));
-
   fetchStaticBoundaryGeoJson("komunat")
     .then((data) => {
       if (!data.features?.length) throw new Error("komunat bosh");
+
+      const kosova = L.geoJSON(data, {
+        style: KOSOVA_BORDER_STYLE,
+        interactive: false,
+      });
+      kosovaLayer.addLayer(kosova);
+
+      applyRajonetGeoJson(data);
+
       const polys = L.geoJSON(data, {
-        style: POLYGON_WMS_STYLE.komunat,
+        style:
+          typeof KOMUNAT_VECTOR_STYLE !== "undefined"
+            ? KOMUNAT_VECTOR_STYLE
+            : RAJONET_STYLE,
         interactive: false,
       });
       if (polys.setZIndex) polys.setZIndex(ADMIN_LAYER_Z_INDEX.komunat);
       komunatLayer.addLayer(polys);
       applyKomunatLabelsGeoJson(data);
+
       orderAdminBoundaryLayers();
       if (typeof syncKomunatLayersForZoom === "function") {
         syncKomunatLayersForZoom();
       }
+      if (typeof syncRajonetLayersForZoom === "function") {
+        syncRajonetLayersForZoom();
+      }
     })
-    .catch((err) => console.warn("Komunat (statik):", err));
+    .catch((err) => console.warn("Kufijtë (statik):", err));
 }
 
 function loadRajonetLayer() {
@@ -786,6 +784,7 @@ function tryLoadKomunatLabels(index) {
 }
 
 function isKomunatDetailScale() {
+  if (window.tkkIsStaticPublish) return true;
   if (typeof getScaleBarMeters !== "function") return false;
   const m = getScaleBarMeters(map);
   const onBelow =

@@ -144,6 +144,15 @@ const RAJONET_STYLE = {
   fillOpacity: 0,
 };
 
+/** Komunat — GeoJSON statik (GitHub Pages) */
+const KOMUNAT_VECTOR_STYLE = {
+  color: "#94a3b8",
+  weight: ADMIN_BORDER_WEIGHT.komunat,
+  opacity: 0.7,
+  fill: false,
+  fillOpacity: 0,
+};
+
 /** Kufiri i Kosovës — vektor (WFS) ose WMS rezervë */
 const KOSOVA_BORDER_STYLE = {
   color: "#2dd4bf",
@@ -363,6 +372,7 @@ function refreshAllClusters() {
 
 window.WMS_SLD = WMS_SLD;
 window.POLYGON_WMS_STYLE = POLYGON_WMS_STYLE;
+window.KOMUNAT_VECTOR_STYLE = KOMUNAT_VECTOR_STYLE;
 window.RAJONET_STYLE = RAJONET_STYLE;
 window.ADMIN_LAYER_Z_INDEX = ADMIN_LAYER_Z_INDEX;
 window.ADMIN_BORDER_WEIGHT = ADMIN_BORDER_WEIGHT;

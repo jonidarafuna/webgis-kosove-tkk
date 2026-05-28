@@ -69,6 +69,7 @@ function setMainPhoto(url, alt) {
   const wrap = document.getElementById("detailPhotoMainWrap");
   const img = document.getElementById("detailPhotoMain");
   if (!wrap || !img) return;
+  img.referrerPolicy = "no-referrer";
   img.src = url;
   img.alt = alt || t("detail.photoAlt");
   wrap.hidden = false;
@@ -151,6 +152,7 @@ function probePhotoUrls(candidates) {
     candidates.forEach((raw) => {
       const url = toAbsoluteUrl(raw);
       const probe = new Image();
+      probe.referrerPolicy = "no-referrer";
       probe.onload = () => {
         loaded.push(url);
         pending -= 1;
