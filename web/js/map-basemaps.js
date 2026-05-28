@@ -15,6 +15,7 @@ let basemapSatelliteLayer = null;
 let basemapSatelliteFallbackLayer = null;
 let activeSatelliteLayer = null;
 let googleSatelliteFailed = false;
+let googleTileErrorStreak = 0;
 let satelliteShownInAuto = false;
 let lastBasemapTileKey = "";
 
@@ -33,15 +34,31 @@ function getScaleBarMeters(map) {
 }
 
 function shouldShowSatelliteAuto(map) {
+  if (!map) return false;
+
   const m = getScaleBarMeters(map);
   const onBelow =
     typeof SATELLITE_AUTO_ON_MAX_METERS === "number"
       ? SATELLITE_AUTO_ON_MAX_METERS
       : SATELLITE_MAX_SCALE_METERS * 0.9;
+  const maxM =
+    typeof SATELLITE_MAX_SCALE_METERS === "number"
+      ? SATELLITE_MAX_SCALE_METERS
+      : 10000;
+  const minZoom =
+    typeof SATELLITE_AUTO_MIN_ZOOM === "number"
+      ? SATELLITE_AUTO_MIN_ZOOM
+      : 10;
+  const zoom = typeof map.getZoom === "function" ? map.getZoom() : 0;
+
   if (satelliteShownInAuto) {
-    return m < SATELLITE_MAX_SCALE_METERS;
+    if (m != null && m >= maxM) return false;
+    return true;
   }
-  return m < onBelow;
+
+  if (m != null && m < onBelow) return true;
+  if (zoom >= minZoom) return true;
+  return false;
 }
 
 function setSatelliteLayerOpacity(layer) {
@@ -75,9 +92,11 @@ function getOsmTileUrlForTheme(themeKey) {
 }
 
 function getSatelliteTileUrl() {
-  return basemapMode === "satellite"
-    ? GOOGLE_SATELLITE_LABELS_URL
-    : GOOGLE_SATELLITE_URL;
+  const withLabels = basemapMode === "satellite";
+  if (typeof window.tkkGoogleSatelliteTileUrl === "function") {
+    return window.tkkGoogleSatelliteTileUrl(withLabels);
+  }
+  return withLabels ? GOOGLE_SATELLITE_LABELS_URL : GOOGLE_SATELLITE_URL;
 }
 
 function getSatelliteBlendOpacity() {
@@ -253,6 +272,7 @@ function setBasemapMode(mode) {
   localStorage.setItem(BASEMAP_MODE_KEY, mode);
   if (mode === "satellite" || mode === "auto") {
     googleSatelliteFailed = false;
+    googleTileErrorStreak = 0;
   }
   lastBasemapTileKey = "";
   if (syncBasemapImpl) {
@@ -267,7 +287,7 @@ function initMapBasemaps(map) {
   createPairedOsmLayers();
   mountActiveOsmLayer(1);
 
-  basemapSatelliteLayer = L.tileLayer(GOOGLE_SATELLITE_URL, {
+  basemapSatelliteLayer = L.tileLayer(getSatelliteTileUrl(), {
     attribution: GOOGLE_SATELLITE_ATTRIBUTION,
     subdomains: GOOGLE_SATELLITE_SUBDOMAINS,
     maxZoom: 20,
@@ -284,9 +304,14 @@ function initMapBasemaps(map) {
     }
   );
 
+  basemapSatelliteLayer.on("tileload", () => {
+    googleTileErrorStreak = 0;
+  });
+
   basemapSatelliteLayer.on("tileerror", () => {
-    if (googleSatelliteFailed) return;
-    if (basemapMode === "osm") return;
+    if (googleSatelliteFailed || basemapMode === "osm") return;
+    googleTileErrorStreak += 1;
+    if (googleTileErrorStreak < 6) return;
     googleSatelliteFailed = true;
     console.warn("Google Satellite: pllaka dështuan, përdor Esri Imagery.");
     if (basemapMode === "satellite" || shouldShowSatelliteAuto(map)) {
@@ -297,6 +322,7 @@ function initMapBasemaps(map) {
   syncBasemapImpl = syncBasemap;
   lastBasemapTileKey = "";
   syncBasemap();
+  map.whenReady(syncBasemap);
 
   map.on("zoom", syncBasemap);
   map.on("zoomend", syncBasemap);

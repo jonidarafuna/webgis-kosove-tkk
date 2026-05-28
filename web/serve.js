@@ -70,10 +70,13 @@ function proxyGoogleTiles(req, res) {
     return;
   }
 
+  const lyrs = params.get("lyrs") === "y" ? "y" : "s";
   const target =
     "https://mt" +
     encodeURIComponent(s) +
-    ".google.com/vt/lyrs=s&hl=en&x=" +
+    ".google.com/vt/lyrs=" +
+    lyrs +
+    "&hl=en&x=" +
     encodeURIComponent(x) +
     "&y=" +
     encodeURIComponent(y) +
@@ -365,6 +368,11 @@ const server = http.createServer((req, res) => {
 
   if (req.url.startsWith("/dtk-files")) {
     proxyDtkFiles(req, res);
+    return;
+  }
+
+  if (req.url.startsWith("/google-tiles")) {
+    proxyGoogleTiles(req, res);
     return;
   }
 

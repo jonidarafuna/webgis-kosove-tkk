@@ -207,6 +207,8 @@ const RAJON_LABEL_MAX_SCALE_METERS = 30000;
 const KOMUNA_LABEL_MAX_SCALE_METERS = SATELLITE_MAX_SCALE_METERS;
 /** Komunat + emrat (rezervë kur shkalla nuk matet): zoom >= 9 */
 const KOMUNAT_MIN_ZOOM = 9;
+/** Rezervë Auto: satelit kur zoom >= 10 (~shkallë 10 km e poshtë) */
+const SATELLITE_AUTO_MIN_ZOOM = 10;
 /** Satelit i tejdukshëm që simbolet të duken më mirë */
 const SATELLITE_LAYER_OPACITY = 0.72;
 /** Shtresë e errët poshtë satelitit (kontrast) */
@@ -219,6 +221,28 @@ const GOOGLE_SATELLITE_LABELS_URL =
 const GOOGLE_SATELLITE_SUBDOMAINS = "0123";
 const GOOGLE_SATELLITE_ATTRIBUTION =
   '&copy; <a href="https://www.google.com/maps">Google</a>';
+
+/** Pllaka Google — proxy lokale (serve.js) ose direkt */
+function tkkGoogleSatelliteTileUrl(withLabels) {
+  const direct = withLabels ? GOOGLE_SATELLITE_LABELS_URL : GOOGLE_SATELLITE_URL;
+  if (typeof window === "undefined") return direct;
+  const host = (window.location.hostname || "").toLowerCase();
+  const local =
+    host === "localhost" || host === "127.0.0.1" || host === "[::1]";
+  if (!local) return direct;
+  const base = (
+    typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "/"
+  ).replace(/\/?$/, "/");
+  const lyrs = withLabels ? "y" : "s";
+  return (
+    window.location.origin +
+    base +
+    "google-tiles/?lyrs=" +
+    lyrs +
+    "&s={s}&x={x}&y={y}&z={z}"
+  );
+}
+window.tkkGoogleSatelliteTileUrl = tkkGoogleSatelliteTileUrl;
 
 /** Qendra e Kosovës (WGS84) */
 const MAP_CENTER = [42.6026, 20.903];
