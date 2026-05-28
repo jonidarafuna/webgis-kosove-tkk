@@ -81,32 +81,78 @@ function getSatelliteBlendOpacity() {
     : SATELLITE_DARK_BLEND_OPACITY;
 }
 
+function createOsmBasemapLayer() {
+  return L.tileLayer(getOsmTileUrl(), {
+    attribution: BASEMAP_ATTRIBUTION,
+    subdomains: "abcd",
+    maxZoom: 20,
+    detectRetina: true,
+  });
+}
+
 function applyBasemapTileUrls() {
   if (!basemapOsmLayer || !basemapSatelliteLayer) return;
 
-  const osmUrl = getOsmTileUrl();
-  if (basemapOsmLayer._url !== osmUrl) {
-    basemapOsmLayer.setUrl(osmUrl);
-  }
+  basemapOsmLayer.setUrl(getOsmTileUrl());
   if (typeof basemapOsmLayer.redraw === "function") {
     basemapOsmLayer.redraw();
   }
 
-  const satUrl = getSatelliteTileUrl();
-  if (basemapSatelliteLayer._url !== satUrl) {
-    basemapSatelliteLayer.setUrl(satUrl);
-  }
+  basemapSatelliteLayer.setUrl(getSatelliteTileUrl());
   if (typeof basemapSatelliteLayer.redraw === "function") {
     basemapSatelliteLayer.redraw();
   }
 }
 
-function applyThemeToBasemap() {
+/** Rindërton shtresën OSM/CARTO — Leaflet ndonjëherë nuk pastron cache me setUrl */
+function rebuildOsmBasemapForTheme() {
+  if (!basemapMap) return;
+
+  const hadSatellite =
+    activeSatelliteLayer && basemapMap.hasLayer(activeSatelliteLayer);
+  const osmWasOnMap = basemapOsmLayer && basemapMap.hasLayer(basemapOsmLayer);
+
+  if (basemapOsmLayer) {
+    basemapMap.removeLayer(basemapOsmLayer);
+  }
+
+  basemapOsmLayer = createOsmBasemapLayer();
+  window.tkkBasemapOsm = basemapOsmLayer;
+  window.tkkBasemapDark = basemapOsmLayer;
+
+  if (hadSatellite) {
+    basemapOsmLayer.addTo(basemapMap);
+    basemapOsmLayer.setOpacity(getSatelliteBlendOpacity());
+    basemapOsmLayer.bringToBack();
+    if (typeof activeSatelliteLayer.bringToFront === "function") {
+      activeSatelliteLayer.bringToFront();
+    }
+  } else if (osmWasOnMap || basemapMode === "osm" || basemapMode === "auto") {
+    basemapOsmLayer.addTo(basemapMap);
+    basemapOsmLayer.setOpacity(1);
+    basemapOsmLayer.bringToBack();
+  }
+
   lastBasemapTileKey = "";
-  applyBasemapTileUrls();
+}
+
+function applyThemeToBasemap() {
+  if (!basemapMap) return;
+
+  if (basemapOsmLayer) {
+    rebuildOsmBasemapForTheme();
+  }
+
+  if (basemapSatelliteLayer) {
+    basemapSatelliteLayer.setUrl(getSatelliteTileUrl());
+    if (typeof basemapSatelliteLayer.redraw === "function") {
+      basemapSatelliteLayer.redraw();
+    }
+  }
+
   if (syncBasemapImpl) {
     syncBasemapImpl();
-  } else if (basemapMap) {
+  } else {
     syncBasemap();
   }
 }
@@ -216,12 +262,7 @@ function setBasemapMode(mode) {
 function initMapBasemaps(map) {
   basemapMap = map;
 
-  basemapOsmLayer = L.tileLayer(getOsmTileUrl(), {
-    attribution: BASEMAP_ATTRIBUTION,
-    subdomains: "abcd",
-    maxZoom: 20,
-    detectRetina: true,
-  });
+  basemapOsmLayer = createOsmBasemapLayer();
 
   basemapSatelliteLayer = L.tileLayer(GOOGLE_SATELLITE_URL, {
     attribution: GOOGLE_SATELLITE_ATTRIBUTION,
@@ -272,7 +313,3 @@ function initMapBasemaps(map) {
 window.getBasemapMode = getBasemapMode;
 window.setBasemapMode = setBasemapMode;
 window.applyThemeToBasemap = applyThemeToBasemap;
-
-window.addEventListener("tkk:theme-change", () => {
-  applyThemeToBasemap();
-});

@@ -14,13 +14,19 @@ function setTheme(theme) {
     document.documentElement.removeAttribute("data-theme");
   }
   localStorage.setItem("tkkTheme", next);
+
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
+  if (metaTheme) {
+    metaTheme.setAttribute("content", next === "light" ? "#efe9df" : "#0a0e14");
+  }
+
   updateThemeToggleUi();
-  window.dispatchEvent(
-    new CustomEvent("tkk:theme-change", { detail: { theme: next } })
-  );
   if (typeof window.applyThemeToBasemap === "function") {
     window.applyThemeToBasemap();
   }
+  window.dispatchEvent(
+    new CustomEvent("tkk:theme-change", { detail: { theme: next } })
+  );
 }
 
 function toggleTheme() {
@@ -68,6 +74,10 @@ function initSettings() {
   });
 
   applyI18n();
+
+  if (typeof window.applyThemeToBasemap === "function") {
+    window.applyThemeToBasemap();
+  }
 }
 
 window.getTheme = getTheme;
