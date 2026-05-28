@@ -199,8 +199,8 @@ const SATELLITE_AUTO_ON_MAX_METERS = 9000;
 const RAJON_LABEL_MAX_SCALE_METERS = 30000;
 /** Emrat e komunave vetëm kur shkalla < 10 km (vijat e komunave nën ~9 km) */
 const KOMUNA_LABEL_MAX_SCALE_METERS = SATELLITE_MAX_SCALE_METERS;
-/** Komunat: fshihen kur zoom out, shfaqen kur zoom >= 10 (afrohesh) */
-const KOMUNAT_MIN_ZOOM = 10;
+/** Komunat: fshihen kur zoom out, shfaqen kur zoom >= 9 (afrohesh) */
+const KOMUNAT_MIN_ZOOM = 9;
 /** Emrat e komunave — një hap më afër se vijat */
 const KOMUNAT_LABEL_MIN_ZOOM = 11;
 /** Satelit i tejdukshëm që simbolet të duken më mirë */

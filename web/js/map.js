@@ -539,17 +539,9 @@ function syncRajonetLayersForZoom() {
 
   const prefs = window._tkkLayerPrefs || {};
   const userOn = prefs.rajonet !== false;
-  const show = userOn && isRajonetOverviewScale();
+  const show = tkkRajonetShouldShowOnMap();
 
-  if (show) {
-    if (!map.hasLayer(layer)) {
-      map.addLayer(layer);
-      orderAdminBoundaryLayers();
-    }
-    syncRajonLabelVisibility();
-  } else if (map.hasLayer(layer)) {
-    map.removeLayer(layer);
-  }
+  orderAdminBoundaryLayers();
 
   updateLayerRowVisual("rajonet", userOn);
   const row = document.querySelector('.layer-row[data-layer="rajonet"]');
@@ -603,7 +595,7 @@ function loadStaticAdminBoundaries() {
         interactive: false,
       });
       if (polys.setZIndex) polys.setZIndex(ADMIN_LAYER_Z_INDEX.komunat);
-      komunatLayer.addLayer(polys);
+      komunatBordersLayer.addLayer(polys);
       applyKomunatLabelsGeoJson(data);
     })
     .catch((err) => console.warn("Komunat (statik):", err));
@@ -630,34 +622,46 @@ function loadRajonetLayer() {
   loadRajonetLabels();
 }
 
+function tkkRajonetShouldShowOnMap() {
+  const prefs = window._tkkLayerPrefs || {};
+  return prefs.rajonet !== false && isRajonetOverviewScale();
+}
+
+function tkkKomunatShouldShowOnMap() {
+  const prefs = window._tkkLayerPrefs || {};
+  return prefs.komunat !== false && isKomunatDetailScale();
+}
+
 function orderAdminBoundaryLayers() {
   const zR = ADMIN_LAYER_Z_INDEX.rajonet;
   const zK = ADMIN_LAYER_Z_INDEX.komunat;
   const zKo = ADMIN_LAYER_Z_INDEX.kosova;
 
-  const hadRajonet = map.hasLayer(rajonetLayer);
-  const hadKomunat = map.hasLayer(window.tkkKomunatLayer);
-  const hadKosova = map.hasLayer(kosovaLayer);
+  const showRajonet = tkkRajonetShouldShowOnMap();
+  const showKomunat = tkkKomunatShouldShowOnMap();
+  const showKosova = kosovaLayer.getLayers().length > 0;
 
-  if (hadRajonet) map.removeLayer(rajonetLayer);
-  if (hadKomunat) map.removeLayer(window.tkkKomunatLayer);
-  if (hadKosova) map.removeLayer(kosovaLayer);
+  if (map.hasLayer(rajonetLayer)) map.removeLayer(rajonetLayer);
+  if (map.hasLayer(window.tkkKomunatLayer)) map.removeLayer(window.tkkKomunatLayer);
+  if (map.hasLayer(kosovaLayer)) map.removeLayer(kosovaLayer);
 
-  if (hadRajonet) {
+  if (showRajonet) {
     map.addLayer(rajonetLayer);
     rajonetLayer.eachLayer?.((child) => {
       if (child.setZIndex) child.setZIndex(zR);
     });
+    syncRajonLabelVisibility();
   }
 
-  if (hadKomunat) {
+  if (showKomunat) {
     map.addLayer(window.tkkKomunatLayer);
     window.tkkKomunatLayer.eachLayer?.((child) => {
       if (child.setZIndex) child.setZIndex(zK);
     });
+    syncKomunaLabelVisibility();
   }
 
-  if (hadKosova) {
+  if (showKosova) {
     map.addLayer(kosovaLayer);
     kosovaLayer.eachLayer?.((child) => {
       if (child.setZIndex) child.setZIndex(zKo);
@@ -671,12 +675,14 @@ function orderAdminBoundaryLayers() {
   });
 }
 
+const komunatBordersLayer = L.layerGroup();
 const komunatLabelsLayer = L.layerGroup();
 const wmsKomunat = createWmsLayer(
   WMS_LAYERS.komunat,
   Object.assign({ zIndex: ADMIN_LAYER_Z_INDEX.komunat }, POLYGON_WMS_STYLE.komunat)
 );
-const komunatLayer = L.layerGroup([wmsKomunat, komunatLabelsLayer]);
+komunatBordersLayer.addLayer(wmsKomunat);
+const komunatLayer = L.layerGroup([komunatBordersLayer, komunatLabelsLayer]);
 
 const KOMUNAT_WFS_TYPE_NAMES =
   (typeof WFS_LAYER_ALIASES !== "undefined" && WFS_LAYER_ALIASES.komunat) ||
@@ -831,17 +837,9 @@ function syncKomunatLayersForZoom() {
 
   const prefs = window._tkkLayerPrefs || {};
   const userOn = prefs.komunat !== false;
-  const show = userOn && isKomunatDetailScale();
+  const show = tkkKomunatShouldShowOnMap();
 
-  if (show) {
-    if (!map.hasLayer(layer)) {
-      map.addLayer(layer);
-      orderAdminBoundaryLayers();
-    }
-    syncKomunaLabelVisibility();
-  } else if (map.hasLayer(layer)) {
-    map.removeLayer(layer);
-  }
+  orderAdminBoundaryLayers();
 
   updateLayerRowVisual("komunat", userOn);
   const rowK = document.querySelector('.layer-row[data-layer="komunat"]');
@@ -855,6 +853,7 @@ function syncScaleDependentAdminLayers() {
 
 window.tkkRajonetLayer = rajonetLayer;
 window.tkkKomunatLayer = komunatLayer;
+window.tkkKomunatBordersLayer = komunatBordersLayer;
 window.tkkKomunatLabelsLayer = komunatLabelsLayer;
 window.syncKomunatLayersForZoom = syncKomunatLayersForZoom;
 window.syncRajonetLayersForZoom = syncRajonetLayersForZoom;
