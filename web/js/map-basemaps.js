@@ -7,6 +7,9 @@ const BASEMAP_MODE_KEY = "tkkBasemapMode";
 let basemapMode = "auto";
 let syncBasemapImpl = null;
 let basemapMap = null;
+let basemapOsmLayerLight = null;
+let basemapOsmLayerDark = null;
+/** Shtresa aktive CARTO/OSM (për referenca të vjetra) */
 let basemapOsmLayer = null;
 let basemapSatelliteLayer = null;
 let basemapSatelliteFallbackLayer = null;
@@ -17,6 +20,10 @@ let lastBasemapTileKey = "";
 
 loadBasemapMode();
 
+function isLightTheme() {
+  return document.documentElement.getAttribute("data-theme") === "light";
+}
+
 function getScaleBarMeters(map) {
   const zoom = map.getZoom();
   const lat = map.getCenter().lat;
@@ -25,7 +32,6 @@ function getScaleBarMeters(map) {
   return metersPerPixel * SATELLITE_SCALE_BAR_PX;
 }
 
-/** Auto: jo te “10 km”; po pas zoom-in (5 km, 2 km, …) */
 function shouldShowSatelliteAuto(map) {
   const m = getScaleBarMeters(map);
   const onBelow =
@@ -60,13 +66,12 @@ function notifyBasemapModeChange() {
   );
 }
 
-function getOsmTileUrl() {
-  const light = typeof getTheme === "function" && getTheme() === "light";
+function getOsmTileUrlForTheme(themeKey) {
   const withLabels = basemapMode === "osm";
-  if (withLabels) {
-    return light ? BASEMAP_URL_LIGHT_LABELS : BASEMAP_URL_DARK_LABELS;
+  if (themeKey === "light") {
+    return withLabels ? BASEMAP_URL_LIGHT_LABELS : BASEMAP_URL_LIGHT;
   }
-  return light ? BASEMAP_URL_LIGHT : BASEMAP_URL_DARK;
+  return withLabels ? BASEMAP_URL_DARK_LABELS : BASEMAP_URL_DARK;
 }
 
 function getSatelliteTileUrl() {
@@ -76,80 +81,86 @@ function getSatelliteTileUrl() {
 }
 
 function getSatelliteBlendOpacity() {
-  return typeof getTheme === "function" && getTheme() === "light"
-    ? 0.22
-    : SATELLITE_DARK_BLEND_OPACITY;
+  return isLightTheme() ? 0.22 : SATELLITE_DARK_BLEND_OPACITY;
 }
 
-function createOsmBasemapLayer() {
-  return L.tileLayer(getOsmTileUrl(), {
+function createPairedOsmLayers() {
+  const opts = {
     attribution: BASEMAP_ATTRIBUTION,
     subdomains: "abcd",
     maxZoom: 20,
     detectRetina: true,
-  });
+  };
+  basemapOsmLayerLight = L.tileLayer(getOsmTileUrlForTheme("light"), opts);
+  basemapOsmLayerDark = L.tileLayer(getOsmTileUrlForTheme("dark"), opts);
+}
+
+function updatePairedOsmLayerUrls() {
+  if (!basemapOsmLayerLight || !basemapOsmLayerDark) return;
+  basemapOsmLayerLight.setUrl(getOsmTileUrlForTheme("light"));
+  basemapOsmLayerDark.setUrl(getOsmTileUrlForTheme("dark"));
+  if (typeof basemapOsmLayerLight.redraw === "function") {
+    basemapOsmLayerLight.redraw();
+  }
+  if (typeof basemapOsmLayerDark.redraw === "function") {
+    basemapOsmLayerDark.redraw();
+  }
+}
+
+function getActiveOsmLayer() {
+  return isLightTheme() ? basemapOsmLayerLight : basemapOsmLayerDark;
+}
+
+function getInactiveOsmLayer() {
+  return isLightTheme() ? basemapOsmLayerDark : basemapOsmLayerLight;
+}
+
+/** Vendos shtresën e duhur (e çelët / e errët) — pa setUrl në cache */
+function mountActiveOsmLayer(opacity) {
+  if (!basemapMap || !basemapOsmLayerLight || !basemapOsmLayerDark) return;
+
+  const active = getActiveOsmLayer();
+  const inactive = getInactiveOsmLayer();
+  basemapOsmLayer = active;
+  window.tkkBasemapOsm = active;
+  window.tkkBasemapDark = basemapOsmLayerDark;
+
+  if (inactive && basemapMap.hasLayer(inactive)) {
+    basemapMap.removeLayer(inactive);
+  }
+  if (!basemapMap.hasLayer(active)) {
+    active.addTo(basemapMap);
+  }
+  active.setOpacity(opacity != null ? opacity : 1);
+  if (typeof active.bringToBack === "function") {
+    active.bringToBack();
+  }
 }
 
 function applyBasemapTileUrls() {
-  if (!basemapOsmLayer || !basemapSatelliteLayer) return;
-
-  basemapOsmLayer.setUrl(getOsmTileUrl());
-  if (typeof basemapOsmLayer.redraw === "function") {
-    basemapOsmLayer.redraw();
-  }
-
-  basemapSatelliteLayer.setUrl(getSatelliteTileUrl());
-  if (typeof basemapSatelliteLayer.redraw === "function") {
-    basemapSatelliteLayer.redraw();
-  }
-}
-
-/** Rindërton shtresën OSM/CARTO — Leaflet ndonjëherë nuk pastron cache me setUrl */
-function rebuildOsmBasemapForTheme() {
-  if (!basemapMap) return;
-
-  const hadSatellite =
-    activeSatelliteLayer && basemapMap.hasLayer(activeSatelliteLayer);
-  const osmWasOnMap = basemapOsmLayer && basemapMap.hasLayer(basemapOsmLayer);
-
-  if (basemapOsmLayer) {
-    basemapMap.removeLayer(basemapOsmLayer);
-  }
-
-  basemapOsmLayer = createOsmBasemapLayer();
-  window.tkkBasemapOsm = basemapOsmLayer;
-  window.tkkBasemapDark = basemapOsmLayer;
-
-  if (hadSatellite) {
-    basemapOsmLayer.addTo(basemapMap);
-    basemapOsmLayer.setOpacity(getSatelliteBlendOpacity());
-    basemapOsmLayer.bringToBack();
-    if (typeof activeSatelliteLayer.bringToFront === "function") {
-      activeSatelliteLayer.bringToFront();
-    }
-  } else if (osmWasOnMap || basemapMode === "osm" || basemapMode === "auto") {
-    basemapOsmLayer.addTo(basemapMap);
-    basemapOsmLayer.setOpacity(1);
-    basemapOsmLayer.bringToBack();
-  }
-
-  lastBasemapTileKey = "";
-}
-
-function applyThemeToBasemap() {
-  if (!basemapMap) return;
-
-  if (basemapOsmLayer) {
-    rebuildOsmBasemapForTheme();
-  }
-
+  updatePairedOsmLayerUrls();
   if (basemapSatelliteLayer) {
     basemapSatelliteLayer.setUrl(getSatelliteTileUrl());
     if (typeof basemapSatelliteLayer.redraw === "function") {
       basemapSatelliteLayer.redraw();
     }
   }
+}
 
+function applyThemeToBasemap() {
+  if (!basemapMap || !basemapOsmLayerLight) return;
+
+  const hadSatellite =
+    activeSatelliteLayer && basemapMap.hasLayer(activeSatelliteLayer);
+  const opacity = hadSatellite ? getSatelliteBlendOpacity() : 1;
+
+  mountActiveOsmLayer(opacity);
+
+  if (hadSatellite && typeof activeSatelliteLayer.bringToFront === "function") {
+    activeSatelliteLayer.bringToFront();
+  }
+
+  lastBasemapTileKey = "";
   if (syncBasemapImpl) {
     syncBasemapImpl();
   } else {
@@ -183,11 +194,8 @@ function useSatelliteLayer(layer) {
   setSatelliteLayerOpacity(layer);
   layer.addTo(basemapMap);
 
-  if (!basemapMap.hasLayer(basemapOsmLayer)) {
-    basemapOsmLayer.addTo(basemapMap);
-  }
-  basemapOsmLayer.setOpacity(getSatelliteBlendOpacity());
-  basemapOsmLayer.bringToBack();
+  mountActiveOsmLayer(getSatelliteBlendOpacity());
+
   if (typeof layer.bringToFront === "function") {
     layer.bringToFront();
   }
@@ -203,17 +211,13 @@ function ensureOsmVisible() {
   if (!basemapMap) return;
   clearSatellite();
   satelliteShownInAuto = false;
-  if (!basemapMap.hasLayer(basemapOsmLayer)) {
-    basemapOsmLayer.addTo(basemapMap);
-  }
-  basemapOsmLayer.setOpacity(1);
-  basemapOsmLayer.bringToBack();
+  mountActiveOsmLayer(1);
 }
 
 function syncBasemap() {
   if (!basemapMap) return;
 
-  const theme = typeof getTheme === "function" ? getTheme() : "dark";
+  const theme = isLightTheme() ? "light" : "dark";
   const tileKey = basemapMode + "|" + theme;
   if (tileKey !== lastBasemapTileKey) {
     lastBasemapTileKey = tileKey;
@@ -232,7 +236,6 @@ function syncBasemap() {
 
   if (
     basemapOsmLayer &&
-    basemapMap &&
     basemapMap.hasLayer(basemapOsmLayer) &&
     activeSatelliteLayer &&
     basemapMap.hasLayer(activeSatelliteLayer)
@@ -262,7 +265,8 @@ function setBasemapMode(mode) {
 function initMapBasemaps(map) {
   basemapMap = map;
 
-  basemapOsmLayer = createOsmBasemapLayer();
+  createPairedOsmLayers();
+  mountActiveOsmLayer(1);
 
   basemapSatelliteLayer = L.tileLayer(GOOGLE_SATELLITE_URL, {
     attribution: GOOGLE_SATELLITE_ATTRIBUTION,
@@ -291,8 +295,6 @@ function initMapBasemaps(map) {
     }
   });
 
-  basemapOsmLayer.addTo(map);
-
   syncBasemapImpl = syncBasemap;
   lastBasemapTileKey = "";
   syncBasemap();
@@ -303,7 +305,7 @@ function initMapBasemaps(map) {
   window.getScaleBarMeters = getScaleBarMeters;
   window.shouldShowSatellite = (m) => shouldShowSatelliteAuto(m || map);
   window.tkkBasemapOsm = basemapOsmLayer;
-  window.tkkBasemapDark = basemapOsmLayer;
+  window.tkkBasemapDark = basemapOsmLayerDark;
   window.tkkBasemapSatellite = basemapSatelliteLayer;
   window.syncBasemapForZoom = syncBasemap;
   window.getBasemapMode = getBasemapMode;
@@ -313,3 +315,7 @@ function initMapBasemaps(map) {
 window.getBasemapMode = getBasemapMode;
 window.setBasemapMode = setBasemapMode;
 window.applyThemeToBasemap = applyThemeToBasemap;
+
+window.addEventListener("tkk:theme-change", () => {
+  applyThemeToBasemap();
+});

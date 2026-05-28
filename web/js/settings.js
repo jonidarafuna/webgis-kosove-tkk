@@ -30,7 +30,8 @@ function setTheme(theme) {
 }
 
 function toggleTheme() {
-  setTheme(getTheme() === "light" ? "dark" : "light");
+  const next = getTheme() === "light" ? "dark" : "light";
+  setTheme(next);
 }
 
 function loadTheme() {
