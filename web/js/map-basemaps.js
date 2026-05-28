@@ -83,8 +83,32 @@ function getSatelliteBlendOpacity() {
 
 function applyBasemapTileUrls() {
   if (!basemapOsmLayer || !basemapSatelliteLayer) return;
-  basemapOsmLayer.setUrl(getOsmTileUrl());
-  basemapSatelliteLayer.setUrl(getSatelliteTileUrl());
+
+  const osmUrl = getOsmTileUrl();
+  if (basemapOsmLayer._url !== osmUrl) {
+    basemapOsmLayer.setUrl(osmUrl);
+  }
+  if (typeof basemapOsmLayer.redraw === "function") {
+    basemapOsmLayer.redraw();
+  }
+
+  const satUrl = getSatelliteTileUrl();
+  if (basemapSatelliteLayer._url !== satUrl) {
+    basemapSatelliteLayer.setUrl(satUrl);
+  }
+  if (typeof basemapSatelliteLayer.redraw === "function") {
+    basemapSatelliteLayer.redraw();
+  }
+}
+
+function applyThemeToBasemap() {
+  lastBasemapTileKey = "";
+  applyBasemapTileUrls();
+  if (syncBasemapImpl) {
+    syncBasemapImpl();
+  } else if (basemapMap) {
+    syncBasemap();
+  }
 }
 
 function clearSatellite() {
@@ -160,6 +184,16 @@ function syncBasemap() {
     ensureOsmVisible();
   }
 
+  if (
+    basemapOsmLayer &&
+    basemapMap &&
+    basemapMap.hasLayer(basemapOsmLayer) &&
+    activeSatelliteLayer &&
+    basemapMap.hasLayer(activeSatelliteLayer)
+  ) {
+    basemapOsmLayer.setOpacity(getSatelliteBlendOpacity());
+  }
+
   if (typeof window.syncScaleDependentAdminLayers === "function") {
     window.syncScaleDependentAdminLayers();
   }
@@ -225,12 +259,6 @@ function initMapBasemaps(map) {
   map.on("zoomend", syncBasemap);
   map.on("moveend", syncBasemap);
 
-  window.addEventListener("tkk:theme-change", () => {
-    lastBasemapTileKey = "";
-    applyBasemapTileUrls();
-    syncBasemap();
-  });
-
   window.getScaleBarMeters = getScaleBarMeters;
   window.shouldShowSatellite = (m) => shouldShowSatelliteAuto(m || map);
   window.tkkBasemapOsm = basemapOsmLayer;
@@ -239,12 +267,12 @@ function initMapBasemaps(map) {
   window.syncBasemapForZoom = syncBasemap;
   window.getBasemapMode = getBasemapMode;
   window.setBasemapMode = setBasemapMode;
-  window.applyThemeToBasemap = () => {
-    lastBasemapTileKey = "";
-    applyBasemapTileUrls();
-    syncBasemap();
-  };
 }
 
 window.getBasemapMode = getBasemapMode;
 window.setBasemapMode = setBasemapMode;
+window.applyThemeToBasemap = applyThemeToBasemap;
+
+window.addEventListener("tkk:theme-change", () => {
+  applyThemeToBasemap();
+});

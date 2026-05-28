@@ -18,6 +18,9 @@ function setTheme(theme) {
   window.dispatchEvent(
     new CustomEvent("tkk:theme-change", { detail: { theme: next } })
   );
+  if (typeof window.applyThemeToBasemap === "function") {
+    window.applyThemeToBasemap();
+  }
 }
 
 function toggleTheme() {

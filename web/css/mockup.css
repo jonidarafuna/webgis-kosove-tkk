@@ -177,6 +177,11 @@ html[data-theme="light"] .map-tool-result {
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
 }
 
+html[data-theme="light"] .app-mockup .map-wrap,
+html[data-theme="light"] .app-mockup #map {
+  background: #e3dbd0;
+}
+
 html[data-theme="light"] .chart-panel {
   background: var(--bg-panel);
   color: var(--text);
