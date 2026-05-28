@@ -1,4 +1,7 @@
 function createWmsLayer(layerName, styleOpts) {
+  if (window.tkkIsStaticPublish || !WMS_URL) {
+    return L.layerGroup();
+  }
   const opts = {
     layers: layerName,
     format: "image/png",
@@ -39,7 +42,75 @@ function wfsPointToLonLat(feature) {
   return [lon, lat];
 }
 
+const STATIC_MONUMENT_GEOJSON = {
+  arkeologjike: "data/monuments/arkeologjike.geojson",
+  arkitekturore: "data/monuments/arkitekturore.geojson",
+  luajtshme: "data/monuments/luajtshme.geojson",
+};
+
+function ingestMonumentFeatures(rawFeatures, typeKey, clusterGroup) {
+  const features = (rawFeatures || [])
+    .map((f) => {
+      const coords = wfsPointToLonLat(f);
+      if (!coords) return null;
+      return {
+        ...f,
+        geometry: { type: "Point", coordinates: coords },
+      };
+    })
+    .filter(Boolean);
+
+  if (!features.length) {
+    console.warn("Monumente: asnjë pikë me koordinata —", typeKey);
+  }
+
+  features.forEach((feature) => {
+    const [lon, lat] = feature.geometry.coordinates;
+    const latlng = L.latLng(lat, lon);
+    const marker = createMonumentMarker(latlng, typeKey, feature);
+    marker.feature = feature;
+
+    marker.on("click", (ev) => {
+      if (ev?.originalEvent) {
+        L.DomEvent.stopPropagation(ev.originalEvent);
+      }
+      if (typeof handleMonumentMarkerClick === "function") {
+        handleMonumentMarkerClick(latlng, feature, typeKey);
+      } else if (typeof showDetailPanel === "function") {
+        showDetailPanel(feature);
+        map.panTo(latlng, { animate: true });
+      }
+    });
+
+    monumentRegistry.push({ layer: marker, feature, cluster: clusterGroup });
+    clusterGroup.addLayer(marker);
+  });
+
+  return features;
+}
+
+function loadStaticMonumentGeoJson(typeKey, clusterGroup) {
+  const url = STATIC_MONUMENT_GEOJSON[typeKey];
+  if (!url) return Promise.resolve([]);
+
+  return fetch(url, { cache: "no-store" })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("GeoJSON " + typeKey + ": HTTP " + response.status);
+      }
+      return response.json();
+    })
+    .then((data) => ingestMonumentFeatures(data.features || [], typeKey, clusterGroup))
+    .catch((err) => {
+      console.error("GeoJSON gabim:", typeKey, err);
+      throw err;
+    });
+}
+
 function loadWfsLayer(typeName, typeKey, clusterGroup) {
+  if (!WFS_URL) {
+    return Promise.resolve([]);
+  }
   const url =
     WFS_URL +
     "?service=WFS&version=1.0.0&request=GetFeature" +
@@ -68,46 +139,9 @@ function loadWfsLayer(typeName, typeKey, clusterGroup) {
       }
       return data;
     })
-    .then((data) => {
-      const features = (data.features || [])
-        .map((f) => {
-          const coords = wfsPointToLonLat(f);
-          if (!coords) return null;
-          return {
-            ...f,
-            geometry: { type: "Point", coordinates: coords },
-          };
-        })
-        .filter(Boolean);
-
-      if (!features.length) {
-        console.warn("WFS: asnjë pikë me koordinata të vlefshme —", typeName);
-      }
-
-      features.forEach((feature) => {
-        const [lon, lat] = feature.geometry.coordinates;
-        const latlng = L.latLng(lat, lon);
-        const marker = createMonumentMarker(latlng, typeKey, feature);
-        marker.feature = feature;
-
-        marker.on("click", (ev) => {
-          if (ev?.originalEvent) {
-            L.DomEvent.stopPropagation(ev.originalEvent);
-          }
-          if (typeof handleMonumentMarkerClick === "function") {
-            handleMonumentMarkerClick(latlng, feature, typeKey);
-          } else if (typeof showDetailPanel === "function") {
-            showDetailPanel(feature);
-            map.panTo(latlng, { animate: true });
-          }
-        });
-
-        monumentRegistry.push({ layer: marker, feature, cluster: clusterGroup });
-        clusterGroup.addLayer(marker);
-      });
-
-      return features;
-    })
+    .then((data) =>
+      ingestMonumentFeatures(data.features || [], typeKey, clusterGroup)
+    )
     .catch((err) => {
       console.error("WFS gabim:", typeName, err);
       return [];
@@ -159,15 +193,27 @@ function startMonumentWfsLoad() {
   if (window._tkkMonumentsLoadStarted) return;
   window._tkkMonumentsLoadStarted = true;
 
-  Promise.all([
-    loadWfsLayer(WFS_LAYERS.arkeologjike, "arkeologjike", clusterArkeologjike),
-    loadWfsLayer(
-      WFS_LAYERS.arkitekturore,
-      "arkitekturore",
-      clusterArkitekturore
-    ),
-    loadWfsLayer(WFS_LAYERS.luajtshme, "luajtshme", clusterLuajtshme),
-  ])
+  const monumentLoads = window.tkkIsStaticPublish
+    ? [
+        loadStaticMonumentGeoJson("arkeologjike", clusterArkeologjike),
+        loadStaticMonumentGeoJson("arkitekturore", clusterArkitekturore),
+        loadStaticMonumentGeoJson("luajtshme", clusterLuajtshme),
+      ]
+    : [
+        loadWfsLayer(
+          WFS_LAYERS.arkeologjike,
+          "arkeologjike",
+          clusterArkeologjike
+        ),
+        loadWfsLayer(
+          WFS_LAYERS.arkitekturore,
+          "arkitekturore",
+          clusterArkitekturore
+        ),
+        loadWfsLayer(WFS_LAYERS.luajtshme, "luajtshme", clusterLuajtshme),
+      ];
+
+  Promise.all(monumentLoads)
     .then((results) => {
       const flat = results.flat();
       flat.forEach((f) => window.allMonumentFeatures.push(f));
@@ -509,6 +555,7 @@ function syncRajonetLayersForZoom() {
 }
 
 function loadRajonetLayer() {
+  if (window.tkkIsStaticPublish || !WFS_URL) return;
   addRajonetWmsToGroup();
   tryLoadRajonetWfs(0);
   loadRajonetLabels();
@@ -650,6 +697,7 @@ function fetchKomunatWfs(typeName) {
 }
 
 function loadKomunatLabels() {
+  if (window.tkkIsStaticPublish || !WFS_URL) return;
   tryLoadKomunatLabels(0);
   setTimeout(() => {
     if (!komunatLabelsLayer.getLayers().length) {
@@ -734,6 +782,7 @@ const kosovaLayer = L.layerGroup();
 kosovaLayer.addTo(map);
 
 function loadKosovaBorderLayer() {
+  if (window.tkkIsStaticPublish || !WFS_URL) return;
   const url =
     WFS_URL +
     "?service=WFS&version=1.0.0&request=GetFeature" +

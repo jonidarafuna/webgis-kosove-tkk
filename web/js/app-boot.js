@@ -60,6 +60,21 @@
       );
     }
 
+    if (kind === "staticMissing") {
+      if (lang === "en") {
+        return (
+          '<div class="tkk-server-overlay__box">' +
+          "<h2>Monument data not published yet</h2>" +
+          "<p>On your PC: start GeoServer and <strong>HAPNI.bat</strong>, then run <strong>EKSPORTO-MONUMENTE.bat</strong> in the web folder. Push the GeoJSON files to GitHub.</p></div>"
+        );
+      }
+      return (
+        '<div class="tkk-server-overlay__box">' +
+        "<h2>Të dhënat e monumenteve nuk janë publikuar</h2>" +
+        "<p>Në PC: nis GeoServer dhe <strong>HAPNI.bat</strong>, pastaj dy-klik <strong>EKSPORTO-MONUMENTE.bat</strong> në folderin web. Bëj push skedarët GeoJSON në GitHub.</p></div>"
+      );
+    }
+
     if (kind === "wfsError") {
       const msg = detail ? "<p><code>" + String(detail) + "</code></p>" : "";
       if (lang === "en") {
@@ -160,6 +175,7 @@
   }
 
   function runHttpChecks() {
+    if (window.tkkIsStaticPublish) return;
     checkNodeServe().then(function (ok) {
       if (!ok) {
         showOverlay("wrongServer");
@@ -184,6 +200,19 @@
   window.showTkkDataOverlay = showOverlay;
   window.hideTkkDataOverlay = hideOverlay;
 
+  function checkStaticMonumentFiles() {
+    fetch("data/monuments/arkeologjike.geojson", {
+      method: "HEAD",
+      cache: "no-store",
+    })
+      .then(function (r) {
+        if (!r.ok) showOverlay("staticMissing");
+      })
+      .catch(function () {
+        showOverlay("staticMissing");
+      });
+  }
+
   if (IS_FILE) {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", function () {
@@ -192,6 +221,8 @@
     } else {
       showOverlay("file");
     }
+  } else if (window.tkkIsStaticPublish) {
+    document.addEventListener("DOMContentLoaded", checkStaticMonumentFiles);
   } else {
     document.addEventListener("DOMContentLoaded", runHttpChecks);
   }

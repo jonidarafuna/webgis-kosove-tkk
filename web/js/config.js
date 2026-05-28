@@ -1,8 +1,19 @@
-/** GeoServer — përmes proxy në serve.js (shmang CORS) */
-const GEOSERVER_BASE =
-  window.location.origin + "/geoserver/tkk";
-const WMS_URL = GEOSERVER_BASE + "/wms";
-const WFS_URL = GEOSERVER_BASE + "/wfs";
+/** GitHub Pages / demo statik — pa node serve.js dhe pa GeoServer live */
+function tkkDetectStaticPublish() {
+  if (typeof window === "undefined") return false;
+  if (/\.github\.io$/i.test(window.location.hostname)) return true;
+  if (/[?&]static=1\b/.test(window.location.search || "")) return true;
+  return false;
+}
+
+window.tkkIsStaticPublish = tkkDetectStaticPublish();
+
+/** GeoServer — përmes proxy në serve.js (shmang CORS); jo në GitHub Pages */
+const GEOSERVER_BASE = window.tkkIsStaticPublish
+  ? ""
+  : window.location.origin + "/geoserver/tkk";
+const WMS_URL = GEOSERVER_BASE ? GEOSERVER_BASE + "/wms" : "";
+const WFS_URL = GEOSERVER_BASE ? GEOSERVER_BASE + "/wfs" : "";
 
 const WMS_LAYERS = {
   rajonet: "tkk:Rajonet",
