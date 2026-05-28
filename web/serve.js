@@ -256,7 +256,14 @@ function writeVgiReports(list) {
 function handleApiHealth(res) {
   const cors = { "Access-Control-Allow-Origin": "*", "Content-Type": "application/json; charset=utf-8" };
   res.writeHead(200, cors);
-  res.end(JSON.stringify({ ok: true, vgi: true, server: "webgis-serve" }));
+  res.end(
+    JSON.stringify({
+      ok: true,
+      vgi: true,
+      googleTiles: true,
+      server: "webgis-serve",
+    })
+  );
 }
 
 function handleVgiReportsApi(req, res) {

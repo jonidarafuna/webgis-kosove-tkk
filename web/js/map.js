@@ -882,13 +882,29 @@ window.syncKomunatLayersForZoom = syncKomunatLayersForZoom;
 window.syncRajonetLayersForZoom = syncRajonetLayersForZoom;
 window.syncScaleDependentAdminLayers = syncScaleDependentAdminLayers;
 
-try {
-  if (typeof initMapBasemaps === "function") {
-    initMapBasemaps(map);
+function tkkInitBasemapsSafe() {
+  try {
+    if (typeof initMapBasemaps === "function") {
+      initMapBasemaps(map);
+    }
+  } catch (err) {
+    console.error("initMapBasemaps:", err);
   }
-} catch (err) {
-  console.error("initMapBasemaps:", err);
 }
+
+function tkkEnsureBasemapsReady(attempt) {
+  tkkInitBasemapsSafe();
+  if (typeof window.syncBasemapForZoom === "function" && window.tkkBasemapOsm) {
+    window.syncBasemapForZoom();
+    return;
+  }
+  if ((attempt || 0) < 15) {
+    setTimeout(() => tkkEnsureBasemapsReady((attempt || 0) + 1), 150);
+  }
+}
+
+tkkEnsureBasemapsReady(0);
+map.whenReady(() => tkkEnsureBasemapsReady(0));
 
 const kosovaLayer = L.layerGroup();
 kosovaLayer.addTo(map);
@@ -960,10 +976,18 @@ document.querySelectorAll("input[data-layer]").forEach((input) => {
   });
 });
 
+function tkkOnMapZoomBasemap() {
+  if (typeof window.syncBasemapForZoom === "function") {
+    window.syncBasemapForZoom();
+  }
+}
+
 map.on("zoomstart", syncScaleDependentAdminLayers);
 map.on("zoom", syncScaleDependentAdminLayers);
 map.on("zoomend", syncScaleDependentAdminLayers);
 map.on("moveend", syncScaleDependentAdminLayers);
+map.on("zoom", tkkOnMapZoomBasemap);
+map.on("zoomend", ttkOnMapZoomBasemap);
 map.whenReady(() => {
   initScaleLayerPrefs();
   syncScaleDependentAdminLayers();
