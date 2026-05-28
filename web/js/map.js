@@ -794,33 +794,28 @@ function tryLoadKomunatLabels(index) {
 }
 
 function isKomunatDetailScale() {
-  if (typeof getScaleBarMeters !== "function") return false;
-  const m = getScaleBarMeters(map);
-  const onBelow =
-    typeof SATELLITE_AUTO_ON_MAX_METERS === "number"
-      ? SATELLITE_AUTO_ON_MAX_METERS
-      : typeof SATELLITE_MAX_SCALE_METERS === "number"
-        ? SATELLITE_MAX_SCALE_METERS * 0.9
-        : 9000;
-  return m < onBelow;
+  if (!map || typeof map.getZoom !== "function") return false;
+  const minZoom =
+    typeof KOMUNAT_MIN_ZOOM === "number" ? KOMUNAT_MIN_ZOOM : 10;
+  return map.getZoom() >= minZoom;
 }
 
 function shouldShowKomunaLabels() {
-  if (typeof getScaleBarMeters !== "function") return false;
-  const maxScale =
-    typeof KOMUNA_LABEL_MAX_SCALE_METERS !== "undefined"
-      ? KOMUNA_LABEL_MAX_SCALE_METERS
-      : typeof SATELLITE_MAX_SCALE_METERS === "number"
-        ? SATELLITE_MAX_SCALE_METERS
-        : 10000;
-  return getScaleBarMeters(map) < maxScale;
+  if (!map || typeof map.getZoom !== "function") return false;
+  const minZoom =
+    typeof KOMUNAT_LABEL_MIN_ZOOM === "number"
+      ? KOMUNAT_LABEL_MIN_ZOOM
+      : typeof KOMUNAT_MIN_ZOOM === "number"
+        ? KOMUNAT_MIN_ZOOM + 1
+        : 11;
+  return map.getZoom() >= minZoom;
 }
 
 function syncKomunaLabelVisibility() {
   const layer = window.tkkKomunatLayer;
   if (!layer || !komunatLabelsLayer || !map.hasLayer(layer)) return;
 
-  const showLabels = shouldShowKomunaLabels() && isKomunatDetailScale();
+  const showLabels = shouldShowKomunaLabels();
   const labelsOnLayer = layer.hasLayer(komunatLabelsLayer);
 
   if (showLabels && !labelsOnLayer) {
@@ -944,6 +939,7 @@ document.querySelectorAll("input[data-layer]").forEach((input) => {
   });
 });
 
+map.on("zoomstart", syncScaleDependentAdminLayers);
 map.on("zoom", syncScaleDependentAdminLayers);
 map.on("zoomend", syncScaleDependentAdminLayers);
 map.on("moveend", syncScaleDependentAdminLayers);
