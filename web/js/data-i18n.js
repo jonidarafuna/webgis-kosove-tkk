@@ -105,7 +105,9 @@ function lookupInTable(table, raw) {
 
 function loadDisplayEnMap() {
   if (displayEnLoadPromise) return displayEnLoadPromise;
-  displayEnLoadPromise = fetch("data/display-en.json")
+  const base =
+    typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "";
+  displayEnLoadPromise = fetch(base + "data/display-en.json")
     .then((r) => (r.ok ? r.json() : DATA_I18N_EMBEDDED))
     .then((data) => {
       displayEnMap = {

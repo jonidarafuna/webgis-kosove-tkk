@@ -211,8 +211,12 @@ function syncBasemap() {
     showOsmBasemap();
   }
 
-  if (typeof window.syncScaleDependentAdminLayers === "function") {
-    window.syncScaleDependentAdminLayers();
+  try {
+    if (typeof window.syncScaleDependentAdminLayers === "function") {
+      window.syncScaleDependentAdminLayers();
+    }
+  } catch (err) {
+    console.warn("syncScaleDependentAdminLayers:", err);
   }
 }
 

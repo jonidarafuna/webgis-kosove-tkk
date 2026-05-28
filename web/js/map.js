@@ -195,31 +195,34 @@ function startMonumentWfsLoad() {
   if (window._tkkMonumentsLoadStarted) return;
   window._tkkMonumentsLoadStarted = true;
 
-  const monumentLoads = window.tkkIsStaticPublish
-    ? [
-        loadStaticMonumentGeoJson("arkeologjike", clusterArkeologjike),
-        loadStaticMonumentGeoJson("arkitekturore", clusterArkitekturore),
-        loadStaticMonumentGeoJson("luajtshme", clusterLuajtshme),
-      ]
-    : [
-        loadWfsLayer(
-          WFS_LAYERS.arkeologjike,
-          "arkeologjike",
-          clusterArkeologjike
-        ),
-        loadWfsLayer(
-          WFS_LAYERS.arkitekturore,
-          "arkitekturore",
-          clusterArkitekturore
-        ),
-        loadWfsLayer(WFS_LAYERS.luajtshme, "luajtshme", clusterLuajtshme),
-      ];
+  window.allMonumentFeatures = [];
+  window.monumentRegistry.length = 0;
+  (window.tkkClusterGroups || []).forEach((cg) => {
+    cg.clearLayers();
+  });
 
-  Promise.all(monumentLoads)
-    .then((results) => {
+  const staticLoads = () => [
+    loadStaticMonumentGeoJson("arkeologjike", clusterArkeologjike),
+    loadStaticMonumentGeoJson("arkitekturore", clusterArkitekturore),
+    loadStaticMonumentGeoJson("luajtshme", clusterLuajtshme),
+  ];
+
+  const wfsLoads = () => [
+    loadWfsLayer(WFS_LAYERS.arkeologjike, "arkeologjike", clusterArkeologjike),
+    loadWfsLayer(
+      WFS_LAYERS.arkitekturore,
+      "arkitekturore",
+      clusterArkitekturore
+    ),
+    loadWfsLayer(WFS_LAYERS.luajtshme, "luajtshme", clusterLuajtshme),
+  ];
+
+  const monumentLoads = window.tkkIsStaticPublish ? staticLoads() : wfsLoads();
+
+  function finishMonumentLoad(results) {
       const flat = results.flat();
-      flat.forEach((f) => window.allMonumentFeatures.push(f));
       window.tkkMonumentCount = flat.length;
+      window.allMonumentFeatures = flat.slice();
 
       (window.tkkClusterGroups || []).forEach((cg) => {
         if (!map.hasLayer(cg)) map.addLayer(cg);
@@ -255,12 +258,28 @@ function startMonumentWfsLoad() {
       if (typeof window.tkkOnMonumentsLoaded === "function") {
         window.tkkOnMonumentsLoaded(flat.length);
       }
+      return flat;
+  }
+
+  Promise.all(monumentLoads)
+    .then((results) => {
+      const flat = results.flat();
+      if (flat.length > 0 || window.tkkIsStaticPublish) {
+        return finishMonumentLoad(results);
+      }
+      console.warn("WFS: 0 monumente — provo GeoJSON statik.");
+      return Promise.all(staticLoads()).then(finishMonumentLoad);
     })
     .catch((e) => {
-      console.error("WFS/grafik:", e);
-      if (typeof window.tkkOnMonumentsLoadError === "function") {
-        window.tkkOnMonumentsLoadError(e);
-      }
+      console.warn("WFS dështoi — GeoJSON statik:", e);
+      return Promise.all(staticLoads())
+        .then(finishMonumentLoad)
+        .catch((e2) => {
+          console.error("GeoJSON:", e2);
+          if (typeof window.tkkOnMonumentsLoadError === "function") {
+            window.tkkOnMonumentsLoadError(e2);
+          }
+        });
     });
 }
 
@@ -987,7 +1006,7 @@ map.on("zoom", syncScaleDependentAdminLayers);
 map.on("zoomend", syncScaleDependentAdminLayers);
 map.on("moveend", syncScaleDependentAdminLayers);
 map.on("zoom", tkkOnMapZoomBasemap);
-map.on("zoomend", ttkOnMapZoomBasemap);
+map.on("zoomend", tkkOnMapZoomBasemap);
 map.whenReady(() => {
   initScaleLayerPrefs();
   syncScaleDependentAdminLayers();
@@ -1012,7 +1031,15 @@ L.control
   .addTo(map);
 
 map.whenReady(() => {
-  setTimeout(startMonumentWfsLoad, 50);
+  startMonumentWfsLoad();
 });
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(startMonumentWfsLoad, 0);
+  });
+} else {
+  setTimeout(startMonumentWfsLoad, 0);
+}
 
 if (typeof initMapTools === "function") initMapTools();

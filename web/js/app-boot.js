@@ -177,8 +177,8 @@
   function runHttpChecks() {
     if (window.tkkIsStaticPublish) return;
     checkNodeServe().then(function (ok) {
+      window.TKK_NODE_SERVE_OK = ok;
       if (!ok) {
-        showOverlay("wrongServer");
         return;
       }
       checkGeoServerProxy();
@@ -188,8 +188,16 @@
   window.tkkOnMonumentsLoaded = function (count) {
     if (count > 0 && !IS_FILE) {
       hideOverlay();
-    } else if (count === 0) {
-      showOverlay("noData");
+      return;
+    }
+    if (count === 0 && !IS_FILE) {
+      if (window.tkkIsStaticPublish) {
+        showOverlay("staticMissing");
+      } else if (window.TKK_NODE_SERVE_OK === false) {
+        showOverlay("wrongServer");
+      } else {
+        showOverlay("noData");
+      }
     }
   };
 
@@ -200,17 +208,8 @@
   window.showTkkDataOverlay = showOverlay;
   window.hideTkkDataOverlay = hideOverlay;
 
-  function checkStaticMonumentFiles() {
-    fetch("data/monuments/arkeologjike.geojson", {
-      method: "HEAD",
-      cache: "no-store",
-    })
-      .then(function (r) {
-        if (!r.ok) showOverlay("staticMissing");
-      })
-      .catch(function () {
-        showOverlay("staticMissing");
-      });
+  function tkkDataBase() {
+    return typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "";
   }
 
   if (IS_FILE) {
@@ -221,9 +220,7 @@
     } else {
       showOverlay("file");
     }
-  } else if (window.tkkIsStaticPublish) {
-    document.addEventListener("DOMContentLoaded", checkStaticMonumentFiles);
-  } else {
+  } else if (!window.tkkIsStaticPublish) {
     document.addEventListener("DOMContentLoaded", runHttpChecks);
   }
 })();
