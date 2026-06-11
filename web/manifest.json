@@ -1,6 +1,6 @@
 {
   "name": "Trashëgimia Kulturore e Kosovës",
-  "short_name": "TKK WebGIS",
+  "short_name": "TKK",
   "description": "WebGIS për monumentet kulturore të Kosovës",
   "start_url": "./",
   "display": "standalone",
