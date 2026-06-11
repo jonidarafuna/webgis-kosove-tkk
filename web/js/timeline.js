@@ -1,7 +1,14 @@
 /**
+ * SKEDARI: timeline.js
+ * QËLLIMI: Paneli kronologjik poshtë hartës — slider dhe butona periudhash për filtrim.
+ * KUR NGARKOHET: Pas mobile-ui.js, para map-tools.js (index.html); thirret initTimeline nga map.js.
+ * LIDHET ME: config.js (TIMELINE_PERIODS, TIMELINE_TICKS), filters.js (setPeriodFilter),
+ *            i18n.js (t, tFormat, getTimelinePeriodLabel), map.js (map.invalidateSize).
+ *
  * Paneli poshtë hartës — si mockup-i (ikona + slider portokalli)
  */
 
+// Ikona SVG për çdo periudhë historike në timeline
 const TIMELINE_ICONS = {
   parahistorike:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M12 8v4M9 20l3-8 3 8M8 14h8"/></svg>',
@@ -17,8 +24,10 @@ const TIMELINE_ICONS = {
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 4h9a3 3 0 0 1 3 3v13H6V4z"/><path d="M6 12h12M9 8h6"/></svg>',
 };
 
+// Periudha e zgjedhur aktualisht në timeline (null = të gjitha)
 let timelineActiveKey = null;
 
+/** Konverton vitin në pozicion slider (0–1000). */
 function yearToSliderPos(year) {
   const y = parseInt(year, 10);
   const ticks = TIMELINE_TICKS;
@@ -37,6 +46,7 @@ function yearToSliderPos(year) {
   return 500;
 }
 
+/** Konverton pozicionin e slider-it në vit historik. */
 function sliderPosToYear(pos) {
   const p = Math.max(0, Math.min(1000, parseInt(pos, 10))) / 1000;
   const segments = TIMELINE_TICKS.length - 1;
@@ -48,6 +58,7 @@ function sliderPosToYear(pos) {
   return Math.round(a.year + t * (b.year - a.year));
 }
 
+/** Gjen çelësin e periudhës për një vit të caktuar. */
 function getPeriodKeyForYear(year) {
   const y = parseInt(year, 10);
   for (const p of TIMELINE_PERIODS) {
@@ -56,6 +67,7 @@ function getPeriodKeyForYear(year) {
   return null;
 }
 
+/** Përditëson shiritin portokalli të mbushur në slider. */
 function updateSliderFill() {
   const slider = document.getElementById("timelineSlider");
   const fill = document.getElementById("timelineFill");
@@ -64,6 +76,7 @@ function updateSliderFill() {
   fill.style.width = pct + "%";
 }
 
+/** Thekson butonin e periudhës aktive në rreshtin e ikonave. */
 function setTimelineActiveKey(key) {
   timelineActiveKey = key === "all" || !key ? null : key;
   document.querySelectorAll("[data-timeline-period]").forEach((btn) => {
@@ -74,6 +87,7 @@ function setTimelineActiveKey(key) {
   });
 }
 
+/** Vizaton butonat e periudhave me ikona dhe etiketa. */
 function renderTimelinePeriods() {
   const periodRow = document.getElementById("timelinePeriods");
   if (!periodRow) return;
@@ -104,6 +118,7 @@ function renderTimelinePeriods() {
   setTimelineActiveKey(timelineActiveKey);
 }
 
+/** Vizaton shënuesit dhe etiketat e viteve në shiritin kronologjik. */
 function renderTimelineTicks() {
   const marks = document.getElementById("timelineTickMarks");
   const labels = document.getElementById("timelineTickLabels");
@@ -137,6 +152,7 @@ function renderTimelineTicks() {
   });
 }
 
+/** Aplikon filtrin e periudhës bazuar në pozicionin aktual të slider-it. */
 function applyYearFromSlider(pos) {
   const year = sliderPosToYear(pos);
   updateSliderFill();
@@ -153,6 +169,7 @@ function applyYearFromSlider(pos) {
   }
 }
 
+/** Sinkronizon slider-in dhe butonat kur filtri ndryshon nga jashtë (p.sh. chips). */
 function syncTimelineUI(periodKey) {
   const slider = document.getElementById("timelineSlider");
   if (!slider) return;
@@ -173,6 +190,7 @@ function syncTimelineUI(periodKey) {
   }
 }
 
+/** Inicializon timeline, lidh klikimet dhe slider-in me filtrin. */
 function initTimeline() {
   const periodRow = document.getElementById("timelinePeriods");
   const slider = document.getElementById("timelineSlider");
@@ -188,6 +206,7 @@ function initTimeline() {
   slider.value = String(yearToSliderPos(500));
   updateSliderFill();
 
+  // Klikimi i butonave të periudhave — toggle ose zgjedh periudhë
   periodRow.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-timeline-period]");
     if (!btn) return;
@@ -211,10 +230,12 @@ function initTimeline() {
     setTimelineActiveKey(key);
   });
 
+  // Lëvizja e slider-it filtron sipas vitit
   slider.addEventListener("input", () => {
     applyYearFromSlider(slider.value);
   });
 
+  // Rifreskon madhësinë e hartës pas ngarkimit të timeline
   setTimeout(() => {
     if (typeof map !== "undefined") map.invalidateSize();
   }, 200);

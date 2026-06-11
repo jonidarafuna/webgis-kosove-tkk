@@ -1,3 +1,10 @@
+/*
+ * SKEDARI: style.css
+ * QËLLIMI: Stili kryesor i aplikacionit — layout, sidebar, harta, panele, butona.
+ * LIDHET ME: index.html (klasa si app-mockup, sidebar-left, panel-right).
+ * TEMA: errët si parazgjedhje; theme-light.css e anulon për modalitetin e çelët.
+ */
+
 * {
   box-sizing: border-box;
 }
@@ -475,6 +482,18 @@ dd.accent {
   color: #22d3ee;
 }
 
+.detail-external-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.detail-external-links--tab {
+  margin-top: 0;
+  margin-bottom: 0.15rem;
+}
+
 .detail-dtk {
   display: flex;
   align-items: center;
@@ -485,6 +504,10 @@ dd.accent {
   text-decoration: none;
   border-radius: 8px;
   font-size: 0.78rem;
+}
+
+.detail-maps {
+  color: #a7f3d0;
 }
 
 .detail-dtk:hover {
@@ -502,6 +525,42 @@ dd.accent {
   font-size: 0.72rem;
   color: #94a3b8;
   text-align: center;
+}
+
+.detail-maps-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.detail-maps-hint {
+  margin-top: 0.55rem;
+  line-height: 1.45;
+}
+
+.detail-navigate-btn {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  text-align: center;
+}
+
+.detail-navigate-btn:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.detail-navigate-btn--secondary {
+  color: #94a3b8;
+  background: #151d2b;
+}
+
+.detail-maps-start-info {
+  margin-top: 0.35rem;
+  color: #5eead4;
+  font-size: 0.68rem;
 }
 
 .detail-reports {
@@ -1145,9 +1204,83 @@ img.tkk-img-marker--hover {
   transform: scale(1.12);
 }
 
+.leaflet-marker-icon.tkk-img-marker--selected,
+.tkk-img-marker--selected {
+  opacity: 1 !important;
+  transform: scale(1.28);
+  filter: drop-shadow(0 0 10px rgba(45, 212, 191, 0.95))
+    drop-shadow(0 0 18px rgba(34, 211, 238, 0.55))
+    drop-shadow(0 1px 3px rgba(0, 0, 0, 0.45));
+  z-index: 1200 !important;
+}
+
+.leaflet-marker-icon.tkk-img-marker--selected img.tkk-img-marker,
+.tkk-img-marker--selected img.tkk-img-marker {
+  transform: scale(1.08);
+}
+
 .leaflet-marker-icon.tkk-marker--in-buffer,
 .tkk-img-marker.tkk-marker--in-buffer {
   filter: drop-shadow(0 0 6px #a78bfa) drop-shadow(0 0 2px #c4b5fd);
+}
+
+:root {
+  --tkk-filter-mask: #ef4444;
+  --tkk-filter-glow: #ef4444;
+  --tkk-filter-glow-soft: rgba(239, 68, 68, 0.55);
+}
+
+.leaflet-marker-icon.tkk-marker-has-filter-mask {
+  z-index: 1100 !important;
+}
+
+.tkk-marker-wrap--filtered {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tkk-filter-mask {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  margin-left: -15px;
+  margin-top: -15px;
+  border-radius: 50%;
+  background-color: var(--tkk-filter-mask, #ef4444);
+  opacity: 0.92;
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85),
+    0 2px 6px rgba(0, 0, 0, 0.28);
+  pointer-events: none;
+}
+
+.tkk-marker-wrap--filtered .tkk-img-marker,
+.tkk-marker-wrap--filtered .tkk-pin {
+  position: relative;
+  z-index: 1;
+}
+
+.leaflet-marker-icon.tkk-img-marker--filtered,
+.tkk-img-marker--filtered,
+.tkk-img-marker.tkk-img-marker--filtered {
+  opacity: 1 !important;
+  transform: scale(1.08);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+}
+
+.leaflet-marker-icon.tkk-img-marker--muted,
+.tkk-img-marker--muted,
+.tkk-img-marker.tkk-img-marker--muted {
+  opacity: 0.32;
+  filter: grayscale(0.88) saturate(0.45)
+    drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+  transform: scale(0.92);
 }
 
 .leaflet-marker-icon .tkk-pin--img .tkk-pin__img {

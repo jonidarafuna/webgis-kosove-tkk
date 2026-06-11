@@ -1,4 +1,12 @@
-/** GitHub Pages / demo statik — pa node serve.js dhe pa GeoServer live */
+/**
+ * config.js — Konfigurimi global i aplikacionit WebGIS TKK
+ *
+ * Përmban URL-të e GeoServer/WMS/WFS, stilet e monumenteve, basemap-et,
+ * filtrat e periudhave dhe funksione ndihmëse (proxy media, Google tiles).
+ * Lexohet para map.js dhe moduleve të tjera.
+ */
+
+/** A jemi në GitHub Pages / demo statik — pa node serve.js dhe pa GeoServer live */
 function tkkDetectStaticPublish() {
   if (typeof window === "undefined") return false;
   if (/\.github\.io$/i.test(window.location.hostname)) return true;
@@ -12,14 +20,28 @@ window.tkkIsStaticPublish = tkkDetectStaticPublish();
 function tkkAppBase() {
   if (typeof window === "undefined") return "/";
   let p = window.location.pathname || "/";
-  if (!p.endsWith("/")) {
-    if (/index\.html?$/i.test(p)) p = p.replace(/[^/]+$/, "");
-    else p = p.replace(/[^/]*$/, "") || "/";
+  if (/index\.html?$/i.test(p)) {
+    p = p.replace(/[^/]+$/, "");
+  } else if (!p.endsWith("/")) {
+    p = p + "/";
   }
+  if (!p.startsWith("/")) p = "/" + p;
   return p;
 }
 window.tkkAppBase = tkkAppBase;
 
+/** URL absolute ose relative për skedarë brenda aplikacionit (data/, images/, …) */
+function tkkResolveAppUrl(relativePath) {
+  const rel = String(relativePath || "").replace(/^\//, "");
+  const base = tkkAppBase();
+  if (typeof window !== "undefined" && /^https?:/i.test(window.location.protocol || "")) {
+    return (window.location.origin || "") + base + rel;
+  }
+  return base + rel;
+}
+window.tkkResolveAppUrl = tkkResolveAppUrl;
+
+/** Kodon segmentet e path-it të URL-së (p.sh. emra me hapësira në foto DTK) */
 function tkkEncodeUrlPath(url) {
   try {
     const u = new URL(url);
@@ -61,6 +83,7 @@ function tkkResolveMediaUrl(path) {
 }
 window.tkkResolveMediaUrl = tkkResolveMediaUrl;
 
+// --- GeoServer dhe shtresat WMS/WFS ---
 /** GeoServer — përmes proxy në serve.js (shmang CORS); jo në GitHub Pages */
 const GEOSERVER_BASE = window.tkkIsStaticPublish
   ? ""
@@ -168,14 +191,20 @@ const MONUMENT_ICONS = {
   },
 };
 
+/** Kthen URL-në e ikonës PNG për llojin e monumentit (arkeologjike, etj.) */
 function getMonumentIconUrl(typeKey) {
   const cfg = MONUMENT_ICONS[typeKey];
   if (!cfg) return null;
   if (cfg.url) return cfg.url;
-  if (cfg.file) return MONUMENT_ICON_BASE + cfg.file;
+  if (cfg.file) {
+    const base =
+      typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "";
+    return base + MONUMENT_ICON_BASE + cfg.file;
+  }
   return null;
 }
 
+// --- Basemap (CARTO OSM + Google Satellite) ---
 /** CARTO Dark Matter (OSM) — pa etiketa (parazgjedhje / auto) */
 const BASEMAP_URL_DARK =
   "https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png";
@@ -244,6 +273,7 @@ function tkkGoogleSatelliteTileUrl(withLabels) {
 }
 window.tkkGoogleSatelliteTileUrl = tkkGoogleSatelliteTileUrl;
 
+// --- Harta dhe grafikët ---
 /** Qendra e Kosovës (WGS84) */
 const MAP_CENTER = [42.6026, 20.903];
 const MAP_ZOOM = 8;

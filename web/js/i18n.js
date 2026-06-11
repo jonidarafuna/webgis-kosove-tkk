@@ -1,5 +1,11 @@
-/** Përkthime SQ / EN */
+/**
+ * QËLLIMI: Përkthimet e ndërfaqes (shqip / anglisht) dhe funksionet t(), applyI18n().
+ * KUR NGARKOHET: Menjëherë (loadLang lexon localStorage); applyI18n pas DOMContentLoaded nga settings.
+ * LIDHET ME: index.html (data-i18n, data-i18n-title), settings.js (ndërrimi i gjuhës),
+ *             sidebar.js, detail.js, report-vgi.js, chart.js (refreshDynamicI18n).
+ */
 
+// Fjalorët e teksteve për sq dhe en (çelësi → varg)
 const I18N_MESSAGES = {
   sq: {
     "app.title": "Trashëgimia Kulturore e Kosovës",
@@ -12,6 +18,11 @@ const I18N_MESSAGES = {
     "layers.rajonet": "Rajonet",
     "layers.kosova": "Kufiri i Kosovës",
     "symbology.heading": "Ngjyrat e monumenteve",
+    "symbology.modeLegend": "Mënyra e simbolizimit",
+    "symbology.modeByType": "Sipas llojit",
+    "symbology.modeByResult": "Sipas rezultatit",
+    "symbology.modeHint":
+      "Sipas rezultatit: ngjyrat e përdoruesit për kërkim, filtër, buffer ose monument të selektuar; të tjerët zbehen.",
     "symbology.reset": "Kthe ngjyrat fillestare",
     "symbology.pickColorArkeologjike": "Ngjyra — trashëgimia arkeologjike",
     "symbology.pickColorArkitekturore": "Ngjyra — trashëgimia arkitekturore",
@@ -20,8 +31,27 @@ const I18N_MESSAGES = {
     "symbology.pickerTitle": "Ngjyra",
     "symbology.hexLabel": "Hex",
     "symbology.presetsAria": "Ngjyra të gatshme",
-    "filters.heading": "Filtra aktivë",
+    "filters.heading": "Filtrat",
+    "filters.komuna": "Komuna",
+    "filters.rajon": "Rajoni",
+    "filters.lloji": "Lloji i monumentit",
+    "filters.periudha": "Periudha historike",
+    "filters.kategoria": "Kategoria",
+    "filters.gjendja": "Gjendja",
+    "filters.all": "Të gjitha",
+    "filters.chipKomuna": "Komuna",
+    "filters.chipRajon": "Rajoni",
+    "filters.chipLloji": "Lloji",
+    "filters.chipPeriudha": "Periudha",
+    "filters.chipKategoria": "Kategoria",
+    "filters.chipGjendja": "Gjendja",
+    "filters.highlightColor": "Ngjyra e rrethit (monumentet e filtruara)",
+    "filters.pickHighlightColor": "Zgjidh ngjyrën e rrethit pas monumentit",
     "filters.clearAll": "Hiq filtrat",
+    "filters.downloadTitle": "Shkarko rezultatet",
+    "filters.downloadCsv": "Shkarko CSV",
+    "filters.downloadGeoJson": "Shkarko GeoJSON",
+    "filters.noDownload": "Nuk ka monumente për shkarkim me këto filtra.",
     "filter.remove": "Hiq",
     "filter.monumentCount": "{n} monumente",
     "search.title": "KËRKO",
@@ -67,6 +97,7 @@ const I18N_MESSAGES = {
     "tools.measure": "Matje",
     "tools.buffer": "Buffer",
     "tools.view": "Pamje",
+    "tools.exportPng": "PNG",
     "timeline.title": "Periudha historike",
     "report.title": "Raporto Problemin",
     "report.line1": "Raporto",
@@ -94,7 +125,9 @@ const I18N_MESSAGES = {
     "report.cancel": "Anulo",
     "report.success": "Raporti u ruajt.",
     "report.successLocal": "Raporti u ruajt lokalisht.",
+    "report.successStatic": "Raporti u ruajt në këtë shfletues (demo online).",
     "report.serverHint": "Nis HAPNI.bat, pastaj Ctrl+F5.",
+    "report.staticHint": "Në versionin online raportet ruhen lokalisht në këtë pajisje.",
     "report.error": "Raporti nuk u ruajt. Nis HAPNI.bat.",
     "report.errorFile": "Përdor HAPNI.bat, jo dy-klik mbi index.html.",
     "report.errorValidation": "Plotëso llojin e problemit, përshkrimin dhe vendndodhjen.",
@@ -120,12 +153,24 @@ const I18N_MESSAGES = {
     "detail.tabInfo": "INFO",
     "detail.tabPhoto": "FOTO",
     "detail.tabDtk": "LIDHJE DTK",
+    "detail.tabMaps": "NAVIGIM",
     "detail.period": "Periudha",
     "detail.type": "Lloji",
+    "detail.category": "Kategoria",
     "detail.condition": "Gjendja",
     "detail.id": "ID",
     "detail.source": "Burimi",
     "detail.dtkLink": "Shiko në DTK ↗",
+    "detail.mapsLink": "Hap në Google Maps ↗",
+    "detail.mapsDirections": "Drejtimet në Google Maps ↗",
+    "detail.mapsNavigate": "Navigo nga lokacioni im",
+    "detail.mapsSetStart": "Vendos si nisje",
+    "detail.mapsStartActive": "Nisja aktive ✓",
+    "detail.mapsNavigateFromStart": "Navigo nga {name}",
+    "detail.mapsStartSaved": "Nisja: {name}",
+    "detail.mapsNavigateHint":
+      "Vendos një monument si nisje, pastaj zgjidh destinacionin. Ose përdor GPS-in tënd drejt monumentit aktual.",
+    "detail.mapsNoLink": "Nuk ka koordinata për këtë monument.",
     "detail.dtkNoLink": "Nuk ka lidhje DTK.",
     "detail.reportsTitle": "Raportet për këtë monument",
     "detail.reportsEmpty": "Nuk ka raporte për këtë monument.",
@@ -145,7 +190,30 @@ const I18N_MESSAGES = {
     "view.osm": "OpenStreetMap",
     "view.satellite": "Google Satellite",
     "view.restore": "Kthe në parazgjedhje",
+    "view.exportTitle": "Ruaj pamjen",
+    "view.exportSubtitle": "Ruaj pamjen aktuale të hartës (print screen) si PNG.",
+    "view.exportPng": "Ruaj si PNG",
+    "view.exportError": "Pamja nuk u ruajt. Rinis serverin, rifresko faqen (Ctrl+F5) dhe provo përsëri.",
+    "view.exportNoLib": "Mjeti i eksportit nuk u ngarkua. Rifresko faqen.",
     "view.defaultHint": "",
+    "nav.loading": "Duke llogaritur rrugën…",
+    "nav.loadingGps": "Duke llogaritur rrugën nga lokacioni yt drejt {dest}…",
+    "nav.loadingMonument": "Duke llogaritur rrugën: {start} → {dest}…",
+    "nav.routeSummary": "{distance} · ~{duration} → {dest}",
+    "nav.clearRoute": "Fshi rrugën",
+    "nav.dragHint": "Zvarrit kutinë",
+    "nav.resizeHint": "Zmadho kutinë anash",
+    "nav.youAreHere": "Lokacioni yt",
+    "nav.startPoint": "Nisja",
+    "nav.destination": "Destinacioni",
+    "nav.errorNoStart": "Së pari vendos një monument si nisje (Vendos si nisje).",
+    "nav.errorSamePoint": "Nisja dhe destinacioni janë i njëjti vend.",
+    "nav.errorGeneric": "Navigimi nuk u krye. Kontrollo GPS-in dhe lidhjen me internet.",
+    "nav.errorUnsupported": "Shfletuesi nuk mbështet geolokacionin.",
+    "nav.errorDenied": "Lejo qasjen në vendndodhje për navigim në WebGIS.",
+    "nav.errorUnavailable": "Vendndodhja nuk është e disponueshme.",
+    "nav.errorTimeout": "Kërkesa për GPS zgjati shumë. Provo përsëri.",
+    "nav.errorNoRoute": "Nuk u gjet rrugë drejt këtij destinacioni.",
     "settings.lang": "Gjuha",
     "picker.title": "Zgjidh site-in",
     "picker.hint": "",
@@ -268,6 +336,11 @@ const I18N_MESSAGES = {
     "layers.rajonet": "Regions",
     "layers.kosova": "Kosovo border",
     "symbology.heading": "Monument colors",
+    "symbology.modeLegend": "Symbolize by",
+    "symbology.modeByType": "By type",
+    "symbology.modeByResult": "By query result",
+    "symbology.modeHint":
+      "By result: your colors for search, filter, buffer, or selected monument; others are faded.",
     "symbology.reset": "Restore default colors",
     "symbology.pickColorArkeologjike": "Color — archaeological heritage",
     "symbology.pickColorArkitekturore": "Color — architectural heritage",
@@ -276,8 +349,27 @@ const I18N_MESSAGES = {
     "symbology.pickerTitle": "Color",
     "symbology.hexLabel": "Hex",
     "symbology.presetsAria": "Preset colors",
-    "filters.heading": "Active filters",
+    "filters.heading": "Filters",
+    "filters.komuna": "Municipality",
+    "filters.rajon": "Region",
+    "filters.lloji": "Monument type",
+    "filters.periudha": "Historical period",
+    "filters.kategoria": "Category",
+    "filters.gjendja": "Condition",
+    "filters.all": "All",
+    "filters.chipKomuna": "Municipality",
+    "filters.chipRajon": "Region",
+    "filters.chipLloji": "Type",
+    "filters.chipPeriudha": "Period",
+    "filters.chipKategoria": "Category",
+    "filters.chipGjendja": "Condition",
+    "filters.highlightColor": "Circle color (filtered monuments)",
+    "filters.pickHighlightColor": "Pick circle color behind filtered monuments",
     "filters.clearAll": "Clear filters",
+    "filters.downloadTitle": "Download results",
+    "filters.downloadCsv": "Download CSV",
+    "filters.downloadGeoJson": "Download GeoJSON",
+    "filters.noDownload": "No monuments match these filters to download.",
     "filter.remove": "Remove",
     "filter.monumentCount": "{n} monuments",
     "search.title": "SEARCH",
@@ -323,6 +415,7 @@ const I18N_MESSAGES = {
     "tools.measure": "Measure",
     "tools.buffer": "Buffer",
     "tools.view": "View",
+    "tools.exportPng": "PNG",
     "timeline.title": "Historical period",
     "report.title": "Report a Problem",
     "report.line1": "Report",
@@ -350,7 +443,9 @@ const I18N_MESSAGES = {
     "report.cancel": "Cancel",
     "report.success": "Report saved.",
     "report.successLocal": "Report saved locally.",
+    "report.successStatic": "Report saved in this browser (online demo).",
     "report.serverHint": "Run HAPNI.bat, then Ctrl+F5.",
+    "report.staticHint": "In the online version, reports are stored locally on this device.",
     "report.error": "Report not saved. Run HAPNI.bat.",
     "report.errorFile": "Use HAPNI.bat, not double-click on index.html.",
     "report.errorValidation": "Fill in issue type, description, and location.",
@@ -377,12 +472,24 @@ const I18N_MESSAGES = {
     "detail.tabInfo": "INFO",
     "detail.tabPhoto": "PHOTO",
     "detail.tabDtk": "DTK LINK",
+    "detail.tabMaps": "NAVIGATION",
     "detail.period": "Period",
     "detail.type": "Type",
+    "detail.category": "Category",
     "detail.condition": "Condition",
     "detail.id": "ID",
     "detail.source": "Source",
     "detail.dtkLink": "View on DTK ↗",
+    "detail.mapsLink": "Open in Google Maps ↗",
+    "detail.mapsDirections": "Directions in Google Maps ↗",
+    "detail.mapsNavigate": "Navigate from my location",
+    "detail.mapsSetStart": "Set as start",
+    "detail.mapsStartActive": "Start point active ✓",
+    "detail.mapsNavigateFromStart": "Navigate from {name}",
+    "detail.mapsStartSaved": "Start: {name}",
+    "detail.mapsNavigateHint":
+      "Set one monument as the start, then choose a destination. Or use your GPS to the current monument.",
+    "detail.mapsNoLink": "No coordinates available for this monument.",
     "detail.dtkNoLink": "No DTK link available.",
     "detail.reportsTitle": "Reports for this monument",
     "detail.reportsEmpty": "No reports for this monument.",
@@ -402,7 +509,30 @@ const I18N_MESSAGES = {
     "view.osm": "OpenStreetMap",
     "view.satellite": "Google Satellite",
     "view.restore": "Restore default",
+    "view.exportTitle": "Save view",
+    "view.exportSubtitle": "Save the current map view (print screen) as PNG.",
+    "view.exportPng": "Save as PNG",
+    "view.exportError": "Could not save the view. Restart the server, refresh (Ctrl+F5), and try again.",
+    "view.exportNoLib": "Export tool did not load. Refresh the page.",
     "view.defaultHint": "",
+    "nav.loading": "Calculating route…",
+    "nav.loadingGps": "Calculating route from your location to {dest}…",
+    "nav.loadingMonument": "Calculating route: {start} → {dest}…",
+    "nav.routeSummary": "{distance} · ~{duration} → {dest}",
+    "nav.clearRoute": "Clear route",
+    "nav.dragHint": "Drag panel",
+    "nav.resizeHint": "Resize panel horizontally",
+    "nav.youAreHere": "Your location",
+    "nav.startPoint": "Start",
+    "nav.destination": "Destination",
+    "nav.errorNoStart": "Set a monument as the start first (Set as start).",
+    "nav.errorSamePoint": "Start and destination are the same place.",
+    "nav.errorGeneric": "Navigation failed. Check GPS and internet connection.",
+    "nav.errorUnsupported": "This browser does not support geolocation.",
+    "nav.errorDenied": "Allow location access for WebGIS navigation.",
+    "nav.errorUnavailable": "Location is unavailable.",
+    "nav.errorTimeout": "GPS request timed out. Try again.",
+    "nav.errorNoRoute": "No route found to this destination.",
     "settings.lang": "Language",
     "picker.title": "Choose a site",
     "picker.hint": "",
@@ -523,10 +653,12 @@ const I18N_MESSAGES = {
 
 let currentLang = "sq";
 
+/** Kthen gjuhën aktive: "sq" ose "en". */
 function getLang() {
   return currentLang;
 }
 
+/** Ndryshon gjuhën, ruan në localStorage dhe rifreskon të gjithë UI-në dinamike. */
 function setLang(lang) {
   currentLang = lang === "en" ? "en" : "sq";
   document.documentElement.lang = currentLang;
@@ -538,6 +670,7 @@ function setLang(lang) {
   );
 }
 
+/** Kthen tekstin për një çelës (p.sh. t("search.empty")). */
 function t(key, fallback) {
   const pack = I18N_MESSAGES[currentLang] || I18N_MESSAGES.sq;
   if (pack[key] != null) return pack[key];
@@ -546,6 +679,7 @@ function t(key, fallback) {
   return fallback != null ? fallback : key;
 }
 
+/** Si t(), por zëvendëson {n}, {q} etj. me vlera nga objekti vars. */
 function tFormat(key, vars, fallback) {
   let s = t(key, fallback);
   if (!vars) return s;
@@ -555,6 +689,7 @@ function tFormat(key, vars, fallback) {
   return s;
 }
 
+/** Emri i periudhës historike për timeline dhe filtra. */
 function getPeriodLabel(key) {
   if (!key || key === "all") return t("period.all");
   const short = key === "antikitet_i_vone" ? "period.antikitet_short" : null;
@@ -570,6 +705,7 @@ function getPeriodLabel(key) {
     : key;
 }
 
+/** Etiketa e llojit të trashëgimisë (arkeologjike, arkitekturore, luajtshme). */
 function getHeritageTypeLabel(lloji) {
   const map = {
     arkeologjike: "layers.arkeologjike",
@@ -582,10 +718,12 @@ function getHeritageTypeLabel(lloji) {
   return lloji || t("common.unknown");
 }
 
+/** Alias për getPeriodLabel — përdoret nga timeline.js. */
 function getTimelinePeriodLabel(key) {
   return getPeriodLabel(key);
 }
 
+/** Teksti në shiritin e timeline-it për një vit (ose shkurtim në mobile). */
 function getTimelineTickLabel(year) {
   const mobile =
     typeof window.tkkIsMobile === "function"
@@ -605,10 +743,12 @@ function getTimelineTickLabel(year) {
   return k ? t(k) : String(year);
 }
 
+/** Etiketa "I panjohur" për komuna/rajone pa emër. */
 function getGeoUnknownLabel() {
   return t("geo.unknown");
 }
 
+/** Vendos tekstet statike nga data-i18n, data-i18n-title, placeholder, etj. */
 function applyI18n(root) {
   const scope = root || document;
 
@@ -638,6 +778,7 @@ function applyI18n(root) {
   }
 }
 
+/** Pas ndërrimit të gjuhës — rifreskon grafikët, kërkimin, detajet, raportet. */
 function refreshDynamicI18n() {
   if (typeof window.renderTimelinePeriods === "function") {
     window.renderTimelinePeriods();
@@ -683,6 +824,7 @@ function refreshDynamicI18n() {
   }
 }
 
+/** Lexon gjuhën e ruajtur nga localStorage (tkkLang) në fillim. */
 function loadLang() {
   const saved = localStorage.getItem("tkkLang");
   currentLang = saved === "en" ? "en" : "sq";

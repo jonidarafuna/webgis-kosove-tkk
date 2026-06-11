@@ -1,11 +1,20 @@
-/** Gjuha + tema (errët / e çelët) */
+/**
+ * SKEDARI: settings.js
+ * QËLLIMI: Menaxhon gjuhën e aplikacionit dhe temën vizuale (errët / e çelët).
+ * KUR NGARKOHET: Pas data-i18n.js, para coords.js (index.html); initSettings në DOMContentLoaded.
+ * LIDHET ME: i18n.js (getLang, setLang, applyI18n, t), map-basemaps.js (applyThemeToBasemap).
+ *
+ * Gjuha + tema (errët / e çelët)
+ */
 
+/** Lexon temën aktuale nga atributi data-theme i HTML. */
 function getTheme() {
   return document.documentElement.getAttribute("data-theme") === "light"
     ? "light"
     : "dark";
 }
 
+/** Vendos temën, e ruan në localStorage dhe njofton hartën. */
 function setTheme(theme) {
   const next = theme === "light" ? "light" : "dark";
   if (next === "light") {
@@ -29,17 +38,20 @@ function setTheme(theme) {
   );
 }
 
+/** Kthen temën midis errët dhe të çelët. */
 function toggleTheme() {
   const next = getTheme() === "light" ? "dark" : "light";
   setTheme(next);
 }
 
+/** Ngarkon temën e ruajtur nga localStorage para shfaqjes së faqes. */
 function loadTheme() {
   if (localStorage.getItem("tkkTheme") === "light") {
     document.documentElement.setAttribute("data-theme", "light");
   }
 }
 
+/** Përditëson tekstin dhe gjendjen e butonit të temës. */
 function updateThemeToggleUi() {
   const btn = document.getElementById("appThemeToggle");
   if (!btn) return;
@@ -52,6 +64,7 @@ function updateThemeToggleUi() {
   );
 }
 
+/** Inicializon zgjedhësin e gjuhës, butonin e temës dhe përkthimet. */
 function initSettings() {
   loadTheme();
   updateThemeToggleUi();
@@ -59,17 +72,20 @@ function initSettings() {
   const langSelect = document.getElementById("appLangSelect");
   if (langSelect) {
     langSelect.value = getLang();
+    // Ndryshon gjuhën kur përdoruesi zgjedh nga lista
     langSelect.addEventListener("change", () => {
       setLang(langSelect.value);
       updateThemeToggleUi();
     });
   }
 
+  // Klikimi i ikonës së diellit/hënës ndërron temën
   document.getElementById("appThemeToggle")?.addEventListener("click", (e) => {
     e.preventDefault();
     toggleTheme();
   });
 
+  // Rifreskon UI-n e temës kur ndryshon gjuha
   window.addEventListener("tkk:lang-change", () => {
     updateThemeToggleUi();
   });

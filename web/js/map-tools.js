@@ -1,6 +1,12 @@
 /**
- * Mjetet e hartës — matje vijë/poligon, buffer me radius të zgjedhshëm
+ * map-tools.js — Mjetet analitike të hartës
+ *
+ * Matje distancë (vijë) dhe sipërfaqe (poligon), buffer rreth një pike
+ * me eksport CSV/GeoJSON, dhe paneli i rezultateve në toolbar.
+ * Kërkon instancën globale `map` nga map.js.
  */
+
+// ===== SEKSIONI 1: Gjendja dhe shtresat Leaflet =====
 
 let activeTool = null;
 let measureMode = null;
@@ -21,6 +27,9 @@ let bufferCenterMarker = null;
 let bufferHighlighted = [];
 let bufferCenter = null;
 
+// ===== SEKSIONI 2: Njësitë e matjes (distancë / sipërfaqe) =====
+
+/** Gjen dropdown-in e njësisë së distancës (toolbar ose panel) */
 function getMeasureDistanceUnitEl() {
   return (
     document.getElementById("measureDistanceUnitPanel") ||
@@ -28,6 +37,7 @@ function getMeasureDistanceUnitEl() {
   );
 }
 
+/** Gjen dropdown-in e njësisë së sipërfaqes */
 function getMeasureAreaUnitEl() {
   return (
     document.getElementById("measureAreaUnitPanel") ||
@@ -35,11 +45,13 @@ function getMeasureAreaUnitEl() {
   );
 }
 
+/** Lexon nëse përdoruesi zgjodhi metra apo kilometra */
 function getMeasureDistanceUnit() {
   const sel = getMeasureDistanceUnitEl();
   return sel?.value === "km" ? "km" : "m";
 }
 
+/** Lexon njësinë e sipërfaqes: m², ha ose km² */
 function getMeasureAreaUnit() {
   const sel = getMeasureAreaUnitEl();
   const v = sel?.value;
@@ -48,6 +60,7 @@ function getMeasureAreaUnit() {
   return "m2";
 }
 
+/** Formati i lexueshëm për distancën (m ose km) */
 function formatDistance(meters) {
   const unit = getMeasureDistanceUnit();
   if (unit === "km") {
@@ -56,6 +69,7 @@ function formatDistance(meters) {
   return Math.round(meters) + " m";
 }
 
+/** Formati i lexueshëm për sipërfaqen */
 function formatArea(sqMeters) {
   const unit = getMeasureAreaUnit();
   if (unit === "km2") {
@@ -67,6 +81,7 @@ function formatArea(sqMeters) {
   return Math.round(sqMeters) + " m²";
 }
 
+/** Sinkronizon dropdown-et e njësisë midis toolbar-it dhe panelit */
 function syncMeasureUnitSelects() {
   const distMenu = document.getElementById("measureDistanceUnit");
   const distPanel = document.getElementById("measureDistanceUnitPanel");
@@ -76,10 +91,13 @@ function syncMeasureUnitSelects() {
   if (areaMenu && areaPanel) areaPanel.value = areaMenu.value;
 }
 
+// ===== SEKSIONI 3: Paneli i matjes (UI) =====
+
 function measureEditMeta() {
   return t("measure.editMeta");
 }
 
+/** HTML për butonat Vijë / Poligon në panel */
 function measureModeButtonsHtml() {
   return (
     '<div class="map-tool-mode-btns">' +
@@ -93,6 +111,7 @@ function measureModeButtonsHtml() {
   );
 }
 
+/** Hap panelin fillestar: zgjidh llojin e matjes dhe njësinë */
 function showMeasureSetupPanel() {
   setToggleButtonsActive(null);
   const btn = document.querySelector('[data-tool-toggle="measure"]');
@@ -115,6 +134,7 @@ function showMeasureSetupPanel() {
   syncMeasureUnitSelects();
 }
 
+/** HTML për dropdown-et e njësisë në panel */
 function measureUnitControlsHtml() {
   const distU = getMeasureDistanceUnit();
   const areaU = getMeasureAreaUnit();
@@ -163,6 +183,7 @@ function measureUnitControlsHtml() {
   );
 }
 
+/** Kur ndryshon njësi: përditëson vlerat dhe rillogarit matjen */
 function onMeasureUnitChange() {
   const distPanel = document.getElementById("measureDistanceUnitPanel");
   const distMenu = document.getElementById("measureDistanceUnit");
@@ -179,6 +200,7 @@ function onMeasureUnitChange() {
   }
 }
 
+/** Gjatësia totale e një vijëje në metra (distanca Leaflet midis pikave) */
 function lineLengthMeters(latlngs) {
   let total = 0;
   for (let i = 1; i < latlngs.length; i++) {
@@ -205,6 +227,8 @@ function polygonAreaM2(latlngs) {
   return Math.abs((area * R * R) / 2);
 }
 
+// ===== SEKSIONI 4: Buffer — radius dhe eksport =====
+
 function getBufferRadiusInputEl() {
   return (
     document.getElementById("bufferRadiusPanel") ||
@@ -212,6 +236,7 @@ function getBufferRadiusInputEl() {
   );
 }
 
+/** Dropdown km / m për buffer-in */
 function getBufferUnitSelectEl() {
   return (
     document.getElementById("bufferUnitPanel") ||
@@ -224,6 +249,7 @@ function getBufferUnit() {
   return sel?.value === "m" ? "m" : "km";
 }
 
+/** Radiusi i buffer-it në metra (konverton nga km nëse duhet) */
 function getBufferRadiusM() {
   const input = getBufferRadiusInputEl();
   const unit = getBufferUnit();
@@ -234,6 +260,7 @@ function getBufferRadiusM() {
   return unit === "km" ? val * 1000 : val;
 }
 
+/** Teksti i shfaqur për radiusin (p.sh. "5 km") */
 function formatBufferRadius() {
   const input = getBufferRadiusInputEl();
   const unit = getBufferUnit();
@@ -247,6 +274,7 @@ function formatBufferRadius() {
   return Math.round(val) + " m";
 }
 
+/** Kopjon vlerat e radiusit midis toolbar-it dhe panelit */
 function syncBufferInputValues() {
   const toolbar = document.getElementById("bufferRadiusInput");
   const panel = document.getElementById("bufferRadiusPanel");
@@ -260,6 +288,7 @@ function syncBufferInputValues() {
   }
 }
 
+/** Vendos min/max/step të input-it sipas km ose m */
 function updateBufferInputLimits() {
   const inputs = [
     document.getElementById("bufferRadiusInput"),
@@ -280,6 +309,7 @@ function updateBufferInputLimits() {
   });
 }
 
+/** Konverton vlerën kur ndryshon njësi km ↔ m */
 function onBufferUnitChange() {
   const input = getBufferRadiusInputEl();
   if (!input) return;
@@ -308,6 +338,7 @@ function onBufferUnitChange() {
   applyBufferRadiusChange();
 }
 
+/** Rifreskon buffer-in ose panelin pas ndryshimit të radiusit */
 function applyBufferRadiusChange() {
   syncBufferInputValues();
   if (bufferCenter) {
@@ -323,6 +354,7 @@ function applyBufferRadiusChange() {
   }
 }
 
+/** Mbaj menunë e buffer-it të hapur (aria-expanded) */
 function keepBufferMenuOpen() {
   const btn = document.querySelector('[data-tool-toggle="buffer"]');
   if (btn) btn.setAttribute("aria-expanded", "true");
@@ -341,12 +373,14 @@ const BUFFER_EXPORT_COLUMNS = [
   "northing_kosovaref01",
 ];
 
+/** Escape për qelizat CSV (presje, thonjëza) */
 function escapeCsvCell(value) {
   const s = value == null ? "" : String(value);
   if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
   return s;
 }
 
+/** Shkarkon një skedar teksti në disk (CSV / GeoJSON) */
 function downloadTextFile(content, filename, mime) {
   const blob = new Blob([content], { type: mime || "text/plain;charset=utf-8" });
   const url = URL.createObjectURL(blob);
@@ -357,6 +391,7 @@ function downloadTextFile(content, filename, mime) {
   URL.revokeObjectURL(url);
 }
 
+/** Monumentet brenda rrethit të buffer-it */
 function getBufferHitFeatures() {
   if (!bufferCenter) return [];
   return monumentsInBuffer(bufferCenter, getBufferRadiusM()).map((h) => h.feature);
@@ -368,6 +403,7 @@ function bufferExportFilename(ext) {
   return "buffer_" + r + "_" + d + "." + ext;
 }
 
+/** Eksport CSV i monumenteve në buffer */
 function exportBufferCsv() {
   const features = getBufferHitFeatures();
   if (!features.length) return;
@@ -385,6 +421,7 @@ function exportBufferCsv() {
   );
 }
 
+/** Eksport GeoJSON i monumenteve në buffer */
 function exportBufferGeoJson() {
   const features = getBufferHitFeatures();
   if (!features.length) return;
@@ -403,6 +440,7 @@ function exportBufferGeoJson() {
   );
 }
 
+/** Butonat Shkarko CSV / GeoJSON në panel */
 function bufferDownloadHtml(hitCount) {
   const count =
     hitCount !== undefined && hitCount !== null
@@ -423,6 +461,7 @@ function bufferDownloadHtml(hitCount) {
   );
 }
 
+/** Kontrollet e radiusit dhe butoni Apliko në panelin e buffer-it */
 function bufferControlsHtml() {
   const input = getBufferRadiusInputEl();
   const val = input ? input.value : "5";
@@ -454,10 +493,13 @@ function bufferControlsHtml() {
   );
 }
 
+// ===== SEKSIONI 5: Paneli i rezultateve dhe butonat e mjetit =====
+
 function setToolHint() {
   /* Udhëzimet shfaqen vetëm në panelin e mjetit, jo te koordinatat. */
 }
 
+/** Shfaq HTML në kutinë e rezultateve poshtë toolbar-it */
 function showToolResult(html) {
   const box = document.getElementById("mapToolResult");
   if (!box) return;
@@ -466,6 +508,7 @@ function showToolResult(html) {
   updateToolResultCompact(box);
 }
 
+/** Panel kompakt kur është hapur setup-i i matjes/buffer-it */
 function updateToolResultCompact(box) {
   if (!box) return;
   const compact =
@@ -479,6 +522,7 @@ function updateToolResultCompact(box) {
   box.classList.toggle("map-tool-result--compact", compact);
 }
 
+/** Fsheh panelin e rezultateve */
 function hideToolResult() {
   const box = document.getElementById("mapToolResult");
   if (!box) return;
@@ -487,17 +531,20 @@ function hideToolResult() {
   box.classList.remove("map-tool-result--compact");
 }
 
+/** Mbyll dropdown-et e mjeteve (measure, buffer, view) */
 function closeToolMenus() {
   document.querySelectorAll("[data-tool-toggle]").forEach((btn) => {
     btn.setAttribute("aria-expanded", "false");
   });
 }
 
+/** A është hapur paneli i zgjedhjes së llojit të matjes? */
 function isMeasureSetupOpen() {
   const box = document.getElementById("mapToolResult");
   return box && !box.hidden && box.querySelector("[data-measure-setup]");
 }
 
+/** Thekson butonin aktiv në toolbar (measure, buffer, etj.) */
 function setToggleButtonsActive(tool) {
   document.querySelectorAll("[data-tool-toggle]").forEach((btn) => {
     const t = btn.dataset.toolToggle;
@@ -516,6 +563,9 @@ window.hideMapToolResult = hideToolResult;
 window.closeMapToolMenus = closeToolMenus;
 window.updateToolResultCompact = updateToolResultCompact;
 
+// ===== SEKSIONI 6: Vizatimi i matjes (vijë / poligon) =====
+
+/** Pastron vijën, poligonin dhe markerët e vertex-eve */
 function clearMeasureGraphics() {
   measureState.points = [];
   measureState.finished = false;
@@ -531,10 +581,12 @@ function clearMeasureGraphics() {
   measureState.vertexMarkers = [];
 }
 
+/** Minimumi i pikave: 2 për vijë, 3 për poligon */
 function getMeasureMinPoints() {
   return measureMode === "polygon" ? 3 : 2;
 }
 
+/** Marker i tërheqshëm në çdo vertex; klik djathtas = fshi pikën */
 function createMeasureVertexMarker(latlng, index) {
   const vm = L.marker(latlng, {
     draggable: true,
@@ -574,6 +626,7 @@ function createMeasureVertexMarker(latlng, index) {
   return vm;
 }
 
+/** Përditëson panelin pas përfundimit të matjes (distancë / sipërfaqe totale) */
 function refreshFinishedMeasurePanel() {
   if (!measureState.finished) return;
   const pts = measureState.points;
@@ -629,6 +682,7 @@ function refreshFinishedMeasurePanel() {
   }
 }
 
+/** Rikrijon të gjithë handle-et e vertex-eve pas fshirjes së një pike */
 function rebuildVertexMarkers() {
   measureState.vertexMarkers.forEach((m) => measureLayer.removeLayer(m));
   measureState.vertexMarkers = [];
@@ -639,6 +693,7 @@ function rebuildVertexMarkers() {
   });
 }
 
+/** Fshin një vertex; nëse mbeten shumë pak pika, çaktivizon mjetin */
 function deleteMeasureVertex(index) {
   const minPts = getMeasureMinPoints();
   if (
@@ -658,17 +713,20 @@ function deleteMeasureVertex(index) {
   }
 }
 
+/** Reset i plotë i gjendjes së matjes */
 function clearMeasure() {
   clearMeasureGraphics();
   measureMode = null;
 }
 
+/** Heq rrethin e buffer-it dhe theksimin e monumenteve */
 function clearBuffer() {
   bufferHighlighted.forEach((m) => {
     const el = m.getElement?.();
     if (el) el.classList.remove("tkk-marker--in-buffer");
   });
   bufferHighlighted = [];
+  window.tkkBufferResultIds = new Set();
   if (bufferCircle) {
     bufferLayer.removeLayer(bufferCircle);
     bufferCircle = null;
@@ -679,6 +737,7 @@ function clearBuffer() {
   }
 }
 
+/** A po vendoset diçka në hartë (matje ose buffer)? */
 function isMapToolPlacementActive() {
   return (
     activeTool === "measure-line" ||
@@ -687,6 +746,7 @@ function isMapToolPlacementActive() {
   );
 }
 
+/** Anulon vendosjen e qendrës së buffer-it pa fshirë buffer-in ekzistues */
 function cancelBufferPlacement() {
   activeTool = null;
   setToggleButtonsActive(null);
@@ -699,6 +759,7 @@ function cancelBufferPlacement() {
   }
 }
 
+/** Anulon ose përfundon veprimin aktual të mjetit */
 function cancelToolInteraction() {
   if (activeTool === "measure-line" || activeTool === "measure-polygon") {
     deactivateMapTools();
@@ -713,6 +774,7 @@ function cancelToolInteraction() {
   }
 }
 
+/** Çaktivizon të gjitha mjetet dhe pastron grafikën */
 function deactivateMapTools() {
   activeTool = null;
   measureMode = null;
@@ -728,6 +790,7 @@ function deactivateMapTools() {
   if (typeof window.resetMapCoordHint === "function") window.resetMapCoordHint();
 }
 
+/** Aktivizon matjen e vijës ose poligonit — klik në hartë shton pika */
 function startMeasure(mode) {
   map.off("click", onBufferClick);
   if (activeTool === "buffer" && !bufferCenter) {
@@ -766,6 +829,7 @@ function startMeasure(mode) {
   }
 }
 
+/** Shfaq panelin e buffer-it me numrin e monumenteve (nëse ka qendër) */
 function showBufferPanel(hitCount) {
   const label = formatBufferRadius();
   const count =
@@ -807,6 +871,7 @@ function showBufferPanel(hitCount) {
   syncBufferInputValues();
 }
 
+/** Përgatit kursorin për klik — vendos qendrën e buffer-it */
 function armBufferTool() {
   measureMode = null;
   map.off("click", onMeasureClick);
@@ -828,6 +893,7 @@ function armBufferTool() {
   }
 }
 
+/** Përfundon vendosjen e buffer-it; mbaj panelin me rezultatet */
 function finishBuffer() {
   if (!bufferCenter) {
     cancelBufferPlacement();
@@ -854,6 +920,7 @@ function finishBuffer() {
   }
 }
 
+/** Rillogarit vijën/poligonin dhe vlerat në panel gjatë vendosjes */
 function updateMeasureDisplay() {
   const pts = measureState.points;
 
@@ -963,6 +1030,7 @@ function updateMeasureDisplay() {
   }
 }
 
+/** Shto një pikë në hartë gjatë matjes */
 function onMeasureClick(e) {
   if (measureState.finished) return;
   if (activeTool !== "measure-line" && activeTool !== "measure-polygon") return;
@@ -978,6 +1046,7 @@ function onMeasureClick(e) {
   updateMeasureDisplay();
 }
 
+/** Klik djathtas / përfundim — fikson matjen dhe lejon editimin e vertex-eve */
 function finishMeasure() {
   const pts = measureState.points;
   const isLine = measureMode === "line";
@@ -1050,6 +1119,9 @@ function finishMeasure() {
   map.off("click", onMeasureClick);
 }
 
+// ===== SEKSIONI 7: Buffer — vizatim dhe klikime =====
+
+/** Filtron monumentRegistry: ata brenda radiusit nga qendra */
 function monumentsInBuffer(center, radiusM) {
   return (window.monumentRegistry || []).filter(({ feature }) => {
     const p = feature.properties || {};
@@ -1060,11 +1132,13 @@ function monumentsInBuffer(center, radiusM) {
   });
 }
 
+/** Rifreskon rrethin kur ndryshon radiusi pa lëvizur qendrën */
 function refreshBuffer() {
   if (!bufferCenter) return;
   renderBuffer(bufferCenter);
 }
 
+/** Vizaton rrethin, thekson monumentet dhe hap popup-in */
 function renderBuffer(center) {
   bufferCenter = center;
   const radiusM = getBufferRadiusM();
@@ -1096,6 +1170,12 @@ function renderBuffer(center) {
     const el = marker.getElement?.();
     if (el) el.classList.add("tkk-marker--in-buffer");
   });
+
+  window.tkkBufferResultIds = new Set(
+    hits
+      .map((h) => String((h.feature?.properties || {}).id || "").trim())
+      .filter(Boolean)
+  );
 
   const names = hits
     .slice(0, 5)
@@ -1136,12 +1216,16 @@ function renderBuffer(center) {
   );
 }
 
+/** Klik në hartë — vendos ose zhvendos qendrën e buffer-it */
 function onBufferClick(e) {
   if (activeTool !== "buffer") return;
   L.DomEvent.stop(e);
   renderBuffer(e.latlng);
 }
 
+// ===== SEKSIONI 8: Inicializimi dhe përkthimet (i18n) =====
+
+/** Lidh butonat, event-et dhe shtresat e mjeteve me hartën */
 function initMapTools() {
   measureLayer.addTo(map);
   bufferLayer.addTo(map);
@@ -1360,6 +1444,7 @@ function initMapTools() {
   });
 }
 
+/** Rifreskon tekstet e panelit kur ndryshon gjuha */
 function refreshMapToolsI18n() {
   const resultBox = document.getElementById("mapToolResult");
   if (!resultBox || resultBox.hidden) return;

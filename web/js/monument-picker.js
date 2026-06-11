@@ -1,11 +1,16 @@
 /**
- * Zgjedhja e monumentit kur disa site janë në të njëjtën vendndodhje (mbivendosje).
+ * QËLLIMI: Kur disa monumente bien në të njëjtën pikë (ose cluster), shfaq listën
+ *           për zgjedhje dhe drejton klikimin te paneli i detajeve.
+ * KUR NGARKOHET: DOMContentLoaded; lidhet me hartën kur map.whenReady.
+ * LIDHET ME: map.js (handleMonumentMapClick, bindClusterPicker), detail.js (showDetailPanel),
+ *             index.html (#monumentPicker), i18n.js (picker.*).
  */
 
 /** Vetëm pika në të njëjtën vendndodhje (mbivendosje reale), jo monumente të afërta */
 const PICKER_SAME_SPOT_M = 3;
 let pickerSuppressUntil = 0;
 
+/** ID unik për një monument (lloji + id + koordinata) — shmang dublikatat. */
 function monumentFeatureId(feature, typeKey) {
   const p = feature?.properties || {};
   const id = p.id ?? p.ID ?? p.gid ?? p.GID ?? "";
@@ -17,12 +22,14 @@ function monumentFeatureId(feature, typeKey) {
   return String(typeKey || "") + "|" + id + "|" + c;
 }
 
+/** Nxjerr LatLng nga geometria GeoJSON e feature-it. */
 function getMonumentLatLng(feature) {
   const coords = feature?.geometry?.coordinates;
   if (!coords || coords.length < 2) return null;
   return L.latLng(coords[1], coords[0]);
 }
 
+/** A është markeri i dukshëm (jo i fshehur nga filtri ose shtresa)? */
 function isMonumentMarkerVisible(entry) {
   if (!entry?.layer || entry.layer._tkkHidden) return false;
   const el = entry.layer.getElement?.();
@@ -32,6 +39,7 @@ function isMonumentMarkerVisible(entry) {
   return true;
 }
 
+/** Gjen të gjitha monumentet brenda radiusit maxM metra nga latlng. */
 function getMonumentsAtPoint(latlng, maxM) {
   if (!latlng || !window.map) return [];
   const radius = typeof maxM === "number" ? maxM : PICKER_SAME_SPOT_M;
@@ -65,11 +73,13 @@ function getMonumentsAtPoint(latlng, maxM) {
   return hits;
 }
 
+/** Alias me distancë fikse PICKER_SAME_SPOT_M për mbivendosje. */
 function getStackedMonumentsAt(latlng) {
   if (!latlng) return [];
   return getMonumentsAtPoint(latlng, PICKER_SAME_SPOT_M);
 }
 
+/** Konverton markerët e cluster-it në listë hits për picker. */
 function markersToHits(markers) {
   return (markers || [])
     .filter((m) => m?.feature)
@@ -86,6 +96,7 @@ function markersToHits(markers) {
     });
 }
 
+/** Bashkon markerët e cluster-it me stacked në të njëjtën pikë. */
 function getMonumentsFromMarkers(markers, latlng) {
   const fromMarkers = markersToHits(markers);
   if (fromMarkers.length <= 1) {
@@ -115,12 +126,14 @@ function getMonumentsFromMarkers(markers, latlng) {
   return merged;
 }
 
+/** Etiketa e llojit për rreshtin në listën e picker-it. */
 function getMonumentTypeLabel(typeKey) {
   const key = "picker.type." + typeKey;
   if (typeof t === "function" && t(key) !== key) return t(key);
   return typeKey;
 }
 
+/** Mbyll panelin dhe bllokon për pak kohë klikimet e hartës. */
 function closeMonumentPicker() {
   pickerSuppressUntil = Date.now() + 500;
   const panel = document.getElementById("monumentPicker");
@@ -132,6 +145,7 @@ function closeMonumentPicker() {
   if (list) list.innerHTML = "";
 }
 
+/** Krahasohet nëse hit-i është i njëjti monument me atë aktiv. */
 function isSameMonumentHit(hit, activeFeature, activeTypeKey) {
   if (!hit?.feature || !activeFeature) return false;
   return (
@@ -140,6 +154,7 @@ function isSameMonumentHit(hit, activeFeature, activeTypeKey) {
   );
 }
 
+/** Hap listën e monumenteve dhe ruan gjendjen për rifreskim gjuhë. */
 function openMonumentPicker(hits, latlng, activeFeature, activeTypeKey) {
   const panel = document.getElementById("monumentPicker");
   const list = document.getElementById("monumentPickerList");
@@ -213,6 +228,7 @@ function openMonumentPicker(hits, latlng, activeFeature, activeTypeKey) {
   }
 }
 
+/** Escape HTML për emrat në listë (siguri). */
 function escapePickerHtml(s) {
   return String(s)
     .replace(/&/g, "&amp;")
@@ -221,6 +237,7 @@ function escapePickerHtml(s) {
     .replace(/"/g, "&quot;");
 }
 
+/** Klikim te një marker i vetëm — picker ose detaje direkt. */
 function handleMonumentMarkerClick(latlng, feature, typeKey) {
   if (!latlng || !feature) return;
   if (Date.now() < pickerSuppressUntil) return;
@@ -240,6 +257,7 @@ function handleMonumentMarkerClick(latlng, feature, typeKey) {
   openMonumentDetail(feature, latlng);
 }
 
+/** Pika hyrëse nga map.js (cluster ose marker i vetëm). */
 function handleMonumentMapClick(latlng, primaryFeature, clusterMarkers) {
   if (!latlng) return;
   if (Date.now() < pickerSuppressUntil) return;
@@ -259,6 +277,7 @@ function handleMonumentMapClick(latlng, primaryFeature, clusterMarkers) {
   }
 }
 
+/** Mbyll picker-in dhe hap panelin e detajeve. */
 function openMonumentDetail(feature, latlng) {
   if (!feature) return;
   closeMonumentPicker();
@@ -270,6 +289,7 @@ function openMonumentDetail(feature, latlng) {
   }
 }
 
+/** Lidh clusterclick te një MarkerClusterGroup. */
 function bindClusterPicker(clusterGroup) {
   if (!clusterGroup?.on || clusterGroup._tkkPickerBound) return;
   clusterGroup._tkkPickerBound = true;
@@ -305,6 +325,7 @@ function bindClusterPicker(clusterGroup) {
   });
 }
 
+/** Inicializon mbylljen, Escape dhe klikimin e hartës për të mbyllur picker-in. */
 function initMonumentPicker() {
   const closeBtn = document.getElementById("monumentPickerClose");
   const panel = document.getElementById("monumentPicker");
@@ -323,6 +344,7 @@ function initMonumentPicker() {
     if (e.key === "Escape") closeMonumentPicker();
   });
 
+  /** Lidh klikimin e hartës dhe cluster picker pas whenReady. */
   const bindMap = () => {
     if (!window.map || window._tkkPickerMapBound) return;
     window._tkkPickerMapBound = true;
@@ -340,6 +362,7 @@ function initMonumentPicker() {
   }
 }
 
+/** Rindërton listën pas ndërrimit të gjuhës (tkk:lang-change). */
 function refreshMonumentPickerI18n() {
   const panel = document.getElementById("monumentPicker");
   if (!panel || panel.hidden) return;

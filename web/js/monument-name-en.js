@@ -1,8 +1,14 @@
 /**
+ * SKEDARI: monument-name-en.js
+ * QËLLIMI: Përkthe emrat e monumenteve në anglisht me formula (Kulla e X → Tower of X).
+ * KUR NGARKOHET: Pas i18n.js, para data-i18n.js (index.html).
+ * LIDHET ME: i18n.js (getLang), data-i18n.js (displayEnMap), detail.js dhe search (translateMonumentDisplayName).
+ *
  * Emra monumentesh në anglisht — vetëm formula të qarta (Kulla e X → Tower of X).
  * Emrat propri / toponimet mbeten; pa përkthim → mbetet shqip.
  */
 
+// Fjalë të vogla që mbeten me shkronja të vogla në titullin anglisht
 const MONUMENT_TITLE_SMALL = new Set([
   "of",
   "the",
@@ -45,6 +51,7 @@ const MOVABLE_HERITAGE_EN = {
   "veshje popullore gruaje": "Women's folk costume",
 };
 
+/** Normalizon emrin për kërkim në fjalor (pa theks, lowercase). */
 function monumentNormalizeKey(value) {
   return String(value ?? "")
     .trim()
@@ -54,6 +61,7 @@ function monumentNormalizeKey(value) {
     .replace(/\s+/g, " ");
 }
 
+/** Rregullon shkronjat e mëdha/të vogla në titullin anglisht. */
 function fixMonumentEnglishTitle(s) {
   return s
     .split(/\s+/)
@@ -66,6 +74,7 @@ function fixMonumentEnglishTitle(s) {
     .join(" ");
 }
 
+/** Pastron emrin hyrës (hapësira, CAPS → Title Case). */
 function normalizeMonumentInput(raw) {
   let s = String(raw).trim().replace(/\s+/g, " ");
   const letters = s.replace(/[^A-Za-zÀ-ÿ]/g, "");
@@ -77,6 +86,7 @@ function normalizeMonumentInput(raw) {
   return s;
 }
 
+/** Përkthen nën-tituj specifikë (p.sh. "shkolla e parë shqipe"). */
 function translateMonumentSubtitle(part) {
   const p = String(part).trim();
   const rules = [
@@ -89,6 +99,7 @@ function translateMonumentSubtitle(part) {
   return p;
 }
 
+/** Zbaton një rregull regex dhe kthen titullin e formatuar. */
 function applyMonumentRule(s, re, build) {
   const m = s.match(re);
   if (!m) return null;
@@ -96,7 +107,9 @@ function applyMonumentRule(s, re, build) {
   return fixMonumentEnglishTitle(out);
 }
 
+/** Përkthe emrin duke provuar rregulla sipas modelit (kulla, xhami, ura, …). */
 function translateMonumentByPattern(s) {
+  // Lista e rregullave regex — nga më specifike te më të përgjithshme
   const rules = [
     [
       /^tëresia urbanistike\s+(.+)$/i,
@@ -296,6 +309,7 @@ function translateMonumentByPattern(s) {
 }
 
 /**
+ * Kthen emrin e monumentit për shfaqje (shqip ose anglisht sipas gjuhës).
  * @param {string} raw
  * @param {object} [props]
  */
@@ -329,4 +343,5 @@ function translateMonumentDisplayName(raw, props) {
   return original;
 }
 
+// Eksporton funksionin kryesor të përkthimit të emrave
 window.translateMonumentDisplayName = translateMonumentDisplayName;

@@ -1,7 +1,12 @@
 /**
- * Sidebar — numërim shtresash, kërkim, toggle shtresash, panel i mbyllur
+ * QËLLIMI: Paneli anësor — numërim monumentesh, ndezje shtresash, kërkim me histori,
+ *           panel i mbyllur (rail) dhe flyout për kërkim/filtra/statistikë.
+ * KUR NGARKOHET: DOMContentLoaded; numërimi përditësohet pas ngarkimit të monumenteve.
+ * LIDHET ME: index.html (#sidebarLeft, #sidebarSearch), map.js, detail.js, i18n.js,
+ *             symbology-user.js, filters.js, chart.js (flyout statistikë).
  */
 
+// Konstante për flyout dhe kërkim (localStorage: tkkSearchHistory)
 const SIDEBAR_FLYOUT_W = 220;
 const SEARCH_HISTORY_KEY = "tkkSearchHistory";
 const SEARCH_HISTORY_MAX = 12;
@@ -12,6 +17,9 @@ let lastSearchQuery = "";
 let lastSearchMatches = [];
 let searchShowAll = false;
 
+// ——— Numërimi dhe ikonat e shtresave ———
+
+/** Numëron monumentet sipas lloji_trashegimise (registry ose allMonumentFeatures). */
 function countByType() {
   const counts = { arkeologjike: 0, arkitekturore: 0, luajtshme: 0 };
   const registry = window.monumentRegistry || [];
@@ -31,6 +39,7 @@ function countByType() {
   return counts;
 }
 
+/** Vendos tekstin «N monumente» pranë çdo shtrese në listë. */
 function updateLayerCounts() {
   const counts = countByType();
   document.querySelectorAll("[data-count-for]").forEach((el) => {
@@ -40,6 +49,7 @@ function updateLayerCounts() {
   });
 }
 
+/** Mbush ikonat SVG/PNG në legjendën e shtresave. */
 function fillLayerIcons() {
   ["arkeologjike", "arkitekturore", "luajtshme"].forEach((key) => {
     const slot = document.querySelector('[data-icon="' + key + '"]');
@@ -63,6 +73,7 @@ function fillLayerIcons() {
   });
 }
 
+/** Ndryshon checkbox-in e një rreshti shtrese (klik në rresht). */
 function toggleLayerRow(row) {
   const input = row.querySelector("input.layer-row-input");
   if (!input) return;
@@ -71,6 +82,7 @@ function toggleLayerRow(row) {
   row.classList.toggle("is-off", !input.checked);
 }
 
+/** Lidh klik/keyboard për .layer-row dhe sinkronizon shtresat administrative. */
 function initLayerToggles() {
   document.querySelectorAll(".layer-row[data-layer]").forEach((row) => {
     const input = row.querySelector("input.layer-row-input");
@@ -101,6 +113,9 @@ function initLayerToggles() {
   }
 }
 
+// ——— Kërkimi i monumenteve ———
+
+/** Normalizon tekstin për kërkim (minuscule, pa theks). */
 function normalizeSearch(s) {
   return (s || "")
     .toLowerCase()
@@ -108,6 +123,7 @@ function normalizeSearch(s) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+/** Escape HTML në rezultatet e kërkimit. */
 function escapeHtml(s) {
   return String(s)
     .replace(/&/g, "&amp;")
@@ -116,12 +132,14 @@ function escapeHtml(s) {
     .replace(/"/g, "&quot;");
 }
 
+/** Lexon një fushë nga properties (emri, komuna, …). */
 function searchProp(props, key) {
   if (!props) return "";
   const v = props[key] ?? props[key.toUpperCase()];
   return v != null && String(v).trim() !== "" ? String(v).trim() : "";
 }
 
+/** Etiketa e llojit në rreshtin e rezultatit. */
 function searchCategoryLabel(type) {
   if (typeof getHeritageTypeLabel === "function") {
     return getHeritageTypeLabel(type);
@@ -130,6 +148,7 @@ function searchCategoryLabel(type) {
   return s?.label || type || "Monument";
 }
 
+/** Teksti në të cilin kërkohet (emri + emri EN nëse gjuha është en). */
 function monumentSearchHaystack(props) {
   const p = props || {};
   const sq = normalizeSearch(p.emri || p.EMRI || "");
@@ -143,6 +162,7 @@ function monumentSearchHaystack(props) {
   return sq;
 }
 
+/** Lista e feature-ve që përmbajnë query (min. 2 karaktere). */
 function getSearchMatches(query) {
   const q = normalizeSearch(query.trim());
   if (q.length < 2) return [];
@@ -151,6 +171,7 @@ function getSearchMatches(query) {
   );
 }
 
+/** Shfaq/fsheh butonin X te fusha e kërkimit. */
 function updateSearchClearButton() {
   const input = document.getElementById("sidebarSearch");
   const clearBtn = document.getElementById("sidebarSearchClear");
@@ -159,6 +180,7 @@ function updateSearchClearButton() {
   clearBtn.hidden = !hasValue;
 }
 
+/** Kontrollon nëse dropdown-i duhet të jetë i dukshëm. */
 function syncSearchDropdown() {
   const dropdown = document.getElementById("sidebarSearchDropdown");
   const results = document.getElementById("sidebarSearchResults");
@@ -176,6 +198,7 @@ function syncSearchDropdown() {
   dropdown.hidden = !(hasResults || hasHistory || hasShowAll);
 }
 
+/** Lexon historinë e kërkimeve nga localStorage. */
 function loadSearchHistory() {
   try {
     const raw = localStorage.getItem(SEARCH_HISTORY_KEY);
@@ -189,6 +212,7 @@ function loadSearchHistory() {
   }
 }
 
+/** Ruan historinë (max SEARCH_HISTORY_MAX). */
 function saveSearchHistory(items) {
   try {
     localStorage.setItem(
@@ -200,6 +224,7 @@ function saveSearchHistory(items) {
   }
 }
 
+/** Shton një kërkim në krye të historisë. */
 function pushSearchHistory(text) {
   const label = (text || "").trim();
   if (label.length < 2) return;
@@ -213,11 +238,13 @@ function pushSearchHistory(text) {
   renderSearchHistory();
 }
 
+/** Fshin të gjithë historinë e kërkimit. */
 function clearSearchHistory() {
   localStorage.removeItem(SEARCH_HISTORY_KEY);
   renderSearchHistory();
 }
 
+/** Gjen monumentin e parë që përputhet (saktë ose pjesërisht). */
 function findMonumentByQuery(query) {
   const q = normalizeSearch(query.trim());
   if (q.length < 2) return null;
@@ -234,6 +261,7 @@ function findMonumentByQuery(query) {
   );
 }
 
+/** Shfaq/fsheh seksionin «Kërkimet e fundit». */
 function setSearchHistoryVisible(visible) {
   const wrap = document.getElementById("sidebarSearchHistoryWrap");
   if (!wrap) return;
@@ -241,6 +269,7 @@ function setSearchHistoryVisible(visible) {
   syncSearchDropdown();
 }
 
+/** Vizaton butonat e historisë së kërkimit. */
 function renderSearchHistory() {
   const list = document.getElementById("sidebarSearchHistory");
   const input = document.getElementById("sidebarSearch");
@@ -292,6 +321,7 @@ function renderSearchHistory() {
   setSearchHistoryVisible(true);
 }
 
+/** Zmadhon hartën te monumenti dhe hap detajet. */
 function goToMonument(feature, options) {
   const p = feature.properties || {};
   const lat = parseFloat(p.lat);
@@ -318,6 +348,7 @@ function goToMonument(feature, options) {
   }
 }
 
+/** HTML për një rresht rezultati (ikonë, emër, lloj, komuna). */
 function buildSearchResultRowHtml(f) {
   const p = f.properties || {};
   const type = p.lloji_trashegimise || "";
@@ -357,6 +388,7 @@ function buildSearchResultRowHtml(f) {
   );
 }
 
+/** Liston rezultatet ose mesazhin «nuk u gjet». */
 function renderSearchResults(matches, query, options) {
   const listEl = document.getElementById("sidebarSearchResults");
   const showAllBtn = document.getElementById("sidebarSearchShowAll");
@@ -410,6 +442,7 @@ function renderSearchResults(matches, query, options) {
   syncSearchDropdown();
 }
 
+/** Pastron listën e rezultateve dhe fsheh dropdown-in. */
 function closeSearchDropdown() {
   const listEl = document.getElementById("sidebarSearchResults");
   const showAllBtn = document.getElementById("sidebarSearchShowAll");
@@ -422,6 +455,7 @@ function closeSearchDropdown() {
   syncSearchDropdown();
 }
 
+/** Ekzekuton kërkimin kur ndryshon teksti në input. */
 function runMonumentSearch(query) {
   const q = normalizeSearch(query.trim());
   updateSearchClearButton();
@@ -429,6 +463,8 @@ function runMonumentSearch(query) {
   if (q.length < 2) {
     lastSearchQuery = "";
     lastSearchMatches = [];
+    window.tkkLastSearchQuery = "";
+    window.tkkLastSearchMatches = [];
     searchShowAll = false;
     closeSearchDropdown();
     renderSearchHistory();
@@ -437,11 +473,14 @@ function runMonumentSearch(query) {
 
   lastSearchQuery = query.trim();
   lastSearchMatches = getSearchMatches(query);
+  window.tkkLastSearchQuery = lastSearchQuery;
+  window.tkkLastSearchMatches = lastSearchMatches.slice();
   renderSearchResults(lastSearchMatches, lastSearchQuery, {
     showAll: searchShowAll,
   });
 }
 
+/** Lidh input, focus, Enter për një fushë kërkimi. */
 function initSearchInput(inputId) {
   const input = document.getElementById(inputId);
   if (!input) return;
@@ -478,6 +517,7 @@ function initSearchInput(inputId) {
   });
 }
 
+/** Inicializon kërkimin e sidebar-it (clear, show all, histori). */
 function initSidebarSearch() {
   initSearchInput("sidebarSearch");
   renderSearchHistory();
@@ -523,17 +563,22 @@ function initSidebarSearch() {
   });
 }
 
+/** Thirret pas ngarkimit të të dhënave — ikona dhe numërim. */
 function initSidebar() {
   fillLayerIcons();
   updateLayerCounts();
 }
 
+// ——— Paneli i mbyllur (rail) dhe flyout ———
+
+/** Thekson butonin aktiv në shiritin e ngushtë. */
 function setRailActive(section) {
   document.querySelectorAll(".sidebar-rail-btn[data-sidebar-section]").forEach((btn) => {
     btn.classList.toggle("is-active", btn.dataset.sidebarSection === section);
   });
 }
 
+/** Menaxhon mbylljen e panelit, flyout search/filters/chart dhe localStorage. */
 function initSidebarCollapse() {
   const layout = document.getElementById("appLayout");
   const collapseBtn = document.getElementById("sidebarCollapseBtn");
@@ -548,6 +593,7 @@ function initSidebarCollapse() {
   let setSidebarCollapsed;
   let activeFlyout = null;
 
+  /** Rregullon gjerësinë e kolonës kur flyout është hapur. */
   function updateFlyoutGrid() {
     const collapsed = layout.classList.contains("layout--sidebar-collapsed");
     if (!activeFlyout) {
@@ -564,6 +610,7 @@ function initSidebarCollapse() {
     }
   }
 
+  /** Mbyll të gjitha flyout-et dhe kthen fokusin te shtresat. */
   function closeFlyouts() {
     activeFlyout = null;
     flyoutSearch?.classList.remove("is-open");
@@ -578,6 +625,7 @@ function initSidebarCollapse() {
     setRailActive(null);
   }
 
+  /** Hap flyout search, filters ose chart. */
   function openFlyout(name) {
     closeFlyouts();
     activeFlyout = name;
@@ -607,6 +655,7 @@ function initSidebarCollapse() {
     }
   }
 
+  /** Kthen panelin e plotë të shtresave (jo flyout). */
   function openLayersPanel() {
     closeFlyouts();
     if (!(typeof window.tkkIsMobile === "function" && window.tkkIsMobile())) {
@@ -617,6 +666,7 @@ function initSidebarCollapse() {
     setRailActive("layers");
   }
 
+  /** Mbyll/zgjeron sidebar-in dhe rifreskon madhësinë e hartës. */
   setSidebarCollapsed = function (collapsed) {
     layout.classList.toggle("layout--sidebar-collapsed", collapsed);
     collapseBtn.setAttribute("aria-expanded", collapsed ? "false" : "true");
@@ -643,6 +693,7 @@ function initSidebarCollapse() {
 
   window.setSidebarCollapsed = setSidebarCollapsed;
 
+  /** Drejton klikimin në rail (shtresa, kërkim, filtra, grafik). */
   function handleSidebarAction(section) {
     if (section === "layers") {
       openLayersPanel();
@@ -718,6 +769,7 @@ function initSidebarCollapse() {
   window.tkkOpenLayersPanel = openLayersPanel;
 }
 
+/** Përditëson title/aria-label të butonit mbylljes sipas gjuhës. */
 function updateSidebarChromeI18n() {
   const collapseBtn = document.getElementById("sidebarCollapseBtn");
   const layout = document.querySelector(".layout");
@@ -728,6 +780,7 @@ function updateSidebarChromeI18n() {
   }
 }
 
+/** Rindërton rezultatet ose historinë pas ndërrimit të gjuhës. */
 function refreshSearchI18n() {
   if (lastSearchQuery && lastSearchQuery.length >= 2) {
     renderSearchResults(lastSearchMatches, lastSearchQuery, {
@@ -738,6 +791,7 @@ function refreshSearchI18n() {
   }
 }
 
+// Inicializim dhe eksport global
 document.addEventListener("DOMContentLoaded", () => {
   initLayerToggles();
   initSidebarSearch();

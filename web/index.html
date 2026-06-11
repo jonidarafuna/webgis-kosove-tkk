@@ -1,6 +1,20 @@
 <!DOCTYPE html>
+<!--
+  SKEDARI: index.html
+  QËLLIMI: Faqja kryesore e WebGIS — struktura HTML e të gjithë UI-së.
+  PËRBËHET NGA:
+    - head: CSS, manifest, tema/gjuha e paracaktuar
+    - overlay: paralajmërim serveri (app-boot.js)
+    - sidebar majtas: shtresat, kërkim, filtra, statistikë
+    - harta (#map): Leaflet vendoset këtu nga map.js
+    - paneli djathtas: detajet e monumentit
+    - timeline poshtë: periudhat historike
+    - script: rendi i ngarkimit — config → UI → harta (map.js i fundit para picker/vgi)
+  SI HAPET: vetëm përmes HAPNI.bat (http://localhost:5500), jo me dy-klik.
+-->
 <html lang="sq">
   <head>
+    <!-- Meta, PWA, titulli -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0a0e14" />
@@ -32,6 +46,7 @@
     <link rel="stylesheet" href="css/mobile.css" />
   </head>
   <body class="app-mockup">
+    <!-- Overlay i kuq/gri kur serveri është i gabuar ose mungojnë të dhënat (app-boot.js) -->
     <div id="tkkServerOverlay" class="tkk-server-overlay" hidden aria-live="polite"></div>
 
     <div id="vgiPickMapHint" class="vgi-pick-hint" hidden role="status">
@@ -179,6 +194,7 @@
 
     <div class="layout" id="appLayout">
       <div class="sidebar-column">
+        <!-- SIDEBAR MAJTAS: shtresat e monumenteve + ngjyra + shtresat gjeografike (sidebar.js) -->
         <aside class="sidebar-left" id="sidebarLeft">
           <div class="sidebar-left-header">
             <h2 class="panel-heading panel-heading--sidebar" data-i18n="layers.heading">Shtresat</h2>
@@ -264,6 +280,30 @@
           </div>
         </div>
 
+        <details class="layer-extra" open>
+          <summary data-i18n="layers.geoSummary">Shtresa gjeografike</summary>
+          <div class="layer-list layer-list--compact">
+            <div class="layer-row layer-row--compact" data-layer="komunat" role="button" tabindex="0">
+              <span class="dot line line--komunat"></span>
+              <span class="layer-row-name" data-i18n="layers.komunat">Komunat</span>
+              <input type="checkbox" class="layer-row-input" data-layer="komunat" checked />
+              <span class="toggle-switch toggle-switch--sm"></span>
+            </div>
+            <div class="layer-row layer-row--compact" data-layer="rajonet" role="button" tabindex="0">
+              <span class="dot line line--rajonet"></span>
+              <span class="layer-row-name" data-i18n="layers.rajonet">Rajonet</span>
+              <input type="checkbox" class="layer-row-input" data-layer="rajonet" checked />
+              <span class="toggle-switch toggle-switch--sm"></span>
+            </div>
+            <div class="layer-row layer-row--compact" data-layer="kosova" role="button" tabindex="0">
+              <span class="dot line line--kosova"></span>
+              <span class="layer-row-name" data-i18n="layers.kosova">Kufiri i Kosovës</span>
+              <input type="checkbox" class="layer-row-input" data-layer="kosova" checked />
+              <span class="toggle-switch toggle-switch--sm"></span>
+            </div>
+          </div>
+        </details>
+
         <section class="symbology-panel" id="symbologyPanel" aria-labelledby="symbologyPanelHeading">
           <h3 class="panel-heading symbology-panel__heading" id="symbologyPanelHeading" data-i18n="symbology.heading">
             Ngjyrat e monumenteve
@@ -347,39 +387,103 @@
           </button>
         </section>
 
-        <details class="layer-extra" open>
-          <summary data-i18n="layers.geoSummary">Shtresa gjeografike</summary>
-          <div class="layer-list layer-list--compact">
-            <div class="layer-row layer-row--compact" data-layer="komunat" role="button" tabindex="0">
-              <span class="dot line line--komunat"></span>
-              <span class="layer-row-name" data-i18n="layers.komunat">Komunat</span>
-              <input type="checkbox" class="layer-row-input" data-layer="komunat" checked />
-              <span class="toggle-switch toggle-switch--sm"></span>
-            </div>
-            <div class="layer-row layer-row--compact" data-layer="rajonet" role="button" tabindex="0">
-              <span class="dot line line--rajonet"></span>
-              <span class="layer-row-name" data-i18n="layers.rajonet">Rajonet</span>
-              <input type="checkbox" class="layer-row-input" data-layer="rajonet" checked />
-              <span class="toggle-switch toggle-switch--sm"></span>
-            </div>
-            <div class="layer-row layer-row--compact" data-layer="kosova" role="button" tabindex="0">
-              <span class="dot line line--kosova"></span>
-              <span class="layer-row-name" data-i18n="layers.kosova">Kufiri i Kosovës</span>
-              <input type="checkbox" class="layer-row-input" data-layer="kosova" checked />
-              <span class="toggle-switch toggle-switch--sm"></span>
-            </div>
-          </div>
-        </details>
-
         </aside>
 
-        <aside class="sidebar-flyout" id="sidebarFlyoutFilters" aria-label="Filtra" hidden>
+        <aside class="sidebar-flyout sidebar-flyout--filters" id="sidebarFlyoutFilters" aria-label="Filtra" hidden>
           <div class="sidebar-flyout-header">
-            <h2 class="panel-heading panel-heading--sidebar" data-i18n="filters.heading">Filtra aktivë</h2>
+            <h2 class="panel-heading panel-heading--sidebar" data-i18n="filters.heading">Filtrat</h2>
             <button type="button" class="sidebar-flyout-close" data-flyout-close data-i18n-aria="common.close" aria-label="Mbyll">×</button>
           </div>
-          <div id="sidebarFiltersSection">
+          <div id="sidebarFiltersSection" class="monument-filters">
+            <div class="monument-filter-field">
+              <label class="monument-filter-label" for="filterKomuna" data-i18n="filters.komuna">Komuna</label>
+              <select id="filterKomuna" class="monument-filter-select">
+                <option value="" data-i18n="filters.all">Të gjitha</option>
+              </select>
+            </div>
+            <div class="monument-filter-field">
+              <label class="monument-filter-label" for="filterRajon" data-i18n="filters.rajon">Rajoni</label>
+              <select id="filterRajon" class="monument-filter-select">
+                <option value="" data-i18n="filters.all">Të gjitha</option>
+              </select>
+            </div>
+            <div class="monument-filter-field">
+              <label class="monument-filter-label" for="filterLloji" data-i18n="filters.lloji">Lloji i monumentit</label>
+              <select id="filterLloji" class="monument-filter-select">
+                <option value="" data-i18n="filters.all">Të gjitha</option>
+                <option value="arkeologjike" data-i18n="layers.arkeologjike">Trashëgimia arkeologjike</option>
+                <option value="arkitekturore" data-i18n="layers.arkitekturore">Trashëgimia arkitekturore</option>
+                <option value="luajtshme" data-i18n="layers.luajtshme">Trashëgimia e luajtshme</option>
+              </select>
+            </div>
+            <div class="monument-filter-field">
+              <label class="monument-filter-label" for="filterPeriudha" data-i18n="filters.periudha">Periudha historike</label>
+              <select id="filterPeriudha" class="monument-filter-select">
+                <option value="" data-i18n="filters.all">Të gjitha</option>
+              </select>
+            </div>
+            <div class="monument-filter-field">
+              <label class="monument-filter-label" for="filterKategoria" data-i18n="filters.kategoria">Kategoria</label>
+              <select id="filterKategoria" class="monument-filter-select">
+                <option value="" data-i18n="filters.all">Të gjitha</option>
+              </select>
+            </div>
+            <div class="monument-filter-field monument-filter-highlight">
+              <span class="monument-filter-label" data-i18n="filters.highlightColor">Ngjyra e rrethit (monumentet e filtruara)</span>
+              <div class="symbology-color-controls symbology-color-controls--filter">
+                <div class="symbology-picker-wrap">
+                  <button
+                    type="button"
+                    class="symbology-swatch-btn"
+                    id="symSwatch_filterHighlight"
+                    style="--swatch-color: #ef4444"
+                    aria-expanded="false"
+                    aria-haspopup="dialog"
+                    data-i18n-title="filters.pickHighlightColor"
+                    title="Ngjyra e theksimit"
+                  ></button>
+                  <div class="symbology-picker-popover" id="symPopover_filterHighlight" hidden>
+                    <p class="symbology-picker-title" data-i18n="symbology.pickerTitle">Ngjyra</p>
+                    <label class="symbology-picker-hex-label" data-i18n="symbology.hexLabel">Hex</label>
+                    <input type="text" class="symbology-picker-hex" maxlength="7" spellcheck="false" autocomplete="off" />
+                    <div class="symbology-picker-presets" role="listbox" data-i18n-aria="symbology.presetsAria" aria-label="Ngjyra të gatshme"></div>
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  id="symHex_filterHighlight"
+                  class="symbology-hex-input symbology-hex-input--filter"
+                  value="#ef4444"
+                  maxlength="7"
+                  spellcheck="false"
+                  autocomplete="off"
+                  data-i18n-aria="symbology.hexAria"
+                  aria-label="Hex"
+                />
+              </div>
+            </div>
             <div id="activePeriodChips" class="active-period-chips"></div>
+            <div id="filtersDownloadWrap" class="filters-download-wrap" hidden>
+              <span class="monument-filter-label" data-i18n="filters.downloadTitle">Shkarko rezultatet</span>
+              <div class="filters-download-actions">
+                <button
+                  type="button"
+                  id="filtersDownloadCsvBtn"
+                  class="filters-download-btn"
+                  data-i18n="filters.downloadCsv"
+                >
+                  Shkarko CSV
+                </button>
+                <button
+                  type="button"
+                  id="filtersDownloadGeoJsonBtn"
+                  class="filters-download-btn"
+                  data-i18n="filters.downloadGeoJson"
+                >
+                  Shkarko GeoJSON
+                </button>
+              </div>
+            </div>
             <button
               type="button"
               id="clearAllFiltersBtn"
@@ -585,7 +689,10 @@
 
       <div class="map-wrap">
         <div class="map-canvas">
+          <!-- Hartë Leaflet — map.js krijon L.map("map") -->
           <div id="map"></div>
+
+          <div id="navRouteHint" class="nav-route-hint" hidden role="status" aria-live="polite"></div>
 
           <div class="map-north-arrow" role="img" data-i18n-aria="map.north" data-i18n-title="map.north" aria-label="Veriu" title="Veriu">
             <svg class="map-north-arrow-svg" viewBox="0 0 36 36" aria-hidden="true">
@@ -748,6 +855,7 @@
         </div>
       </div>
 
+      <!-- PANEL DJATHTAS: info, foto, link DTK për monumentin e zgjedhur (detail.js) -->
       <aside class="panel-right">
         <div id="monumentPicker" class="monument-picker is-closed" hidden>
           <button
@@ -784,6 +892,7 @@
             <button type="button" class="detail-tab active" data-tab="info" data-i18n="detail.tabInfo">INFO</button>
             <button type="button" class="detail-tab" data-tab="foto" data-i18n="detail.tabPhoto">FOTO</button>
             <button type="button" class="detail-tab" data-tab="dtk" data-i18n="detail.tabDtk">LIDHJE DTK</button>
+            <button type="button" class="detail-tab" data-tab="maps" data-i18n="detail.tabMaps">NAVIGIM</button>
           </div>
 
           <div id="detailTabInfo" class="detail-tab-panel active">
@@ -793,8 +902,8 @@
                 <dd id="detailPeriudha" class="accent">—</dd>
               </div>
               <div class="detail-row">
-                <dt data-i18n="detail.type">Lloji</dt>
-                <dd id="detailLloji">—</dd>
+                <dt data-i18n="detail.category">Kategoria</dt>
+                <dd id="detailKategoria">—</dd>
               </div>
               <div class="detail-row">
                 <dt data-i18n="detail.condition">Gjendja</dt>
@@ -809,16 +918,57 @@
                 <dd id="detailBurimi">—</dd>
               </div>
             </dl>
-            <a
-              id="detailDtkLink"
-              class="detail-dtk"
-              href="#"
-              target="_blank"
-              rel="noopener"
-              style="display: none"
-              data-i18n="detail.dtkLink"
-              >Shiko në DTK ↗</a
-            >
+            <div class="detail-external-links">
+              <a
+                id="detailDtkLink"
+                class="detail-dtk"
+                href="#"
+                target="_blank"
+                rel="noopener"
+                style="display: none"
+                data-i18n="detail.dtkLink"
+                >Shiko në DTK ↗</a
+              >
+              <a
+                id="detailMapsDirectionsLink"
+                class="detail-dtk detail-maps"
+                href="#"
+                target="_blank"
+                rel="noopener"
+                style="display: none"
+                data-i18n="detail.mapsDirections"
+                >Drejtimet në Google Maps ↗</a
+              >
+              <button
+                type="button"
+                id="detailMapsSetStartBtn"
+                class="detail-dtk detail-maps detail-navigate-btn detail-navigate-btn--secondary"
+                data-nav-set-start="1"
+                style="display: none"
+                data-i18n="detail.mapsSetStart"
+              >
+                Vendos si nisje
+              </button>
+              <button
+                type="button"
+                id="detailMapsNavigateFromStartBtn"
+                class="detail-dtk detail-maps detail-navigate-btn"
+                data-navigate-from-start="1"
+                style="display: none"
+              >
+                Navigo nga nisja
+              </button>
+              <button
+                type="button"
+                id="detailMapsNavigateBtn"
+                class="detail-dtk detail-maps detail-navigate-btn"
+                data-navigate-from-gps="1"
+                style="display: none"
+                data-i18n="detail.mapsNavigate"
+              >
+                Navigo nga lokacioni im
+              </button>
+            </div>
           </div>
 
           <div id="detailTabFoto" class="detail-tab-panel">
@@ -848,6 +998,57 @@
               </p>
               <ul id="detailReportsList" class="detail-reports__list"></ul>
             </section>
+          </div>
+
+          <div id="detailTabMaps" class="detail-tab-panel">
+            <div class="detail-maps-actions">
+              <a
+                id="detailMapsDirectionsTab"
+                class="detail-dtk detail-dtk--tab detail-maps"
+                href="#"
+                target="_blank"
+                rel="noopener"
+                hidden
+                data-i18n="detail.mapsDirections"
+                >Drejtimet në Google Maps ↗</a
+              >
+              <button
+                type="button"
+                id="detailMapsSetStartTab"
+                class="detail-dtk detail-dtk--tab detail-maps detail-navigate-btn detail-navigate-btn--secondary"
+                data-nav-set-start="1"
+                hidden
+                data-i18n="detail.mapsSetStart"
+              >
+                Vendos si nisje
+              </button>
+              <button
+                type="button"
+                id="detailMapsNavigateFromStartTab"
+                class="detail-dtk detail-dtk--tab detail-maps detail-navigate-btn"
+                data-navigate-from-start="1"
+                hidden
+              >
+                Navigo nga nisja
+              </button>
+              <button
+                type="button"
+                id="detailMapsNavigateTab"
+                class="detail-dtk detail-dtk--tab detail-maps detail-navigate-btn"
+                data-navigate-from-gps="1"
+                hidden
+                data-i18n="detail.mapsNavigate"
+              >
+                Navigo nga lokacioni im
+              </button>
+            </div>
+            <p id="detailNavStartInfo" class="detail-dtk-empty detail-maps-start-info" hidden></p>
+            <p id="detailMapsNoLink" class="detail-dtk-empty" hidden data-i18n="detail.mapsNoLink">
+              Nuk ka koordinata për këtë monument.
+            </p>
+            <p class="detail-dtk-empty detail-maps-hint" data-i18n="detail.mapsNavigateHint">
+              Vendos një monument si nisje, pastaj zgjidh destinacionin. Ose përdor GPS-in tënd drejt monumentit aktual.
+            </p>
           </div>
         </div>
       </aside>
@@ -904,6 +1105,7 @@
       src="https://cdn.jsdelivr.net/npm/proj4@2.11.0/dist/proj4.js"
       crossorigin="anonymous"
     ></script>
+    <!-- Rend i ngarkimit: konfigurimi → boot → UI → harta → VGI -->
     <script src="js/config.js?v=9"></script>
     <script src="js/app-boot.js?v=9"></script>
     <script src="js/i18n.js"></script>
@@ -923,6 +1125,7 @@
     <script src="js/map-basemaps.js?v=9"></script>
     <script src="js/map-view.js"></script>
     <script src="js/map.js?v=9"></script>
+    <script src="js/map-navigation.js"></script>
     <script src="js/monument-picker.js"></script>
     <script src="js/report-vgi.js"></script>
   </body>

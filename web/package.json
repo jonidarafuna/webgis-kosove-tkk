@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node serve.js",
     "export-monuments": "node scripts/export-monuments-geojson.mjs",
-    "export-boundaries": "node scripts/export-admin-geojson.mjs"
+    "export-boundaries": "node scripts/export-admin-geojson.mjs",
+    "verify-static": "node scripts/verify-static-data.mjs"
   }
 }

@@ -1,9 +1,16 @@
 /**
- * Ngjyra të personalizuara për 3 llojet e monumenteve
+ * QËLLIMI: Lejon përdoruesin të ndryshojë ngjyrën e pin-ave për tre llojet e trashëgimisë
+ *           (ruhet në localStorage) dhe rifreskon markerët në hartë.
  */
 
 const USER_COLORS_STORAGE_KEY = "tkkUserPointStyles";
+const FILTER_HIGHLIGHT_STORAGE_KEY = "tkkFilterHighlightColor";
+const FILTER_HIGHLIGHT_KEY = "filterHighlight";
+const DEFAULT_FILTER_HIGHLIGHT = "#ef4444";
 const HERITAGE_TYPES = ["arkeologjike", "arkitekturore", "luajtshme"];
+const MUTED_FILTER_STYLE = { fill: "#94a3b8", stroke: "#64748b" };
+
+let filterHighlightColor = DEFAULT_FILTER_HIGHLIGHT;
 
 const COLOR_PRESETS = [
   "#FC8D62",
@@ -34,16 +41,70 @@ function getDefaultTypeStyle(typeKey) {
 
 function loadUserColors() {
   userPointStyles = {};
+  filterHighlightColor = DEFAULT_FILTER_HIGHLIGHT;
   try {
     const raw = localStorage.getItem(USER_COLORS_STORAGE_KEY);
-    if (!raw) return;
-    const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === "object") {
-      userPointStyles = parsed;
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === "object") {
+        userPointStyles = parsed;
+      }
     }
   } catch (_) {
     userPointStyles = {};
   }
+
+  try {
+    const savedHighlight = localStorage.getItem(FILTER_HIGHLIGHT_STORAGE_KEY);
+    const parsed = normalizeColorInputValue(savedHighlight);
+    if (parsed) filterHighlightColor = parsed;
+  } catch {
+    filterHighlightColor = DEFAULT_FILTER_HIGHLIGHT;
+  }
+
+  applyFilterHighlightCssVars(filterHighlightColor);
+}
+
+function hexToRgba(hex, alpha) {
+  const h = normalizeColorInputValue(hex);
+  if (!h) return null;
+  const r = parseInt(h.slice(1, 3), 16);
+  const g = parseInt(h.slice(3, 5), 16);
+  const b = parseInt(h.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function applyFilterHighlightCssVars(hex) {
+  const color = normalizeColorInputValue(hex) || DEFAULT_FILTER_HIGHLIGHT;
+  document.documentElement.style.setProperty("--tkk-filter-mask", color);
+  document.documentElement.style.setProperty("--tkk-filter-glow", color);
+  document.documentElement.style.setProperty(
+    "--tkk-filter-glow-soft",
+    hexToRgba(color, 0.55) || "rgba(239, 68, 68, 0.55)"
+  );
+}
+
+function getFilterHighlightColor() {
+  return normalizeColorInputValue(filterHighlightColor) || DEFAULT_FILTER_HIGHLIGHT;
+}
+
+function saveFilterHighlightColor() {
+  try {
+    localStorage.setItem(FILTER_HIGHLIGHT_STORAGE_KEY, getFilterHighlightColor());
+  } catch (_) {
+    /* ignore */
+  }
+}
+
+function setFilterHighlightColor(fill, closePicker) {
+  const normalized = normalizeColorInputValue(fill);
+  if (!normalized) return;
+  filterHighlightColor = normalized;
+  saveFilterHighlightColor();
+  applyFilterHighlightCssVars(normalized);
+  syncFilterHighlightInput();
+  refreshMonumentSymbology();
+  if (closePicker) closeColorPicker();
 }
 
 function saveUserColors() {
@@ -67,14 +128,40 @@ function getTypePointStyle(typeKey) {
   };
 }
 
-function getSymbolizeBy() {
-  return "lloji";
-}
-
-function getStyleForFeature(_feature, typeKey) {
+function getStyleForFeature(feature, typeKey) {
   const key = typeKey || "arkeologjike";
-  const s = getTypePointStyle(key);
-  return { fill: s.fill, stroke: s.stroke, key, mode: "lloji" };
+  const base = getTypePointStyle(key);
+
+  const filtersActive =
+    typeof window.hasActiveMonumentFilters === "function" &&
+    window.hasActiveMonumentFilters();
+
+  if (!filtersActive || !feature) {
+    return { fill: base.fill, stroke: base.stroke, key, muted: false, filtered: false };
+  }
+
+  const matches =
+    typeof window.featureMatchesMonumentFilters === "function" &&
+    window.featureMatchesMonumentFilters(feature, key);
+
+  if (matches) {
+    return {
+      fill: base.fill,
+      stroke: base.stroke,
+      key,
+      muted: false,
+      filtered: true,
+      filterMask: getFilterHighlightColor(),
+    };
+  }
+
+  return {
+    fill: MUTED_FILTER_STYLE.fill,
+    stroke: MUTED_FILTER_STYLE.stroke,
+    key,
+    muted: true,
+    filtered: false,
+  };
 }
 
 function normalizeColorInputValue(hex) {
@@ -113,14 +200,18 @@ function setUserTypeColor(typeKey, fill, closePicker) {
 
 function resetUserColors() {
   userPointStyles = {};
+  filterHighlightColor = DEFAULT_FILTER_HIGHLIGHT;
   try {
     localStorage.removeItem(USER_COLORS_STORAGE_KEY);
+    localStorage.removeItem(FILTER_HIGHLIGHT_STORAGE_KEY);
     localStorage.removeItem("tkkSymbolizeBy");
   } catch (_) {
     /* ignore */
   }
   closeColorPicker();
+  applyFilterHighlightCssVars(filterHighlightColor);
   syncColorInputs();
+  syncFilterHighlightInput();
   if (typeof window.fillLayerIcons === "function") window.fillLayerIcons();
   refreshMonumentSymbology();
 }
@@ -128,6 +219,35 @@ function resetUserColors() {
 function updateSwatchButton(typeKey, hex) {
   const btn = document.getElementById("symSwatch_" + typeKey);
   if (btn) btn.style.setProperty("--swatch-color", hex);
+}
+
+function syncFilterHighlightInput() {
+  const val = getFilterHighlightColor();
+  updateSwatchButton(FILTER_HIGHLIGHT_KEY, val);
+  const hexInput = document.getElementById("symHex_filterHighlight");
+  if (hexInput) {
+    hexInput.value = val;
+    hexInput.classList.remove("symbology-hex-input--invalid");
+  }
+  const popover = document.getElementById("symPopover_filterHighlight");
+  const popHex = popover?.querySelector(".symbology-picker-hex");
+  if (popHex && openPickerType === FILTER_HIGHLIGHT_KEY) popHex.value = val;
+}
+
+function getPickerColorValue(typeKey) {
+  if (typeKey === FILTER_HIGHLIGHT_KEY) return getFilterHighlightColor();
+  return (
+    normalizeColorInputValue(getTypePointStyle(typeKey).fill) ||
+    getDefaultTypeStyle(typeKey).fill
+  );
+}
+
+function applyPickerColor(typeKey, hex, closePicker) {
+  if (typeKey === FILTER_HIGHLIGHT_KEY) {
+    setFilterHighlightColor(hex, closePicker);
+    return;
+  }
+  setUserTypeColor(typeKey, hex, closePicker);
 }
 
 function syncColorInputs() {
@@ -144,6 +264,7 @@ function syncColorInputs() {
     const popHex = popover?.querySelector(".symbology-picker-hex");
     if (popHex && openPickerType === typeKey) popHex.value = val;
   });
+  syncFilterHighlightInput();
 }
 
 function getPickerElements(typeKey) {
@@ -175,9 +296,7 @@ function openColorPicker(typeKey) {
   closeColorPicker();
   const { btn, popover, popHex } = getPickerElements(typeKey);
   if (!popover || !btn) return;
-  const val =
-    normalizeColorInputValue(getTypePointStyle(typeKey).fill) ||
-    getDefaultTypeStyle(typeKey).fill;
+  const val = getPickerColorValue(typeKey);
   if (popHex) {
     popHex.value = val;
     popHex.classList.remove("symbology-hex-input--invalid");
@@ -200,7 +319,7 @@ function fillPresetGrid(container, typeKey) {
     b.title = hex;
     b.setAttribute("aria-label", hex);
     b.addEventListener("click", () => {
-      setUserTypeColor(typeKey, hex, true);
+      applyPickerColor(typeKey, hex, true);
     });
     container.appendChild(b);
   });
@@ -211,7 +330,7 @@ function bindHexInput(typeKey, hexInput) {
     const parsed = normalizeColorInputValue(hexInput.value);
     if (parsed) {
       hexInput.classList.remove("symbology-hex-input--invalid");
-      setUserTypeColor(typeKey, parsed, false);
+      applyPickerColor(typeKey, parsed, false);
     } else {
       hexInput.classList.add("symbology-hex-input--invalid");
     }
@@ -219,7 +338,7 @@ function bindHexInput(typeKey, hexInput) {
 
   hexInput.addEventListener("change", () => {
     const parsed = normalizeColorInputValue(hexInput.value);
-    if (parsed) setUserTypeColor(typeKey, parsed, false);
+    if (parsed) applyPickerColor(typeKey, parsed, false);
     else {
       hexInput.classList.add("symbology-hex-input--invalid");
       syncColorInputs();
@@ -228,7 +347,7 @@ function bindHexInput(typeKey, hexInput) {
 
   hexInput.addEventListener("blur", () => {
     const parsed = normalizeColorInputValue(hexInput.value);
-    if (parsed) setUserTypeColor(typeKey, parsed, false);
+    if (parsed) applyPickerColor(typeKey, parsed, false);
     else syncColorInputs();
   });
 }
@@ -243,7 +362,7 @@ function bindPopoverHex(typeKey, popHex) {
         rowHex.value = parsed;
         rowHex.classList.remove("symbology-hex-input--invalid");
       }
-      setUserTypeColor(typeKey, parsed, false);
+      applyPickerColor(typeKey, parsed, false);
     } else {
       popHex.classList.add("symbology-hex-input--invalid");
     }
@@ -286,6 +405,10 @@ function refreshMonumentSymbology() {
   if (typeof refreshAllClusters === "function") {
     refreshAllClusters();
   }
+
+  if (typeof window.refreshSelectedMonumentMarker === "function") {
+    window.refreshSelectedMonumentMarker();
+  }
 }
 
 function initSymbologyUser() {
@@ -319,6 +442,25 @@ function initSymbologyUser() {
 
     const resetBtn = document.getElementById("symbologyResetBtn");
     if (resetBtn) resetBtn.addEventListener("click", resetUserColors);
+
+    const fhBtn = document.getElementById("symSwatch_filterHighlight");
+    const fhPopover = document.getElementById("symPopover_filterHighlight");
+    const fhHex = document.getElementById("symHex_filterHighlight");
+    const fhPresets = fhPopover?.querySelector(".symbology-picker-presets");
+    const fhPopHex = fhPopover?.querySelector(".symbology-picker-hex");
+
+    if (fhBtn) {
+      fhBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openColorPicker(FILTER_HIGHLIGHT_KEY);
+      });
+    }
+    if (fhPresets) fillPresetGrid(fhPresets, FILTER_HIGHLIGHT_KEY);
+    if (fhPopHex) bindPopoverHex(FILTER_HIGHLIGHT_KEY, fhPopHex);
+    if (fhHex) bindHexInput(FILTER_HIGHLIGHT_KEY, fhHex);
+    if (fhPopover) {
+      fhPopover.addEventListener("click", (e) => e.stopPropagation());
+    }
   }
 
   symbologyInitialized = true;
@@ -330,7 +472,8 @@ function initSymbologyUser() {
 }
 
 window.getTypePointStyle = getTypePointStyle;
-window.getSymbolizeBy = getSymbolizeBy;
+window.getFilterHighlightColor = getFilterHighlightColor;
+window.setFilterHighlightColor = setFilterHighlightColor;
 window.getStyleForFeature = getStyleForFeature;
 window.refreshMonumentSymbology = refreshMonumentSymbology;
 window.initSymbologyUser = initSymbologyUser;

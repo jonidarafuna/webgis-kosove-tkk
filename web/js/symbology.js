@@ -1,6 +1,12 @@
 /**
- * Simbologjia — SLD poligone + ikona SVG për monumentet (si mockup-i)
+ * QËLLIMI: Stilet vizuale — SLD për shtresat administrative (WMS), ikona SVG/PNG për monumentet,
+ *           grumbullimet (cluster) dhe shfaqja/fshirja e markerëve.
+ * KUR NGARKOHET: Para map.js; përdoret gjatë krijimit të markerëve dhe shtresave WMS.
+ * LIDHET ME: config.js (POINT_STYLES, MONUMENT_ICONS), map.js (createMonumentMarker),
+ *             symbology-user.js (ngjyra të personalizuara), sidebar.js (legjenda).
  */
+
+// ——— Shtresat administrative (rajonet, komunat, Kosova) ———
 
 /** Ngjyra e butë për rajonet (vijat + etiketat) */
 const RAJON_STROKE_COLOR = "#b8a574";
@@ -163,6 +169,9 @@ const KOSOVA_BORDER_STYLE = {
   fillOpacity: 0,
 };
 
+// ——— Ikona dhe markerët e monumenteve ———
+
+/** Kthen HTML të SVG-së së pin-it sipas llojit (arkeologjike, arkitekturore, luajtshme). */
 function getMonumentIconSvgHtml(typeKey, styleOverride) {
   const s = styleOverride || POINT_STYLES[typeKey] || {};
   const fill = s.fill || "#64748b";
@@ -221,6 +230,7 @@ function getMonumentIconSvgHtml(typeKey, styleOverride) {
   );
 }
 
+/** Mbështjell ikonën në div për legjendë ose HTML të markerit (img + SVG rezervë). */
 function monumentIconHtml(typeKey, extraClass, styleOverride) {
   const url = getMonumentIconUrl(typeKey);
   const svg = getMonumentIconSvgHtml(typeKey, styleOverride);
@@ -238,41 +248,82 @@ function monumentIconHtml(typeKey, extraClass, styleOverride) {
   const svgWrap =
     '<span class="tkk-pin__svg-wrap"' + (url ? " hidden" : "") + ">" + svg + "</span>";
 
-  return '<div class="' + cls + '">' + imgPart + svgWrap + "</div>";
+  const inner = '<div class="' + cls + '">' + imgPart + svgWrap + "</div>";
+  if (styleOverride?.filtered) {
+    return wrapFilteredMarkerHtml(inner);
+  }
+  return inner;
 }
 
+/** Shton rrethin e ngjyrës pas ikonës për monumentet e filtruara. */
+function wrapFilteredMarkerHtml(innerHtml) {
+  return (
+    '<div class="tkk-marker-wrap tkk-marker-wrap--filtered">' +
+    '<span class="tkk-filter-mask" aria-hidden="true"></span>' +
+    innerHtml +
+    "</div>"
+  );
+}
+
+/** Krijon L.divIcon për Leaflet (PNG ose SVG sipas konfigurimit). */
 function createMonumentIcon(typeKey, styleOverride) {
   const cfg = MONUMENT_ICONS[typeKey] || {};
   const url = getMonumentIconUrl(typeKey);
   const vis = cfg.size || [18, 18];
-  const hit = cfg.hitSize || [
+  const baseHit = cfg.hitSize || [
     Math.max(28, vis[0] + 12),
     Math.max(28, vis[1] + 12),
   ];
+  const isFiltered = !!styleOverride?.filtered;
+  const hit = isFiltered
+    ? [Math.max(baseHit[0], 36), Math.max(baseHit[1], 36)]
+    : baseHit;
   const anchor = cfg.anchor || [hit[0] / 2, hit[1]];
 
+  const filteredCls = isFiltered ? " tkk-img-marker--filtered" : "";
+  const mutedCls =
+    styleOverride?.muted && !isFiltered ? " tkk-img-marker--muted" : "";
+  const markerCls = filteredCls + mutedCls;
+  const maskParentCls = isFiltered ? " tkk-marker-has-filter-mask" : "";
+
   if (url && cfg.file) {
+    const imgHtml =
+      '<img class="tkk-img-marker tkk-img-marker--' +
+      typeKey +
+      markerCls +
+      '" src="' +
+      url +
+      '" alt="" />';
     return L.divIcon({
-      className: "tkk-marker-leaflet tkk-marker-hit",
-      html:
-        '<img class="tkk-img-marker tkk-img-marker--' +
-        typeKey +
-        '" src="' +
-        url +
-        '" alt="" />',
+      className:
+        "tkk-marker-leaflet tkk-marker-hit" + maskParentCls + markerCls,
+      html: isFiltered ? wrapFilteredMarkerHtml(imgHtml) : imgHtml,
       iconSize: L.point(hit[0], hit[1]),
       iconAnchor: L.point(anchor[0], anchor[1]),
     });
   }
 
   return L.divIcon({
-    className: "tkk-marker-leaflet tkk-img-marker--" + typeKey,
-    html: monumentIconHtml(typeKey, "", styleOverride),
+    className:
+      "tkk-marker-leaflet tkk-img-marker--" +
+      typeKey +
+      maskParentCls +
+      markerCls,
+    html: monumentIconHtml(
+      typeKey,
+      isFiltered
+        ? "tkk-img-marker--filtered"
+        : styleOverride?.muted
+          ? "tkk-img-marker--muted"
+          : "",
+      styleOverride
+    ),
     iconSize: L.point(hit[0], hit[1]),
     iconAnchor: L.point(anchor[0], anchor[1]),
   });
 }
 
+/** Marker i plotë me hover dhe stil të mundshëm nga përdoruesi. */
 function createMonumentMarker(latlng, typeKey, feature) {
   const styleOverride =
     feature && typeof window.getStyleForFeature === "function"
@@ -299,6 +350,7 @@ function createMonumentMarker(latlng, typeKey, feature) {
   return marker;
 }
 
+/** Grup cluster për një lloj monumenti (numri në rreth me ngjyrën e llojit). */
 function createTypeClusterGroup(typeKey) {
   if (typeof L.markerClusterGroup !== "function") {
     return L.layerGroup();
@@ -347,6 +399,7 @@ function createTypeClusterGroup(typeKey) {
   });
 }
 
+/** Shton ose heq markerin nga cluster-i kur filtri/ shtresa e fiket. */
 function setMarkerVisible(marker, cluster, show) {
   if (!marker || !cluster) return;
 
@@ -365,6 +418,7 @@ function setMarkerVisible(marker, cluster, show) {
   }
 }
 
+/** Rifreskon pamjen e të gjitha grupeve të cluster pas ndryshimeve. */
 function refreshAllClusters() {
   (window.tkkClusterGroups || []).forEach((cg) => {
     if (cg.refreshClusters) cg.refreshClusters();
@@ -383,4 +437,6 @@ window.getMonumentIconSvgHtml = getMonumentIconSvgHtml;
 window.createTypeClusterGroup = createTypeClusterGroup;
 window.setMarkerVisible = setMarkerVisible;
 window.refreshAllClusters = refreshAllClusters;
+
+// Eksport global për map.js, filters.js dhe symbology-user.js
 

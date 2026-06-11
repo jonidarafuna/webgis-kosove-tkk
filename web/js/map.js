@@ -1,3 +1,14 @@
+/**
+ * map.js — Hartë kryesore Leaflet për WebGIS TKK
+ *
+ * Ngarkon monumentet (WFS ose GeoJSON statik), kufijtë administrativë
+ * (rajonet, komunat, Kosova), ndërpret shtresat nga sidebar-i dhe
+ * sinkronizon shfaqjen me shkallën e zoom-it.
+ */
+
+// ===== SEKSIONI 1: WMS/WFS monumentet =====
+
+/** Krijon shtresë WMS nga GeoServer (bosh në GitHub Pages pa proxy) */
 function createWmsLayer(layerName, styleOpts) {
   if (window.tkkIsStaticPublish || !WMS_URL) {
     return L.layerGroup();
@@ -18,6 +29,7 @@ window.monumentRegistry = monumentRegistry;
 window.allMonumentFeatures = [];
 window.tkkClusterGroups = [];
 
+/** Nxjerr lon/lat nga properties ose geometry (WFS mund të jetë EPSG:3857) */
 function wfsPointToLonLat(feature) {
   const p = feature.properties || {};
   const latP = parseFloat(p.lat);
@@ -48,6 +60,7 @@ const STATIC_MONUMENT_GEOJSON = {
   luajtshme: "data/monuments/luajtshme.geojson",
 };
 
+/** Shtron markerë në cluster dhe regjistron në monumentRegistry */
 function ingestMonumentFeatures(rawFeatures, typeKey, clusterGroup) {
   const features = (rawFeatures || [])
     .map((f) => {
@@ -89,6 +102,10 @@ function ingestMonumentFeatures(rawFeatures, typeKey, clusterGroup) {
   return features;
 }
 
+/**
+ * Ngarkon monumentet nga skedarë GeoJSON lokalë (p.sh. GitHub Pages).
+ * Përdoret kur WFS nuk është i disponueshëm.
+ */
 function loadStaticMonumentGeoJson(typeKey, clusterGroup) {
   const url = STATIC_MONUMENT_GEOJSON[typeKey];
   if (!url) return Promise.resolve([]);
@@ -109,6 +126,10 @@ function loadStaticMonumentGeoJson(typeKey, clusterGroup) {
     });
 }
 
+/**
+ * Merr monumentet nga GeoServer përmes WFS (GetFeature → GeoJSON).
+ * typeName = emri i shtresës (p.sh. tkk:sites_arkeologjike).
+ */
 function loadWfsLayer(typeName, typeKey, clusterGroup) {
   if (!WFS_URL) {
     return Promise.resolve([]);
@@ -121,7 +142,7 @@ function loadWfsLayer(typeName, typeKey, clusterGroup) {
     "&outputFormat=application/json" +
     "&srsName=EPSG:4326";
 
-  return fetch(url)
+  return fetch(url, { cache: "no-store" })
     .then(async (response) => {
       const ct = response.headers.get("content-type") || "";
       const text = await response.text();
@@ -149,6 +170,8 @@ function loadWfsLayer(typeName, typeKey, clusterGroup) {
       return [];
     });
 }
+
+// ===== SEKSIONI 2: Inicializimi i hartës Leaflet =====
 
 const map = L.map("map", {
   center: MAP_CENTER,
@@ -191,6 +214,10 @@ clusterArkeologjike.addTo(map);
 clusterArkitekturore.addTo(map);
 clusterLuajtshme.addTo(map);
 
+/**
+ * Fillon ngarkimin e monumenteve: së pari WFS (lokal), pastaj GeoJSON statik si rezervë.
+ * Pas përfundimit, përditëson grafikët, filtrat dhe sidebar-in.
+ */
 function startMonumentWfsLoad() {
   if (window._tkkMonumentsLoadStarted) return;
   window._tkkMonumentsLoadStarted = true;
@@ -219,6 +246,10 @@ function startMonumentWfsLoad() {
 
   const monumentLoads = window.tkkIsStaticPublish ? staticLoads() : wfsLoads();
 
+  /**
+   * Pas ngarkimit: regjistron markerët, rifreskon cluster-et,
+   * grafikun e periudhave dhe numërimin e shtresave.
+   */
   function finishMonumentLoad(results) {
       const flat = results.flat();
       window.tkkMonumentCount = flat.length;
@@ -299,6 +330,8 @@ function updateMapZoomI18n() {
 }
 
 window.updateMapZoomI18n = updateMapZoomI18n;
+
+// ===== SEKSIONI 3: Shtresa rajonet =====
 
 const rajonetLabelsLayer = L.layerGroup();
 const rajonetBordersLayer = L.layerGroup();
@@ -399,6 +432,7 @@ function applyRajonetLabelsGeoJson(data) {
     const center = getRajonLabelPosition(rawName, features);
     if (!center) return;
     const label = getRajonMapLabel(rawName);
+    if (!label || !String(label).trim()) return;
     rajonetLabelsLayer.addLayer(createRajonLabelMarker(center, label));
   });
 }
@@ -609,6 +643,8 @@ function syncRajonetLayersForZoom() {
   syncScaleDependentAdminLayers();
 }
 
+// ===== SEKSIONI 4: Kufijtë statikë dhe shkalla e shtresave admin =====
+
 const STATIC_BOUNDARY_GEOJSON = {
   kosova: "data/boundaries/kosova.geojson",
   rajonet: "data/boundaries/rajonet.geojson",
@@ -733,6 +769,8 @@ function orderAdminBoundaryLayers() {
     }
   });
 }
+
+// ===== SEKSIONI 5: Shtresa komunat =====
 
 const komunatBordersLayer = L.layerGroup();
 const komunatLabelsLayer = L.layerGroup();
@@ -874,6 +912,10 @@ function syncKomunatLayersForZoom() {
   syncScaleDependentAdminLayers();
 }
 
+/**
+ * Sinkronizon rajonet/komunat me zoom-in: në shkallë të gjerë shfaqen rajonet,
+ * në zoom të afërt komunat; përditëson edhe pamjen e checkbox-eve në sidebar.
+ */
 function syncScaleDependentAdminLayers() {
   orderAdminBoundaryLayers();
 
@@ -925,6 +967,8 @@ function tkkEnsureBasemapsReady(attempt) {
 tkkEnsureBasemapsReady(0);
 map.whenReady(() => tkkEnsureBasemapsReady(0));
 
+// ===== SEKSIONI 6: Kufiri i Kosovës =====
+
 const kosovaLayer = L.layerGroup();
 kosovaLayer.addTo(map);
 
@@ -958,6 +1002,8 @@ if (!window.tkkIsStaticPublish) {
   loadKosovaBorderLayer();
 }
 loadRajonetLayer();
+
+// ===== SEKSIONI 7: Ndërprerësit e shtresave (sidebar) =====
 
 const layerMap = {
   rajonet: rajonetLayer,
@@ -994,6 +1040,8 @@ document.querySelectorAll("input[data-layer]").forEach((input) => {
     }
   });
 });
+
+// ===== SEKSIONI 8: Ngjarjet e hartës dhe inicializimi final =====
 
 function tkkOnMapZoomBasemap() {
   if (typeof window.syncBasemapForZoom === "function") {

@@ -1,4 +1,8 @@
 @echo off
+REM SKEDARI: HAPNI.bat
+REM QELLIMI: Nis node serve.js ne portin 5500 dhe hap shfletuesin.
+REM KERKON: Node.js + GeoServer ON (per WMS/WFS).
+REM MOS PERDOR: Live Server / dy-klik mbi index.html
 chcp 65001 >nul
 cd /d "%~dp0"
 title WebGIS Kosove - server (MOS MBYLL)
@@ -30,8 +34,6 @@ timeout /t 1 /nobreak >nul
 echo.
 echo  Duke nisur node serve.js ...
 echo  Kur te shfaqet "Faqja (telefon):" provo ate URL.
-echo  Test i shpejte: TESTO-LIDHJEN.bat (ne dritare tjeter)
-echo  Firewall: LEJO-TELEFON.bat si Administrator
 echo.
 start "" "http://localhost:5500"
 node serve.js
@@ -40,3 +42,4 @@ echo  Serveri u ndal ose ka gabim (kodi i mesiperm).
 echo  Nese shikon gabim porti i zene, mbyll Live Server ne VS Code.
 echo.
 pause
+

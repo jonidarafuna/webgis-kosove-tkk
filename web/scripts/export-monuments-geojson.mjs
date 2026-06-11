@@ -64,8 +64,19 @@ async function main() {
     total += await exportLayer(key, typeName);
   }
 
+  const meta = {
+    updated: new Date().toISOString(),
+    monuments: total,
+    layers: Object.keys(LAYERS),
+  };
+  await writeFile(
+    join(WEB_ROOT, "data", "export-meta.json"),
+    JSON.stringify(meta, null, 2),
+    "utf8"
+  );
+
   console.log(`\nGati. Gjithsej ${total} monumente.`);
-  console.log("Tani: git add data/monuments && git commit && git push");
+  console.log("Tani: git add web/data && git commit && git push");
   console.log("Pastaj aktivizo GitHub Pages (shiko GITHUB-PAGES-HAP-PAS-HAPI.md).");
 }
 

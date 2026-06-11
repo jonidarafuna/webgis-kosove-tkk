@@ -1,7 +1,12 @@
 /**
- * Raportim problemesh me vendndodhje gjeografike
+ * QËLLIMI: Raportimi VGI (Voluntary Geographic Information) — formular, ruajtje lokale/server,
+ *           markerët e raporteve në hartë dhe lidhja me panelin e detajeve.
+ * KUR NGARKOHET: DOMContentLoaded (initReportVgi); raportet në hartë pas map.whenReady.
+ * LIDHET ME: serve.js (/api/vgi-reports), sidebar.js (kërkim monumenti), detail.js,
+ *             coords.js (formatLatLngWithSystem), i18n.js (report.*), settings (toggle header).
  */
 
+// Kategoritë e problemit dhe ruajtja lokale
 const REPORT_CATEGORIES = [
   "damaged",
   "vandalism",
@@ -11,6 +16,8 @@ const REPORT_CATEGORIES = [
 ];
 
 const VGI_LOCAL_KEY = "tkkVgiReportsLocal";
+
+/** Ikona pin për raportet dhe për zgjedhjen e vendndodhjes në hartë. */
 function createVgiReportIcon(extraClass) {
   const cls = extraClass ? " " + extraClass : "";
   return L.divIcon({
@@ -29,11 +36,13 @@ function createVgiReportIcon(extraClass) {
   });
 }
 
+/** A është aktivizuar raportimi nga checkbox-i në header? */
 function isVgiReportingEnabled() {
   const toggle = document.getElementById("appVgiReportsToggle");
   return toggle ? toggle.checked : false;
 }
 
+/** Ndez/fik raportimet dhe ngarkon ose heq shtresën e raporteve. */
 function setVgiReportingEnabled(enabled) {
   const toggle = document.getElementById("appVgiReportsToggle");
   if (toggle) toggle.checked = !!enabled;
@@ -43,6 +52,7 @@ function setVgiReportingEnabled(enabled) {
   );
 }
 
+/** Përditëson butonin «Raporto» dhe shtresën sipas gjendjes së toggle-it. */
 function applyVgiReportingUi() {
   const on = isVgiReportingEnabled();
   const btn = document.getElementById("reportProblemBtn");
@@ -72,6 +82,7 @@ function applyVgiReportingUi() {
   }
 }
 
+/** Lexon raportet e ruajtura vetëm në shfletues. */
 function getLocalVgiReports() {
   try {
     const data = JSON.parse(localStorage.getItem(VGI_LOCAL_KEY) || "[]");
@@ -81,6 +92,7 @@ function getLocalVgiReports() {
   }
 }
 
+/** Shton një raport të ri në localStorage. */
 function saveLocalVgiReport(payload) {
   const report = {
     id: "VGI-local-" + Date.now(),
@@ -100,6 +112,7 @@ function saveLocalVgiReport(payload) {
   return report;
 }
 
+/** Bashkon listën e serverit me lokale (pa dublikata id). */
 function mergeVgiReportLists(serverList, localList) {
   const arr = Array.isArray(serverList) ? serverList : [];
   const local = Array.isArray(localList) ? localList : [];
@@ -107,6 +120,7 @@ function mergeVgiReportLists(serverList, localList) {
   return arr.concat(local.filter((r) => r.id && !ids.has(r.id)));
 }
 
+/** Ngarkon data/vgi-reports.json për publikim statik. */
 async function fetchStaticVgiReportsJson() {
   const base =
     typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "";
@@ -122,6 +136,7 @@ async function fetchStaticVgiReportsJson() {
   }
 }
 
+/** Kontrollon /api/health nëse API e raporteve është aktiv. */
 async function probeVgiApi() {
   if (window.TKK_APP_MODE === "file" || window.tkkIsStaticPublish) {
     window.TKK_VGI_API_OK = false;
@@ -143,6 +158,7 @@ async function probeVgiApi() {
   }
 }
 
+/** Normalizon tekstin për krahasim emrash (pa theks). */
 function normalizeReportMatchText(s) {
   return String(s || "")
     .trim()
@@ -151,6 +167,7 @@ function normalizeReportMatchText(s) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+/** A i përket raporti këtij monumenti (id, emër ose distancë ≤80 m)? */
 function reportMatchesMonument(report, props) {
   if (!report || !props) return false;
 
@@ -193,6 +210,7 @@ function reportMatchesMonument(report, props) {
   return false;
 }
 
+/** Kthen raportet e filtruara për një monument (përdoret nga detail.js). */
 function getReportsForMonument(props) {
   return fetchAllVgiReports().then((list) => {
     const arr = Array.isArray(list) ? list : [];
@@ -206,6 +224,7 @@ function getReportsForMonument(props) {
   });
 }
 
+/** Merr të gjitha raportet: API, statik ose vetëm lokale. */
 async function fetchAllVgiReports() {
   const local = getLocalVgiReports();
   if (window.TKK_APP_MODE === "file") return local;
@@ -234,14 +253,21 @@ async function fetchAllVgiReports() {
   }
 }
 
+/** Shfaq këshillën e serverit ose mesazhin për publikim statik. */
 function updateVgiServerHint() {
   const hint = document.getElementById("vgiReportServerHint");
   if (!hint) return;
+  if (window.tkkIsStaticPublish) {
+    hint.hidden = false;
+    hint.textContent = t("report.staticHint");
+    return;
+  }
   const show = window.TKK_APP_MODE !== "file" && window.TKK_VGI_API_OK === false;
   hint.hidden = !show;
   hint.textContent = show ? t("report.serverHint") : "";
 }
 
+// Gjendja e modalit, shtresës së raporteve dhe kërkimit të monumentit në formular
 let pickMapMode = false;
 let pickMapHandler = null;
 let pickMarker = null;
@@ -250,15 +276,18 @@ let reportsVisible = true;
 let selectedReportFeature = null;
 const VGI_SEARCH_PREVIEW = 8;
 
+/** Etiketa e kategorisë nga i18n. */
 function getReportCategoryLabel(key) {
   return t("report.cat." + key);
 }
 
+/** WGS84 ose KOSOVAREF01 — si në hartë. */
 function getReportCoordSystem() {
   const sel = document.getElementById("vgiReportCoordSystem");
   return sel && sel.value === "wgs84" ? "wgs84" : "kref";
 }
 
+/** Format koordinatash për fushën e formularit. */
 function formatCoords(latlng) {
   if (!latlng) return "";
   if (typeof window.formatLatLngWithSystem === "function") {
@@ -270,6 +299,7 @@ function formatCoords(latlng) {
   return lat.toFixed(5) + ", " + lon.toFixed(5);
 }
 
+/** Rifreskon tekstin e koordinatave pas ndërrimit të sistemit. */
 function refreshReportCoordsDisplay() {
   const el = document.getElementById("vgiReportCoords");
   if (!el) return;
@@ -279,6 +309,7 @@ function refreshReportCoordsDisplay() {
   el.value = formatCoords(L.latLng(lat, lon));
 }
 
+/** Mesazh suksesi ose gabimi nën formular. */
 function setReportStatus(msg, isError) {
   const el = document.getElementById("vgiReportStatus");
   if (!el) return;
@@ -287,6 +318,7 @@ function setReportStatus(msg, isError) {
   el.classList.toggle("is-success", !!msg && !isError);
 }
 
+/** Shfaq/fsheh butonin «pastro» te kërkimi i monumentit. */
 function updateReportMonumentClearBtn() {
   const input = document.getElementById("vgiReportMonument");
   const clearBtn = document.getElementById("vgiReportMonumentClear");
@@ -294,6 +326,7 @@ function updateReportMonumentClearBtn() {
   clearBtn.hidden = !(input && input.value.trim().length > 0);
 }
 
+/** Mbyll listën e sugjerimeve të monumentit në modal. */
 function closeVgiSearchDropdown() {
   const dropdown = document.getElementById("vgiReportSearchDropdown");
   const list = document.getElementById("vgiReportSearchResults");
@@ -301,6 +334,7 @@ function closeVgiSearchDropdown() {
   if (dropdown) dropdown.hidden = true;
 }
 
+/** Zgjedh monumentin dhe vendos koordinatat nga properties. */
 function selectReportMonument(feature) {
   if (!feature) return;
   selectedReportFeature = feature;
@@ -322,6 +356,7 @@ function selectReportMonument(feature) {
   }
 }
 
+/** Heq monumentin e zgjedhur nga formulari. */
 function clearReportMonument() {
   selectedReportFeature = null;
   const input = document.getElementById("vgiReportMonument");
@@ -330,6 +365,7 @@ function clearReportMonument() {
   closeVgiSearchDropdown();
 }
 
+/** Rezultatet e kërkimit në modal (përdor funksionet e sidebar.js). */
 function renderVgiSearchResults(query) {
   const listEl = document.getElementById("vgiReportSearchResults");
   const dropdown = document.getElementById("vgiReportSearchDropdown");
@@ -379,6 +415,7 @@ function renderVgiSearchResults(query) {
   dropdown.hidden = false;
 }
 
+/** Plotëson monumentin nga lastDetailFeature nëse ekziston. */
 function fillMonumentFromSelection() {
   const f = window.lastDetailFeature;
   if (f && f.properties) {
@@ -388,6 +425,7 @@ function fillMonumentFromSelection() {
   clearReportMonument();
 }
 
+/** Vendos koordinatat dhe markerin e përkohshëm «pick» në hartë. */
 function setReportCoords(latlng) {
   const el = document.getElementById("vgiReportCoords");
   if (!el || !latlng) return;
@@ -403,6 +441,7 @@ function setReportCoords(latlng) {
   }
 }
 
+/** Del nga mënyra «kliko në hartë për vendndodhje». */
 function stopPickMapMode() {
   pickMapMode = false;
   document.body.classList.remove("vgi-pick-map-mode");
@@ -414,6 +453,7 @@ function stopPickMapMode() {
   }
 }
 
+/** Pret një klikim në hartë për të vendosur lat/lon. */
 function startPickMapMode() {
   if (!window.map) return;
   stopPickMapMode();
@@ -429,6 +469,7 @@ function startPickMapMode() {
   window.map.once("click", pickMapHandler);
 }
 
+/** Hap modal-in e raportimit dhe plotëson fushat fillestare. */
 function openReportModal() {
   const modal = document.getElementById("vgiReportModal");
   if (!modal) return;
@@ -484,6 +525,7 @@ function openReportModal() {
   document.getElementById("vgiReportDescription")?.focus();
 }
 
+/** Mbyll modal-in dhe pastron markerin e përkohshëm. */
 function closeReportModal() {
   const modal = document.getElementById("vgiReportModal");
   if (modal) modal.hidden = true;
@@ -495,6 +537,7 @@ function closeReportModal() {
   }
 }
 
+/** Mbledh të dhënat e formularit; null nëse mungojnë fushat e detyrueshme. */
 function buildReportPayload() {
   const cat = document.getElementById("vgiReportCategory")?.value;
   const desc = (document.getElementById("vgiReportDescription")?.value || "").trim();
@@ -524,6 +567,7 @@ function buildReportPayload() {
   };
 }
 
+/** Dërgon raportin te API ose ruan lokalisht. */
 async function submitReport() {
   if (!isVgiReportingEnabled()) {
     setReportStatus(t("report.disabled"), true);
@@ -538,9 +582,12 @@ async function submitReport() {
 
   setReportStatus("");
 
-  if (window.TKK_APP_MODE === "file") {
+  if (window.TKK_APP_MODE === "file" || window.tkkIsStaticPublish) {
     saveLocalVgiReport(payload);
-    setReportStatus(t("report.successLocal"), false);
+    setReportStatus(
+      window.tkkIsStaticPublish ? t("report.successStatic") : t("report.successLocal"),
+      false
+    );
     loadCrowdReportsOnMap();
     if (typeof window.refreshDetailMonumentReports === "function") {
       window.refreshDetailMonumentReports();
@@ -588,6 +635,7 @@ async function submitReport() {
   setTimeout(closeReportModal, 3200);
 }
 
+/** Marker Leaflet me popup për një raport. */
 function createReportMarker(report) {
   const lat = Number(report.lat);
   const lon = Number(report.lon);
@@ -626,6 +674,7 @@ function createReportMarker(report) {
   return marker;
 }
 
+/** Escape për popup HTML. */
 function escapeHtml(s) {
   return String(s)
     .replace(/&/g, "&amp;")
@@ -634,6 +683,7 @@ function escapeHtml(s) {
     .replace(/"/g, "&quot;");
 }
 
+/** Ngarkon të gjitha raportet në reportsLayer. */
 function loadCrowdReportsOnMap() {
   if (!window.map) return;
 
@@ -667,11 +717,13 @@ function loadCrowdReportsOnMap() {
   });
 }
 
+/** Përditëson numrin e raporteve në UI. */
 function updateReportsCount(n) {
   const el = document.getElementById("vgiReportsCount");
   if (el) el.textContent = tFormat("report.reportsCount", { n: n || 0 });
 }
 
+/** Mbush <select> me kategoritë e përkthyera. */
 function populateCategorySelect() {
   const cat = document.getElementById("vgiReportCategory");
   if (!cat) return;
@@ -680,6 +732,7 @@ function populateCategorySelect() {
   ).join("");
 }
 
+/** Kërkim monumenti brenda modal-it (si sidebar). */
 function initReportMonumentSearch() {
   const input = document.getElementById("vgiReportMonument");
   if (!input) return;
@@ -736,6 +789,7 @@ function initReportMonumentSearch() {
   });
 }
 
+/** Lidh të gjitha butonat dhe ngjarjet e modulit VGI. */
 function initReportVgi() {
   populateCategorySelect();
   initReportMonumentSearch();
@@ -786,6 +840,7 @@ function initReportVgi() {
     }
   });
 
+  /** Ngarkon raportet në hartë pasi harta është gati. */
   const bootReports = () => {
     probeVgiApi().then(() => {
       updateVgiServerHint();
@@ -800,6 +855,7 @@ function initReportVgi() {
   }
 }
 
+/** Rifreskon kategoritë dhe koordinatat pas ndërrimit të gjuhës. */
 function refreshReportModalI18n() {
   const cat = document.getElementById("vgiReportCategory");
   const prev = cat ? cat.value : REPORT_CATEGORIES[0];

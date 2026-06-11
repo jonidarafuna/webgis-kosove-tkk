@@ -1,13 +1,21 @@
 /**
+ * SKEDARI: mobile-ui.js
+ * QËLLIMI: Adapton UI-n për ekrane të vogla — drawer, bottom sheet dhe navigim poshtë.
+ * KUR NGARKOHET: Pas sidebar.js, para timeline.js (index.html); ekzekutohet menjëherë (IIFE).
+ * LIDHET ME: sidebar.js (tkkOpenFlyout, tkkCloseFlyouts), detail.js (showDetailPanel),
+ *            map.js (map.invalidateSize), timeline.js (renderTimelineTicks).
+ *
  * UI mobil: hartë e plotë, panele si drawer / bottom sheet, navigim poshtë.
  */
 (function () {
+  // Pragu i gjerësisë (px) për të konsideruar pajisjen mobil
   const BP = 768;
   const mq = window.matchMedia("(max-width: " + BP + "px)");
 
   let activePanel = null;
   let invalidateTimer = null;
 
+  /** Kontrollon nëse ekrani është në modalitet mobil. */
   function isMobile() {
     return mq.matches;
   }
@@ -28,12 +36,14 @@
     }, 400);
   }
 
+  /** Thekson butonin aktiv në navigimin poshtë. */
   function setNavActive(name) {
     document.querySelectorAll(".mobile-nav-btn").forEach(function (btn) {
       btn.classList.toggle("is-active", btn.dataset.mobilePanel === name);
     });
   }
 
+  /** Heq të gjitha klasat CSS të paneleve mobile nga body. */
   function clearPanelClasses() {
     document.body.classList.remove(
       "mobile-open",
@@ -45,6 +55,7 @@
     );
   }
 
+  /** Mbyll panelet mobile dhe backdrop-in. */
   function closeMobilePanels(opts) {
     opts = opts || {};
     activePanel = null;
@@ -60,6 +71,7 @@
     }
   }
 
+  /** Hap një panel mobile (shtresa, kërkim, filtra, grafik, detaje). */
   function openMobilePanel(name, opts) {
     if (!isMobile()) return;
     opts = opts || {};
@@ -94,6 +106,7 @@
     }
   }
 
+  /** Sinkronizon modalitetin mobil kur ndryshon madhësia e ekranit. */
   function syncMobileMode() {
     document.body.classList.toggle("is-mobile", mq.matches);
     var nav = document.getElementById("mobileNav");
@@ -115,6 +128,7 @@
     invalidateMapStable();
   }
 
+  /** Aktivizon ose çaktivizon butonin e detajeve në nav. */
   function updateDetailNavState() {
     var btn = document.querySelector('.mobile-nav-btn[data-mobile-panel="detail"]');
     if (!btn) return;
@@ -123,10 +137,12 @@
     btn.disabled = disabled;
   }
 
+  /** Mbyll panelet kur klikohet backdrop-i i errët. */
   function onBackdropClick() {
     closeMobilePanels();
   }
 
+  /** Lidh butonat e navigimit poshtë me panelet përkatëse. */
   function initNav() {
     var nav = document.getElementById("mobileNav");
     if (!nav) return;
@@ -140,6 +156,7 @@
     });
   }
 
+  /** Shtron panelin e detajeve automatikisht në mobil pas zgjedhjes së monumentit. */
   function hookDetailPanel() {
     var origShow = window.showDetailPanel;
     if (typeof origShow === "function") {
@@ -169,6 +186,7 @@
     }
   }
 
+  /** Mbyll panelet mobile kur mbyllen flyout-et e sidebar-it. */
   function hookFlyoutClose() {
     document.querySelectorAll("[data-flyout-close]").forEach(function (btn) {
       btn.addEventListener(
@@ -181,6 +199,7 @@
     });
   }
 
+  /** Inicializon backdrop, nav, hooks dhe dëgjuesin e madhësisë së ekranit. */
   function init() {
     var backdrop = document.getElementById("mobileBackdrop");
     if (backdrop) {
@@ -190,6 +209,7 @@
     hookDetailPanel();
     hookFlyoutClose();
 
+    // Reagoj kur ndryshon gjerësia e dritares (portrait/landscape)
     if (typeof mq.addEventListener === "function") {
       mq.addEventListener("change", syncMobileMode);
     } else if (typeof mq.addListener === "function") {

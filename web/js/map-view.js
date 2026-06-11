@@ -1,16 +1,25 @@
 /**
+ * SKEDARI: map-view.js
+ * QËLLIMI: Paneli i pamjes së hartës — zgjedhja e bazës (OSM, satelit, auto sipas zoom-it).
+ * KUR NGARKOHET: Pas map-basemaps.js, para map.js (index.html); initMapView në DOMContentLoaded.
+ * LIDHET ME: map-basemaps.js (getBasemapMode, setBasemapMode, syncBasemapForZoom),
+ *            map-tools.js (showMapToolResult, hideMapToolResult, deactivateMapTools), i18n.js (t).
+ *
  * Pamja e hartës — OSM, Google Satellite, kthe në parazgjedhje (sipas shkallës)
  */
 
+/** Kontrollon nëse paneli i pamjes është i hapur aktualisht. */
 function isViewPanelOpen() {
   const box = document.getElementById("mapToolResult");
   return box && !box.hidden && box.querySelector("[data-view-setup]");
 }
 
+/** Ndërton HTML-in e panelit me opsionet OSM, satelit dhe auto. */
 function buildViewPanelHtml() {
   const mode =
     typeof getBasemapMode === "function" ? getBasemapMode() : "auto";
 
+  /** Krijon një buton opsioni me klasë is-active nëse është zgjedhur. */
   function optionBtn(value, label) {
     const active = mode === value ? " is-active" : "";
     return (
@@ -41,6 +50,7 @@ function buildViewPanelHtml() {
   );
 }
 
+/** Rifreskon përmbajtjen e panelit nëse është i hapur. */
 function refreshViewPanel() {
   if (!isViewPanelOpen()) return;
   if (typeof showMapToolResult === "function") {
@@ -48,6 +58,7 @@ function refreshViewPanel() {
   }
 }
 
+/** Hap panelin e pamjes dhe shfaq opsionet e bazës. */
 function showViewPanel() {
   const btn = document.querySelector('[data-tool-toggle="view"]');
   if (btn) btn.setAttribute("aria-expanded", "true");
@@ -61,6 +72,7 @@ function showViewPanel() {
   }
 }
 
+/** Mbyll panelin e pamjes dhe përditëson aria-expanded. */
 function hideViewPanel() {
   if (typeof hideMapToolResult === "function") {
     hideMapToolResult();
@@ -69,6 +81,7 @@ function hideViewPanel() {
   if (btn) btn.setAttribute("aria-expanded", "false");
 }
 
+/** Aplikon modalitetin e bazës (osm / satellite / auto) dhe rifreskon panelin. */
 function handleBasemapModeClick(mode) {
   if (typeof setBasemapMode === "function") {
     setBasemapMode(mode);
@@ -79,10 +92,12 @@ function handleBasemapModeClick(mode) {
   refreshViewPanel();
 }
 
+/** Lidh butonin e pamjes dhe klikimet e opsioneve të bazës. */
 function initMapView() {
   const btn = document.querySelector('[data-tool-toggle="view"]');
   if (!btn) return;
 
+  // Toggle paneli pamje kur klikohet ikona e hartës
   btn.addEventListener("click", (ev) => {
     ev.preventDefault();
     ev.stopPropagation();
@@ -105,6 +120,7 @@ function initMapView() {
     showViewPanel();
   });
 
+  // Klikimi i opsioneve OSM / satelit / auto brenda panelit
   document.getElementById("mapToolResult")?.addEventListener("click", (e) => {
     const modeBtn = e.target.closest("[data-basemap-mode]");
     if (!modeBtn || !isViewPanelOpen()) return;
@@ -113,6 +129,7 @@ function initMapView() {
     handleBasemapModeClick(modeBtn.dataset.basemapMode);
   });
 
+  // Rifreskon panelin kur ndryshon bazë harta nga jashtë
   window.addEventListener("tkk:basemap-mode", () => {
     refreshViewPanel();
   });

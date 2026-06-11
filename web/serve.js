@@ -1,5 +1,9 @@
 /**
- * Server lokal + proxy GeoServer (shmang CORS) — vetëm: node serve.js
+ * serve.js — Server lokal Node.js për zhvillim
+ *
+ * Shërben skedarët statikë (HTML, JS, CSS) nga folderi web/,
+ * proxy GeoServer (shmang CORS), pllaka Google/DTK dhe API VGI.
+ * Nisja: node serve.js (ose HAPNI.bat) — porti parazgjedhës 5500.
  */
 const http = require("http");
 const https = require("https");
@@ -26,6 +30,7 @@ const MIME = {
   ".ico": "image/x-icon",
 };
 
+/** Ndihmës: transferon përgjigjen HTTP nga një URL e jashtme te klienti */
 function proxyRemote(targetUrl, req, res, errMsg) {
   const lib = targetUrl.startsWith("https") ? https : http;
   const opts = targetUrl.startsWith("https")
@@ -46,6 +51,10 @@ function proxyRemote(targetUrl, req, res, errMsg) {
     });
 }
 
+/**
+ * Proxy GeoServer — çdo kërkesë /geoserver/... shkon te localhost:8080.
+ * Pa këtë, shfletuesi bllokon WMS/WFS për shkak të CORS.
+ */
 function proxyGeoServer(req, res) {
   proxyRemote(
     GEOSERVER + req.url,
@@ -55,7 +64,10 @@ function proxyGeoServer(req, res) {
   );
 }
 
-/** Pllaka Google Satellite — proxy me Referer (shmang 403 / URL të gabuar) */
+/**
+ * Proxy pllakave Google Satellite — shton Referer/User-Agent që të mos kthejë 403.
+ * Rruga: /google-tiles/{z}/{x}/{y}?lyrs=s|y
+ */
 function proxyGoogleTiles(req, res) {
   const pathOnly = req.url.split("?")[0];
   const q = req.url.includes("?") ? req.url.split("?")[1] : "";
@@ -124,7 +136,7 @@ function proxyGoogleTiles(req, res) {
     });
 }
 
-/** Fotot DTK — shmang bllokimin hotlink në shfletues */
+/** Proxy fotove nga dtk.rks-gov.net — shmang bllokimin hotlink në shfletues */
 function proxyDtkFiles(req, res) {
   const sub = req.url.replace(/^\/dtk-files/, "");
   proxyRemote(
@@ -253,6 +265,7 @@ function writeVgiReports(list) {
   fs.writeFileSync(VGI_REPORTS_FILE, JSON.stringify(list, null, 2), "utf8");
 }
 
+/** Kontroll i shpejtë që serveri dhe API-të janë aktivë */
 function handleApiHealth(res) {
   const cors = { "Access-Control-Allow-Origin": "*", "Content-Type": "application/json; charset=utf-8" };
   res.writeHead(200, cors);
@@ -266,6 +279,11 @@ function handleApiHealth(res) {
   );
 }
 
+/**
+ * API VGI — raportet e përdoruesit (Volunteered Geographic Information).
+ * GET: lexon listën nga data/vgi-reports.json
+ * POST: shton raport të ri me lat, lon, përshkrim
+ */
 function handleVgiReportsApi(req, res) {
   const cors = { "Access-Control-Allow-Origin": "*", "Content-Type": "application/json; charset=utf-8" };
 
@@ -345,6 +363,7 @@ function handleVgiReportsApi(req, res) {
   res.end(JSON.stringify({ error: "Metoda nuk lejohet" }));
 }
 
+/** API DTK — nxjerr URL-të e fotove nga faqja e objektit (heritageId) */
 function handleDtkPhotosApi(req, res) {
   const q = req.url.includes("?") ? req.url.split("?")[1] : "";
   const heritageId = new URLSearchParams(q).get("heritageId");
@@ -369,6 +388,7 @@ function handleDtkPhotosApi(req, res) {
     });
 }
 
+/** Router kryesor — API, proxy, pastaj skedarë statikë nga folderi web/ */
 const server = http.createServer((req, res) => {
   const pathOnly = req.url.split("?")[0];
 
@@ -402,6 +422,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  /** Shërbimi i skedarëve statikë (index.html, js, css, data, …) */
   let urlPath = decodeURIComponent(req.url.split("?")[0]);
   if (urlPath === "/") urlPath = "/index.html";
 

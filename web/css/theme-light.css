@@ -1,3 +1,8 @@
+/*
+ * SKEDARI: theme-light.css
+ * QËLLIMI: Mbivendos ngjyrat kur përdoruesi zgjedh temën e çelët (settings.js → data-theme="light").
+ */
+
 /* Tema light — kontrast i lexueshëm (mbivendos ngjyrat e hardcoduara të dark mode) */
 
 html[data-theme="light"] header.app-header {
@@ -56,6 +61,42 @@ html[data-theme="light"] .timeline-tick-label {
 
 html[data-theme="light"] .timeline-handle {
   border-color: #fff;
+}
+
+html[data-theme="light"] .monument-filter-select {
+  background: #ffffff;
+  color: #1e293b;
+  border-color: #cbd5e1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%2364748b' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.45rem center;
+}
+
+html[data-theme="light"] .monument-filter-select option {
+  background: #ffffff;
+  color: #1e293b;
+}
+
+html[data-theme="light"] .monument-filter-label {
+  color: #64748b;
+}
+
+html[data-theme="light"] .symbology-hex-input--filter {
+  background: #ffffff;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .monument-filter-highlight .symbology-picker-hex {
+  background: #ffffff;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .monument-filter-highlight .symbology-picker-popover {
+  background: var(--bg-panel);
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 12px rgba(42, 36, 28, 0.14);
 }
 
 /* —— Paneli i detajeve —— */
@@ -175,6 +216,51 @@ html[data-theme="light"] .detail-dtk:hover {
   background: rgba(15, 107, 92, 0.1);
   color: #0c5a4e;
   border-color: var(--teal);
+}
+
+html[data-theme="light"] .nav-route-hint {
+  background: rgba(248, 250, 252, 0.96);
+  color: #0f766e;
+  border-color: rgba(13, 148, 136, 0.28);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+}
+
+html[data-theme="light"] .nav-route-hint__meta {
+  color: #0d9488;
+}
+
+html[data-theme="light"] .nav-route-hint__dest {
+  color: #334155;
+}
+
+html[data-theme="light"] .nav-route-hint__drag {
+  color: #0d9488;
+}
+
+html[data-theme="light"] .nav-route-hint__clear {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .nav-route-hint__resize::after {
+  background: rgba(13, 148, 136, 0.35);
+  box-shadow: -3px 0 0 rgba(13, 148, 136, 0.2);
+}
+
+html[data-theme="light"] .nav-route-hint__resize:hover::after,
+html[data-theme="light"] .nav-route-hint.is-resizing .nav-route-hint__resize::after {
+  background: rgba(13, 148, 136, 0.7);
+  box-shadow: -3px 0 0 rgba(13, 148, 136, 0.35);
+}
+
+html[data-theme="light"] .detail-navigate-btn--secondary {
+  background: #eef2f6;
+  color: #64748b;
+}
+
+html[data-theme="light"] .detail-maps-start-info {
+  color: #0d9488;
 }
 
 html[data-theme="light"] .detail-dtk-empty {

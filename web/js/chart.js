@@ -1,9 +1,19 @@
-/** Statistikë — periudha + komuna / rajon */
+/**
+ * SKEDARI: chart.js
+ * QËLLIMI: Statistikë vizuale — grafikë sipas periudhës, komunës/rajonit dhe eksport CSV.
+ * KUR NGARKOHET: Pas symbology-user.js, para detail.js (index.html); init në DOMContentLoaded.
+ * LIDHET ME: config.js (CHART_PERIUDHA_ORDER, PERIUDHA_*), filters.js (getFilteredFeatures),
+ *            data-i18n.js (translateDataValue), map.js (WFS_URL), i18n.js (t, tFormat).
+ *
+ * Statistikë — periudha + komuna / rajon
+ */
 
+// Modaliteti i grafikut gjeografik: komuna ose rajon
 let chartGeoMode = "komuna";
 let komunaRajonMap = null;
 let komunaRajonMapLoading = null;
 
+/** Normalizon fushën e periudhës nga properties në çelës të unifikuar. */
 function normalizePeriudha(props) {
   const raw = (
     props.periudha ||
@@ -39,6 +49,7 @@ function normalizePeriudha(props) {
   return raw;
 }
 
+/** Grupon periudhat afër për grafikun (antike, i panjohur, etj.). */
 function normalizePeriudhaForChart(props) {
   const key = normalizePeriudha(props);
 
@@ -53,6 +64,7 @@ function normalizePeriudhaForChart(props) {
   return "i_panjohor";
 }
 
+/** Normalizon emrin gjeografik për krahasim (pa theks, pa prefiks "Komuna e"). */
 function normalizeGeoKey(value) {
   return String(value || "")
     .trim()
@@ -65,6 +77,20 @@ function normalizeGeoKey(value) {
     .replace(/\s+/g, " ");
 }
 
+/** Komuna/rajon jo i vlefshëm për statistika (N.A., bosh, Kosovë, etj.). */
+function isInvalidKomunaValue(raw) {
+  const s = String(raw || "").trim();
+  if (!s) return true;
+  if (/^kosov/i.test(s)) return true;
+  const compact = s.replace(/\s+/g, "").replace(/\./g, "").toLowerCase();
+  if (compact === "na" || compact === "n/a") return true;
+  const key = normalizeGeoKey(s).replace(/\./g, "");
+  if (key === "na" || key === "n a") return true;
+  if (key === "unknown" || key === "i panjohur") return true;
+  return false;
+}
+
+/** Formato emrin e komunës për shfaqje (heq prefiks, përkthe në EN). */
 function formatKomunaLabel(raw) {
   let s = String(raw || "").trim();
   s = s.replace(/^Municipality of\s+/i, "");
@@ -82,6 +108,7 @@ function formatKomunaLabel(raw) {
   return s;
 }
 
+/** Formato emrin e rajonit për shfaqje. */
 function formatRajonLabel(raw) {
   const s = String(raw || "")
     .trim()
@@ -94,10 +121,12 @@ function formatRajonLabel(raw) {
   return "Rajoni i " + s.replace(/^Rajoni i\s+/i, "");
 }
 
+/** Normalizon emrin e rajonit për çelës krahasimi. */
 function normalizeRajonKey(name) {
   return normalizeGeoKey(String(name || "").replace(/^Rajoni i\s+/i, ""));
 }
 
+/** Kthen listën e rajoneve unike nga harta komuna→rajon. */
 function getCanonicalRajons(rajonMap) {
   const keys = new Set();
   Object.values(rajonMap || {}).forEach((rajon) => {
@@ -106,6 +135,7 @@ function getCanonicalRajons(rajonMap) {
   return [...keys].sort((a, b) => a.localeCompare(b, "sq"));
 }
 
+/** Bashkon numërimet sipas emrave kanonikë të rajoneve. */
 function applyRajonLabels(counts, rajonMap) {
   const canonical = getCanonicalRajons(rajonMap);
   const merged = {};
@@ -121,16 +151,18 @@ function applyRajonLabels(counts, rajonMap) {
   return merged;
 }
 
+/** Nxjerr emrin e komunës nga properties e një feature. */
 function getKomunaFromProps(props) {
   const p = props || {};
   const raw =
     p.komuna ?? p.KOMUNA ?? p.komuna_emri ?? p.municipality ?? p.shapeName;
-  if (raw && String(raw).trim() && !/^kosov/i.test(String(raw))) {
-    return formatKomunaLabel(raw);
+  if (!raw || !String(raw).trim() || isInvalidKomunaValue(raw)) {
+    return null;
   }
-  return getGeoUnknownLabel();
+  return formatKomunaLabel(raw);
 }
 
+/** Gjen emrin kanonik të rajonit nga etiketa ose harta. */
 function resolveRajonLabel(label, rajonMap) {
   if (!label || label === getGeoUnknownLabel()) return null;
 
@@ -143,6 +175,7 @@ function resolveRajonLabel(label, rajonMap) {
   return formatRajonLabel(label);
 }
 
+/** Përcakton rajonin nga properties, harta komuna→rajon ose teksti. */
 function getRajonFromProps(props, map) {
   const p = props || {};
   const direct = p.Rajoni ?? p.rajoni ?? p.rajon;
@@ -154,8 +187,9 @@ function getRajonFromProps(props, map) {
     return resolveRajonLabel(formatRajonLabel(direct), map);
   }
 
-  const komunaKey = normalizeGeoKey(getKomunaFromProps(p));
-  if (map && map[komunaKey]) return map[komunaKey];
+  const komunaLabel = getKomunaFromProps(p);
+  const komunaKey = komunaLabel ? normalizeGeoKey(komunaLabel) : "";
+  if (komunaKey && map && map[komunaKey]) return map[komunaKey];
 
   const text = String(p.shenime || p.pershkrim_i_shkurter || "");
   const m = text.match(/Rajoni i\s+([^,\).]+)/i);
@@ -166,6 +200,7 @@ function getRajonFromProps(props, map) {
   return null;
 }
 
+/** Numëron monumentet sipas periudhës për grafikun vertikal. */
 function countByPeriudha(features) {
   const counts = {};
   for (const f of features) {
@@ -175,6 +210,7 @@ function countByPeriudha(features) {
   return counts;
 }
 
+/** Numëron monumentet sipas komunës ose rajonit. */
 function countByField(features, mode, rajonMap) {
   const counts = {};
   for (const f of features) {
@@ -188,6 +224,7 @@ function countByField(features, mode, rajonMap) {
   return counts;
 }
 
+/** Kthen etiketën e periudhës për grafik (me përkthim i18n). */
 function getPeriodChartLabel(key) {
   if (typeof t === "function") {
     const translated = t("period." + key);
@@ -196,6 +233,7 @@ function getPeriodChartLabel(key) {
   return PERIUDHA_LABELS[key] || key;
 }
 
+/** Ndërton rreshtat e grafikut vertikal sipas renditjes së periudhave. */
 function buildChartRows(counts) {
   const rows = [];
 
@@ -213,6 +251,7 @@ function buildChartRows(counts) {
   return rows;
 }
 
+/** Merr N komunat/rajonet me më shumë monumente. */
 function buildTopRows(counts, limit, color) {
   return Object.entries(counts)
     .sort((a, b) => b[1] - a[1])
@@ -224,6 +263,7 @@ function buildTopRows(counts, limit, color) {
     }));
 }
 
+/** Ndërton rreshtat e grafikut horizontal për rajonet. */
 function buildRajonRows(counts) {
   return Object.entries(counts)
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "sq"))
@@ -234,6 +274,7 @@ function buildRajonRows(counts) {
     }));
 }
 
+/** Vizaton grafikun vertikal të periudhave në DOM. */
 function renderPeriodChart(container, rows) {
   if (!container) return;
 
@@ -274,6 +315,7 @@ function renderPeriodChart(container, rows) {
     "</div>";
 }
 
+/** Vizaton grafikun horizontal të komunave/rajoneve në DOM. */
 function renderGeoChart(container, rows, mode) {
   if (!container) return;
 
@@ -314,13 +356,42 @@ function renderGeoChart(container, rows, mode) {
     "</div>";
 }
 
+function buildKomunaRajonMapFromFeatures(features) {
+  const map = {};
+  (features || []).forEach((f) => {
+    const p = f.properties || {};
+    const komuna = formatKomunaLabel(
+      p.shapeName || p.emri || p.komuna || p.name || p.KOMUNA
+    );
+    const rajon = p.Rajoni || p.rajoni || p.rajon;
+    if (komuna && rajon && !/^kosov/i.test(String(rajon))) {
+      map[normalizeGeoKey(komuna)] = formatRajonLabel(rajon);
+    }
+  });
+  return map;
+}
+
+function loadStaticKomunaRajonMap() {
+  const base = typeof tkkAppBase === "function" ? tkkAppBase() : "";
+  return fetch(base + "data/boundaries/komunat.geojson", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : { features: [] }))
+    .then((data) => buildKomunaRajonMapFromFeatures(data.features || []))
+    .catch(() => ({}));
+}
+
+/** Ngarkon hartën komuna→rajon nga WFS GeoServer (ose GeoJSON statik). */
 function loadKomunaRajonMap() {
-  if (komunaRajonMap) return Promise.resolve(komunaRajonMap);
+  if (komunaRajonMap && Object.keys(komunaRajonMap).length) {
+    return Promise.resolve(komunaRajonMap);
+  }
   if (komunaRajonMapLoading) return komunaRajonMapLoading;
 
-  if (typeof WFS_URL === "undefined" || typeof WMS_LAYERS === "undefined") {
-    komunaRajonMap = {};
-    return Promise.resolve(komunaRajonMap);
+  if (typeof WFS_URL === "undefined" || !WFS_URL || typeof WMS_LAYERS === "undefined") {
+    komunaRajonMapLoading = loadStaticKomunaRajonMap().then((map) => {
+      komunaRajonMap = map;
+      return map;
+    });
+    return komunaRajonMapLoading;
   }
 
   const typeName =
@@ -337,31 +408,30 @@ function loadKomunaRajonMap() {
     "&outputFormat=application/json" +
     "&srsName=EPSG:4326";
 
-  komunaRajonMapLoading = fetch(url)
+  komunaRajonMapLoading = fetch(url, { cache: "no-store" })
     .then((r) => (r.ok ? r.json() : { features: [] }))
-    .then((data) => {
-      const map = {};
-      (data.features || []).forEach((f) => {
-        const p = f.properties || {};
-        const komuna = formatKomunaLabel(
-          p.shapeName || p.emri || p.komuna || p.name
-        );
-        const rajon = p.Rajoni || p.rajoni;
-        if (komuna && rajon) {
-          map[normalizeGeoKey(komuna)] = formatRajonLabel(rajon);
-        }
+    .then((data) => buildKomunaRajonMapFromFeatures(data.features || []))
+    .then((map) => {
+      if (Object.keys(map).length) {
+        komunaRajonMap = map;
+        return map;
+      }
+      return loadStaticKomunaRajonMap().then((staticMap) => {
+        komunaRajonMap = staticMap;
+        return staticMap;
       });
-      komunaRajonMap = map;
-      return map;
     })
-    .catch(() => {
-      komunaRajonMap = {};
-      return komunaRajonMap;
-    });
+    .catch(() =>
+      loadStaticKomunaRajonMap().then((staticMap) => {
+        komunaRajonMap = staticMap;
+        return staticMap;
+      })
+    );
 
   return komunaRajonMapLoading;
 }
 
+/** Përditëson grafikun gjeografik (komuna ose rajon). */
 function updateGeoChart(allFeatures) {
   const container = document.getElementById("chartGeoBars");
   const totalEl = document.getElementById("chartGeoTotal");
@@ -393,6 +463,7 @@ function updateGeoChart(allFeatures) {
   });
 }
 
+/** Përditëson grafikun e periudhave dhe totalin e monumenteve. */
 function updatePeriudhaChart(allFeatures) {
   const container = document.getElementById("chartBars");
   const totalEl = document.getElementById("chartTotal");
@@ -417,6 +488,7 @@ function updatePeriudhaChart(allFeatures) {
   }
 }
 
+/** Kthen feature-t e filtruara ose të gjitha për grafik/eksport. */
 function getChartFeatures() {
   if (typeof getFilteredFeatures === "function") {
     return getFilteredFeatures();
@@ -424,6 +496,7 @@ function getChartFeatures() {
   return window.allMonumentFeatures || [];
 }
 
+/** Escape një qelizë CSV (thonjëza nëse ka presje/rrjeshta). */
 function escapeCsvCell(value) {
   const s = String(value ?? "");
   if (/[",\n\r]/.test(s)) {
@@ -432,6 +505,7 @@ function escapeCsvCell(value) {
   return s;
 }
 
+/** Ndërton rreshtat e eksportit CSV për çdo monument. */
 function buildMonumentExportRows(features, rajonMap) {
   return (features || []).map((f) => {
     const p = f.properties || {};
@@ -460,13 +534,14 @@ function buildMonumentExportRows(features, rajonMap) {
       emri: emriOut,
       periudha: periudhaRaw,
       periudha_grup: periudhaGrupOut,
-      komuna: getKomunaFromProps(p),
+      komuna: getKomunaFromProps(p) || "",
       rajon: getRajonFromProps(p, rajonMap) || "",
       lloji: llojiOut,
     };
   });
 }
 
+/** Shton një seksion përmbledhës në skedarin CSV. */
 function appendSummarySection(lines, title, counts) {
   lines.push("");
   lines.push(title);
@@ -478,6 +553,7 @@ function appendSummarySection(lines, title, counts) {
     });
 }
 
+/** Ndërton përmbajtjen e plotë të CSV-së së statistikave. */
 function buildStatisticsCsv(features, rajonMap) {
   const lines = [];
   const periudhaCounts = countByPeriudha(features);
@@ -521,6 +597,9 @@ function buildStatisticsCsv(features, rajonMap) {
   return lines.join("\r\n");
 }
 
+window.buildStatisticsCsv = buildStatisticsCsv;
+
+/** Shkarkon skedarin CSV me statistika monumentesh. */
 function downloadStatisticsCsv() {
   const features = getChartFeatures();
   if (!features.length) {
@@ -543,6 +622,7 @@ function downloadStatisticsCsv() {
   });
 }
 
+/** Lidh butonin e shkarkimit CSV me downloadStatisticsCsv. */
 function initChartDownload() {
   document
     .getElementById("chartDownloadBtn")
@@ -552,6 +632,7 @@ function initChartDownload() {
     });
 }
 
+/** Inicializon tabs komuna/rajon për grafikun gjeografik. */
 function initChartGeoTabs() {
   const tabs = document.querySelectorAll(".chart-geo-tab[data-chart-geo]");
   if (!tabs.length) return;
@@ -569,11 +650,13 @@ function initChartGeoTabs() {
   });
 }
 
+// Inicializon tabs dhe shkarkimin kur DOM është gati
 document.addEventListener("DOMContentLoaded", () => {
   initChartGeoTabs();
   initChartDownload();
 });
 
+// Rifreskon grafikët kur ndryshon gjuha
 window.addEventListener("tkk:lang-change", () => {
   if (typeof updatePeriudhaChart === "function") {
     updatePeriudhaChart(
@@ -585,7 +668,13 @@ window.addEventListener("tkk:lang-change", () => {
   applyI18n(document.getElementById("sidebarFlyoutChart"));
 });
 
+// Eksporton funksionet e normalizimit dhe grafikëve për filters, timeline, map
 window.normalizePeriudha = normalizePeriudha;
 window.normalizePeriudhaForChart = normalizePeriudhaForChart;
 window.countByPeriudha = countByPeriudha;
 window.updatePeriudhaChart = updatePeriudhaChart;
+window.loadKomunaRajonMap = loadKomunaRajonMap;
+window.getKomunaFromProps = getKomunaFromProps;
+window.isInvalidKomunaValue = isInvalidKomunaValue;
+window.getRajonFromProps = getRajonFromProps;
+window.getCanonicalRajons = getCanonicalRajons;

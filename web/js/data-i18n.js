@@ -1,10 +1,18 @@
 /**
+ * SKEDARI: data-i18n.js
+ * QËLLIMI: Përkthe vlerat e të dhënave (komuna, kategoria, periudha) për UI anglisht.
+ * KUR NGARKOHET: Pas monument-name-en.js, para settings.js (index.html).
+ * LIDHET ME: monument-name-en.js, i18n.js (getLang), chart.js (translateDataValue),
+ *            filters.js (getFilteredFeatures), detail.js, sidebar.js (refresh*I18n).
+ *
  * Përkthim i të dhënave nga CSV/WFS për UI anglisht — skedarët burimorë nuk ndryshohen.
  */
 
+// Harta e përkthimeve të ngarkuar nga display-en.json (ose embedded)
 let displayEnMap = null;
 let displayEnLoadPromise = null;
 
+// Përkthime të integruara — përdoren nëse JSON nuk ngarkohet
 const DATA_I18N_EMBEDDED = {
   gjendja: {
     "e mire": "Good condition",
@@ -17,6 +25,8 @@ const DATA_I18N_EMBEDDED = {
   },
   kategoria: {
     fortifikate_kalaje: "Fortification / castle",
+    fortifikim_kala: "Fortification / castle",
+    "fortifikim/kala": "Fortification / castle",
     gjurme_rrnoje: "Settlement traces",
     kulla: "Tower",
     monument: "Monument",
@@ -82,6 +92,7 @@ const DATA_I18N_EMBEDDED = {
   burimi: { DTK: "DTK" },
 };
 
+/** Normalizon një vlerë teksti për kërkim në tabelë (pa theks, lowercase). */
 function normalizeDataKey(value) {
   return String(value ?? "")
     .trim()
@@ -91,6 +102,7 @@ function normalizeDataKey(value) {
     .replace(/\s+/g, " ");
 }
 
+/** Kërkon përkthimin e një vlerë në tabelën e dhënë. */
 function lookupInTable(table, raw) {
   if (!table || raw == null || raw === "" || raw === "—") return null;
   const s = String(raw).trim();
@@ -103,6 +115,7 @@ function lookupInTable(table, raw) {
   return null;
 }
 
+/** Ngarkon display-en.json dhe bashkon me përkthimet e integruara. */
 function loadDisplayEnMap() {
   if (displayEnLoadPromise) return displayEnLoadPromise;
   const base =
@@ -168,16 +181,94 @@ function translateRajonDisplayName(raw) {
   return s;
 }
 
+/** Etiketa shqip/en për kategoritë e monumenteve (çelës i unifikuar). */
+const KATEGORIA_CANONICAL = {
+  vendbanim: { sq: "Vendbanim", en: "Settlement" },
+  nekropoli: { sq: "Nekropoli", en: "Necropolis" },
+  fortifikate_kalaje: { sq: "Fortifikim / kala", en: "Fortification / castle" },
+  gjurme_rrnoje: { sq: "Gjurmë rrënojë", en: "Settlement traces" },
+  kulla: { sq: "Kulla", en: "Tower" },
+  monument: { sq: "Monument", en: "Monument" },
+  monument_arkitekture: { sq: "Monument arkitekture", en: "Architectural monument" },
+  objekt_fetar: { sq: "Objekt fetar", en: "Religious building" },
+  objekt_luajtshme: { sq: "Objekt i luajtshëm", en: "Movable heritage object" },
+  objekt_urban: { sq: "Objekt urban", en: "Urban heritage object" },
+  ure: { sq: "Urë", en: "Bridge" },
+  lokalitet: { sq: "Lokalitet", en: "Site" },
+  muze: { sq: "Muze", en: "Museum" },
+  biblioteka: { sq: "Bibliotekë", en: "Library" },
+  arkitekturore: { sq: "Arkitekturore", en: "Architectural" },
+};
+
+/** Alias → çelës kanonik (p.sh. fortifikim/kala nga CSV i ri). */
+const KATEGORIA_ALIASES = {
+  fortifikim_kala: "fortifikate_kalaje",
+  "fortifikim/kala": "fortifikate_kalaje",
+  fortifikimkala: "fortifikate_kalaje",
+  fortifikatekalaje: "fortifikate_kalaje",
+};
+
+/** Normalizon vlerën e kategorisë për krahasim filtrash. */
+function normalizeKategoriaKey(raw) {
+  const s = String(raw || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\//g, "_")
+    .replace(/[\s-]+/g, "_")
+    .replace(/_+/g, "_");
+
+  if (KATEGORIA_ALIASES[s]) return KATEGORIA_ALIASES[s];
+  if (KATEGORIA_CANONICAL[s]) return s;
+  return s;
+}
+
+/** Etiketë e lexueshme për kategori (shqip ose anglisht). */
+function getKategoriaLabel(raw) {
+  const s = String(raw || "").trim();
+  if (!s || s === "—") return "—";
+
+  const key = normalizeKategoriaKey(s);
+  const entry = KATEGORIA_CANONICAL[key];
+  if (entry) {
+    return typeof getLang === "function" && getLang() === "en"
+      ? entry.en
+      : entry.sq;
+  }
+
+  if (typeof getLang === "function" && getLang() === "en") {
+    const hit = lookupInTable(displayEnMap?.kategoria, s);
+    if (hit) return hit;
+    return translateKategoriaFallback(s);
+  }
+
+  if (s.includes("_") || s.includes("/")) {
+    return s
+      .replace(/\//g, " / ")
+      .split(/[_\s]+/)
+      .filter(Boolean)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+  }
+
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+/** Përkthe emrin e kategorisë kur mungon në tabelë (snake_case → Title Case). */
 function translateKategoriaFallback(raw) {
   const s = String(raw || "").trim();
   if (!s || s === "—") return s;
-  if (!s.includes("_")) return s;
+  if (!s.includes("_") && !s.includes("/")) return s;
   return s
-    .split("_")
+    .replace(/\//g, " / ")
+    .split(/[_\s]+/)
+    .filter(Boolean)
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
 }
 
+/** Përkthe periudhën historike për shfaqje nga properties. */
 function translatePeriudhaDisplay(props) {
   const p = props || {};
   const detaj =
@@ -223,7 +314,11 @@ function translateDataValue(field, rawValue, props) {
       : raw;
   }
   if (field === "rajon") return translateRajonDisplayName(raw);
-  if (typeof getLang !== "function" || getLang() !== "en") return rawValue == null ? "—" : String(rawValue).trim();
+  if (field === "kategoria") return getKategoriaLabel(raw);
+
+  if (typeof getLang !== "function" || getLang() !== "en") {
+    return rawValue == null ? "—" : String(rawValue).trim();
+  }
 
   if (!displayEnMap) return rawValue == null ? "—" : String(rawValue).trim();
 
@@ -235,13 +330,10 @@ function translateDataValue(field, rawValue, props) {
   const hit = lookupInTable(table, raw);
   if (hit) return hit;
 
-  if (field === "kategoria") {
-    return translateKategoriaFallback(raw);
-  }
-
   return raw;
 }
 
+/** Përkthe të gjitha fushat e një monumenti për panelin e detajeve. */
 function translatePropsForDisplay(props) {
   const p = props || {};
   const pick = (key) => p[key] ?? p[key.toUpperCase()] ?? "—";
@@ -259,6 +351,7 @@ function translatePropsForDisplay(props) {
   };
 }
 
+/** Rifreskon grafikët, detajet dhe kërkimin pas ndryshimit të gjuhës. */
 function refreshDataDisplays() {
   if (typeof refreshRajonetLabelsI18n === "function") {
     refreshRajonetLabelsI18n();
@@ -282,15 +375,24 @@ function refreshDataDisplays() {
   if (typeof updateGeoChart === "function" && features) {
     updateGeoChart(features);
   }
+  if (typeof buildMonumentFilterOptions === "function") {
+    buildMonumentFilterOptions();
+  }
+  if (typeof updateActivePeriodChips === "function") {
+    updateActivePeriodChips();
+  }
 }
 
+// Ngarkon hartën e përkthimeve menjëherë kur ekzekutohet skedari
 loadDisplayEnMap();
 
+// Rifreskon shfaqjet kur përdoruesi ndryshon gjuhën
 window.addEventListener("tkk:lang-change", () => {
   refreshDataDisplays();
 });
 
 window.loadDisplayEnMap = loadDisplayEnMap;
+/** Kthen emrin e shfaqur të monumentit (me përkthim nëse gjuha është EN). */
 function getMonumentDisplayName(props) {
   const p = props || {};
   const raw = (p.emri ?? p.EMRI ?? "").trim();
@@ -304,4 +406,6 @@ window.translateDataValue = translateDataValue;
 window.translatePropsForDisplay = translatePropsForDisplay;
 window.translatePeriudhaDisplay = translatePeriudhaDisplay;
 window.refreshDataDisplays = refreshDataDisplays;
+window.getKategoriaLabel = getKategoriaLabel;
+window.normalizeKategoriaKey = normalizeKategoriaKey;
 window.td = translateDataValue;

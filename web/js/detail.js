@@ -1,13 +1,89 @@
-/** Panel detajesh + foto kur klikohet pika */
+/**
+ * QËLLIMI: Paneli i detajeve të monumentit — fushat, foto, lidhje DTK dhe raportet VGI.
+ * KUR NGARKOHET: DOMContentLoaded (tabs, mbyllja); showDetailPanel kur klikohet monumenti.
+ * LIDHET ME: monument-picker.js, map.js (lastDetailFeature), report-vgi.js (getReportsForMonument),
+ *             data/photos.json, /api/dtk-photos, i18n.js (detail.*).
+ */
 
 let photoIndex = {};
 let lastDetailFeature = null;
+let selectedMonumentMarker = null;
+const SELECTED_MONUMENT_Z = 1200;
+const DEFAULT_MONUMENT_Z = 800;
 
+function monumentFeatureId(feature) {
+  return String((feature?.properties || {}).id || "").trim();
+}
+
+function findMonumentMarkerForFeature(feature) {
+  const id = monumentFeatureId(feature);
+  if (!id) return null;
+  const registry = window.monumentRegistry || [];
+  for (const entry of registry) {
+    if (monumentFeatureId(entry.feature) === id) {
+      return entry.layer || null;
+    }
+  }
+  return null;
+}
+
+function applySelectedMarkerClass(marker) {
+  if (!marker?.getElement) return;
+  const el = marker.getElement();
+  if (el) el.classList.add("tkk-img-marker--selected");
+}
+
+function clearSelectedMonumentMarker() {
+  if (!selectedMonumentMarker) return;
+  const el = selectedMonumentMarker.getElement?.();
+  if (el) el.classList.remove("tkk-img-marker--selected");
+  if (typeof selectedMonumentMarker.setZIndexOffset === "function") {
+    selectedMonumentMarker.setZIndexOffset(DEFAULT_MONUMENT_Z);
+  }
+  selectedMonumentMarker = null;
+}
+
+function setSelectedMonumentMarker(feature) {
+  clearSelectedMonumentMarker();
+  if (!feature) return;
+
+  const marker = findMonumentMarkerForFeature(feature);
+  if (!marker) return;
+
+  selectedMonumentMarker = marker;
+  if (typeof marker.setZIndexOffset === "function") {
+    marker.setZIndexOffset(SELECTED_MONUMENT_Z);
+  }
+
+  applySelectedMarkerClass(marker);
+  marker.once?.("add", () => applySelectedMarkerClass(marker));
+}
+
+function refreshSelectedMonumentMarker() {
+  if (!lastDetailFeature) {
+    clearSelectedMonumentMarker();
+    return;
+  }
+  setSelectedMonumentMarker(lastDetailFeature);
+}
+
+function ensureSelectedMonumentMapHooks() {
+  if (!window.map || window.map._tkkSelectedHook) return;
+  window.map._tkkSelectedHook = true;
+  window.map.on("moveend zoomend", () => {
+    if (lastDetailFeature) refreshSelectedMonumentMarker();
+  });
+}
+
+window.refreshSelectedMonumentMarker = refreshSelectedMonumentMarker;
+
+/** Lexon një veti nga properties (provon edhe shkronja të mëdha). */
 function val(props, key, fallback) {
   if (!props) return fallback || "—";
   return props[key] ?? props[key.toUpperCase()] ?? fallback ?? "—";
 }
 
+/** Emri i llojit të trashëgimisë për etiketën në panel. */
 function llojiLabel(lloji) {
   if (typeof getHeritageTypeLabel === "function") {
     return getHeritageTypeLabel(lloji);
@@ -17,11 +93,13 @@ function llojiLabel(lloji) {
   return lloji || t("common.unknown");
 }
 
+/** Mbledh URL-t e mundshme të fotove (fushë, photos.json, rrugë lokale). */
 function resolvePhotoUrls(props) {
   const id = val(props, "id", "");
   const urls = [];
   const seen = new Set();
 
+  /** Shton URL në listë nëse nuk është dublikatë. */
   function add(url) {
     const u = (url || "").trim();
     if (!u || seen.has(u)) return;
@@ -52,15 +130,18 @@ function resolvePhotoUrls(props) {
       ? indexed.length > 0
       : !!(indexed && String(indexed).trim());
     if (!hasIndexed) {
-      add("images/monuments/" + id + ".jpg");
-      add("images/monuments/" + id + ".png");
-      add("images/monuments/" + id + "_2.jpg");
+      const base =
+        typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "";
+      add(base + "images/monuments/" + id + ".jpg");
+      add(base + "images/monuments/" + id + ".png");
+      add(base + "images/monuments/" + id + "_2.jpg");
     }
   }
 
   return urls;
 }
 
+/** Kthen URL absolute për foto (http ose bazë e faqes). */
 function toAbsoluteUrl(path) {
   if (typeof window.tkkResolveMediaUrl === "function") {
     return window.tkkResolveMediaUrl(path);
@@ -71,6 +152,7 @@ function toAbsoluteUrl(path) {
   return base + path.replace(/^\//, "");
 }
 
+/** Vendos foton kryesore në #detailPhotoMain. */
 function setMainPhoto(url, alt) {
   const wrap = document.getElementById("detailPhotoMainWrap");
   const img = document.getElementById("detailPhotoMain");
@@ -81,6 +163,7 @@ function setMainPhoto(url, alt) {
   wrap.hidden = false;
 }
 
+/** Nxjerr heritageId nga url_dtk, id ose shenime (për API DTK). */
 function extractHeritageId(props) {
   if (!props) return null;
   const url = String(props.url_dtk || props.URL_DTK || "");
@@ -93,6 +176,7 @@ function extractHeritageId(props) {
   return m ? m[1] : null;
 }
 
+/** Lidhja për faqen e objektit në dtk.rks-gov.net. */
 function resolveDtkPageUrl(props) {
   if (!props) return null;
   const raw = val(props, "url_dtk", "");
@@ -104,6 +188,90 @@ function resolveDtkPageUrl(props) {
   return null;
 }
 
+/** Koordinatat WGS84 të monumentit (properties ose geometry Point). */
+function resolveMonumentLatLng(feature) {
+  if (!feature) return null;
+  const p = feature.properties || {};
+  let lat = parseFloat(p.lat ?? p.LAT);
+  let lon = parseFloat(p.lon ?? p.LON ?? p.lng ?? p.LNG);
+  if (Number.isFinite(lat) && Number.isFinite(lon)) {
+    return { lat, lon };
+  }
+  const g = feature.geometry;
+  if (g?.type === "Point" && Array.isArray(g.coordinates) && g.coordinates.length >= 2) {
+    lon = Number(g.coordinates[0]);
+    lat = Number(g.coordinates[1]);
+    if (Number.isFinite(lat) && Number.isFinite(lon)) {
+      return { lat, lon };
+    }
+  }
+  return null;
+}
+
+/** Vendos një lidhje të jashtme (Google Maps) ose e fsheh. */
+function applyExternalMapLink(id, url, labelKey) {
+  const link = document.getElementById(id);
+  if (!link) return;
+  link.textContent = t(labelKey);
+  const show = !!(url && /^https?:\/\//i.test(url));
+  if (show) {
+    link.href = url;
+    link.hidden = false;
+    link.style.display = "flex";
+  } else {
+    link.removeAttribute("href");
+    link.hidden = true;
+    link.style.display = "none";
+  }
+}
+
+/** Përditëson butonat e navigimit (GPS, nisje, monument → monument). */
+function refreshMapsNavUi(feature) {
+  const ll = feature ? resolveMonumentLatLng(feature) : null;
+  const emri = feature
+    ? String((feature.properties || {}).emri || "").trim()
+    : "";
+  const id = feature ? String((feature.properties || {}).id || "") : "";
+  if (typeof refreshNavStartUi === "function") {
+    refreshNavStartUi(ll ? ll.lat : NaN, ll ? ll.lon : NaN, emri, id);
+  }
+}
+
+/** Shfaq ose fsheh lidhjet Google Maps, drejtimet dhe navigimin në WebGIS. */
+function applyMapsLinks(feature) {
+  const ll = feature ? resolveMonumentLatLng(feature) : null;
+  const directionsUrl =
+    ll && typeof buildGoogleMapsDirectionsUrl === "function"
+      ? buildGoogleMapsDirectionsUrl(ll.lat, ll.lon, null)
+      : ll
+        ? "https://www.google.com/maps/dir/?api=1&destination=" +
+          encodeURIComponent(ll.lat + "," + ll.lon) +
+          "&travelmode=driving"
+        : null;
+
+  const show = !!ll;
+
+  applyExternalMapLink(
+    "detailMapsDirectionsLink",
+    directionsUrl,
+    "detail.mapsDirections"
+  );
+  applyExternalMapLink(
+    "detailMapsDirectionsTab",
+    directionsUrl,
+    "detail.mapsDirections"
+  );
+
+  refreshMapsNavUi(feature || null);
+
+  const empty = document.getElementById("detailMapsNoLink");
+  if (empty) {
+    empty.hidden = show;
+    if (!show) empty.textContent = t("detail.mapsNoLink");
+  }
+}
+
+/** Shfaq ose fsheh butonat «Shiko në DTK» në tab-et. */
 function applyDtkLinks(dtkUrl) {
   const show = !!(dtkUrl && /^https?:\/\//i.test(dtkUrl));
   ["detailDtkLink", "detailDtkLinkTab"].forEach((id) => {
@@ -127,12 +295,15 @@ function applyDtkLinks(dtkUrl) {
   }
 }
 
+/** Merr lista URL-sh fotosh nga serveri (/api/dtk-photos); në statik përdoret photos.json. */
 function fetchDtkPhotoUrls(heritageId) {
   if (window.tkkIsStaticPublish) {
     return Promise.resolve([]);
   }
   return fetch(
-    "/api/dtk-photos?heritageId=" + encodeURIComponent(heritageId)
+    window.location.origin +
+      "/api/dtk-photos?heritageId=" +
+      encodeURIComponent(heritageId)
   )
     .then((r) => (r.ok ? r.json() : null))
     .then((data) => {
@@ -146,6 +317,7 @@ function fetchDtkPhotoUrls(heritageId) {
     .catch(() => []);
 }
 
+/** Teston me Image() cilat URL ngarkohen me sukses. */
 function probePhotoUrls(candidates) {
   return new Promise((resolve) => {
     const loaded = [];
@@ -173,6 +345,7 @@ function probePhotoUrls(candidates) {
   });
 }
 
+/** Galeria: placeholder, thumbnails, fallback DTK nëse lokale dështojnë. */
 function renderDetailPhotos(props) {
   const placeholder = document.getElementById("detailPhotoPlaceholder");
   const thumbs = document.getElementById("detailPhotoThumbs");
@@ -194,6 +367,7 @@ function renderDetailPhotos(props) {
   placeholder.hidden = false;
   placeholder.textContent = t("detail.photoLoading");
 
+  /** Pas ngarkimit — shfaq foto ose mesazh gabimi. */
   function finish(loaded) {
     if (!loaded.length) {
       const id = val(props, "id", "");
@@ -249,6 +423,7 @@ function renderDetailPhotos(props) {
   });
 }
 
+/** Mbush dhe hap panelin e detajeve për një GeoJSON feature. */
 function showDetailPanel(feature) {
   const panel = document.getElementById("detailPanel");
   if (!panel || !feature) return;
@@ -284,26 +459,33 @@ function showDetailPanel(feature) {
       : t("detail.locationKosovo");
 
   document.getElementById("detailPeriudha").textContent = periudha;
-  document.getElementById("detailLloji").textContent = kategoria;
+  const katEl = document.getElementById("detailKategoria");
+  if (katEl) katEl.textContent = kategoria;
   document.getElementById("detailGjendja").textContent = gjendja;
   document.getElementById("detailId").textContent = id;
   document.getElementById("detailBurimi").textContent = burimi;
 
   applyDtkLinks(dtkUrl);
+  applyMapsLinks(feature);
   renderDetailMonumentReports(p);
 
   renderDetailPhotos(p);
+  ensureSelectedMonumentMapHooks();
+  setSelectedMonumentMarker(feature);
   panel.classList.remove("is-closed");
   panel.classList.add("is-open");
 }
 
+/** Kthen panelin në gjendjen «Zgjidh një monument». */
 function resetDetailPanel() {
+  /** Vendos textContent për një element sipas id. */
   const set = (id, text) => {
     const el = document.getElementById(id);
     if (el) el.textContent = text;
   };
 
   lastDetailFeature = null;
+  clearSelectedMonumentMarker();
   set("detailTitle", t("detail.selectTitle"));
   const tagEl = document.getElementById("detailTag");
   if (tagEl) {
@@ -312,12 +494,13 @@ function resetDetailPanel() {
   }
   set("detailLocation", t("detail.clickMap"));
   set("detailPeriudha", "—");
-  set("detailLloji", "—");
+  set("detailKategoria", "—");
   set("detailGjendja", "—");
   set("detailId", "—");
   set("detailBurimi", "—");
 
   applyDtkLinks(null);
+  applyMapsLinks(null);
   renderDetailMonumentReports(null);
 
   const mainWrap = document.getElementById("detailPhotoMainWrap");
@@ -330,6 +513,7 @@ function resetDetailPanel() {
   if (placeholder) placeholder.hidden = false;
 }
 
+/** Mbyll panelin dhe thërret resetDetailPanel. */
 function closeDetailPanel(ev) {
   if (ev) {
     ev.preventDefault();
@@ -342,6 +526,7 @@ function closeDetailPanel(ev) {
   resetDetailPanel();
 }
 
+/** Rregullon URL-t në photos.json për bazën e aplikacionit. */
 function rewritePhotoIndexEntry(entry) {
   const fix =
     typeof window.tkkResolveMediaUrl === "function"
@@ -351,6 +536,7 @@ function rewritePhotoIndexEntry(entry) {
   return fix(entry);
 }
 
+/** Ngarkon data/photos.json në photoIndex. */
 function loadPhotoIndex() {
   const base =
     typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "";
@@ -368,6 +554,7 @@ function loadPhotoIndex() {
     });
 }
 
+/** Format datë/ore për listën e raporteve (sq-AL ose en-GB). */
 function formatReportDate(iso) {
   if (!iso) return "";
   try {
@@ -386,6 +573,7 @@ function formatReportDate(iso) {
   }
 }
 
+/** Etiketa e kategorisë së raportit VGI. */
 function reportCategoryLabel(report) {
   const key = report?.category;
   if (key && typeof t === "function") {
@@ -395,6 +583,7 @@ function reportCategoryLabel(report) {
   return report?.categoryLabel || key || "—";
 }
 
+/** Zmadhon hartën te vendndodhja e raportit. */
 function focusReportOnMap(report) {
   if (!window.map || !Number.isFinite(Number(report?.lat)) || !Number.isFinite(Number(report?.lon))) {
     return;
@@ -403,6 +592,7 @@ function focusReportOnMap(report) {
   window.map.setView(latlng, Math.max(window.map.getZoom(), 15), { animate: true });
 }
 
+/** Liston raportet VGI që lidhen me këtë monument. */
 function renderDetailMonumentReports(props) {
   const listEl = document.getElementById("detailReportsList");
   const emptyEl = document.getElementById("detailReportsEmpty");
@@ -474,18 +664,21 @@ function renderDetailMonumentReports(props) {
   });
 }
 
+/** Rifreskon raportet nëse paneli është hapur. */
 function refreshDetailMonumentReports() {
   if (lastDetailFeature?.properties) {
     renderDetailMonumentReports(lastDetailFeature.properties);
   }
 }
 
+/** Tab-et INFO / FOTO / DTK / MAPS në panel. */
 function initDetailTabs() {
   const tabs = document.querySelectorAll(".detail-tab[data-tab]");
   const panels = {
     info: document.getElementById("detailTabInfo"),
     foto: document.getElementById("detailTabFoto"),
     dtk: document.getElementById("detailTabDtk"),
+    maps: document.getElementById("detailTabMaps"),
   };
   const photos = document.getElementById("detailPhotos");
 
@@ -503,6 +696,7 @@ function initDetailTabs() {
   });
 }
 
+// Inicializim kur faqja është gati
 document.addEventListener("DOMContentLoaded", () => {
   loadPhotoIndex();
   initDetailTabs();
@@ -518,6 +712,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+/** Rindërton panelin pas ndërrimit të gjuhës. */
 function refreshDetailPanelI18n() {
   const panel = document.getElementById("detailPanel");
   if (!panel) return;
@@ -531,6 +726,8 @@ function refreshDetailPanelI18n() {
 }
 
 window.showDetailPanel = showDetailPanel;
+window.refreshMapsNavUi = refreshMapsNavUi;
+window.resolveMonumentLatLng = resolveMonumentLatLng;
 window.refreshDetailPanelI18n = refreshDetailPanelI18n;
 window.refreshDetailMonumentReports = refreshDetailMonumentReports;
 window.renderDetailMonumentReports = renderDetailMonumentReports;

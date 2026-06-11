@@ -1,5 +1,9 @@
 /**
- * Kontrollon që faqja të hapet përmes node serve.js, jo me dy-klik mbi index.html.
+ * QËLLIMI: Kontrollon mënyrën e hapjes së aplikacionit (file:// vs http://) dhe shfaq
+ *           mesazhe ndihmëse kur serveri, GeoServer-i ose të dhënat mungojnë.
+ * KUR NGARKOHET: Menjëherë kur skedari lexohet (para DOMContentLoaded për file://).
+ * LIDHET ME: serve.js (/api/health, proxy GeoServer), index.html (#tkkServerOverlay),
+ *             map.js (tkkOnMonumentsLoaded, tkkOnMonumentsLoadError), i18n.js (tkkLang).
  */
 (function () {
   const PROTO = window.location.protocol;
@@ -7,6 +11,7 @@
 
   window.TKK_APP_MODE = IS_FILE ? "file" : "http";
 
+  /** Kthen HTML për overlay-in e gabimit (shqip ose anglisht sipas tkkLang). */
   function overlayHtml(kind, detail) {
     const lang = localStorage.getItem("tkkLang") === "en" ? "en" : "sq";
 
@@ -121,6 +126,7 @@
     );
   }
 
+  /** Shfaq panelin e plotë mbi hartë me udhëzime për përdoruesin. */
   function showOverlay(kind, detail) {
     const el = document.getElementById("tkkServerOverlay");
     if (!el) return;
@@ -130,6 +136,7 @@
     window.TKK_SERVER_OVERLAY_OPEN = true;
   }
 
+  /** Fsheh overlay-in kur të dhënat janë ngarkuar me sukses. */
   function hideOverlay() {
     const el = document.getElementById("tkkServerOverlay");
     if (!el) return;
@@ -138,6 +145,7 @@
     window.TKK_SERVER_OVERLAY_OPEN = false;
   }
 
+  /** Teston nëse proxy-ja WFS e GeoServer-it përgjigjet si XML i vlefshëm. */
   function checkGeoServerProxy() {
     const testUrl =
       window.location.origin +
@@ -161,6 +169,7 @@
       });
   }
 
+  /** Kontrollon nëse po xhiron serve.js (endpoint /api/health). */
   function checkNodeServe() {
     return fetch(window.location.origin + "/api/health", {
       cache: "no-store",
@@ -174,6 +183,7 @@
       });
   }
 
+  /** Nis kontrollet e serverit vetëm në modalitetin http (jo publikim statik). */
   function runHttpChecks() {
     if (window.tkkIsStaticPublish) return;
     checkNodeServe().then(function (ok) {
@@ -185,6 +195,7 @@
     });
   }
 
+  /** Thirret nga map.js kur monumentet përfundojnë ngarkimin — fsheh ose tregon overlay. */
   window.tkkOnMonumentsLoaded = function (count) {
     if (count > 0 && !IS_FILE) {
       hideOverlay();
@@ -201,6 +212,7 @@
     }
   };
 
+  /** Thirret kur ngarkimi WFS dështon — shfaq gabimin WFS në overlay. */
   window.tkkOnMonumentsLoadError = function (err) {
     showOverlay("wfsError", err && err.message ? err.message : "");
   };
@@ -208,10 +220,7 @@
   window.showTkkDataOverlay = showOverlay;
   window.hideTkkDataOverlay = hideOverlay;
 
-  function tkkDataBase() {
-    return typeof window.tkkAppBase === "function" ? window.tkkAppBase() : "";
-  }
-
+  // ——— Hapja e faqes: file:// vs http:// ———
   if (IS_FILE) {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", function () {
